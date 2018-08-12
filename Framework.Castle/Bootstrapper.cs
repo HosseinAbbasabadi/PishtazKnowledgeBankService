@@ -16,7 +16,7 @@ namespace Framework.Castle
 
             container.Register(Component.For(typeof(TransactionalCommandHandlerDecorator<>)).LifestyleTransient());
 
-            container.Register(Component.For(typeof(AtomicCommandHandlerDecorator<>)).LifestyleTransient());
+            //container.Register(Component.For(typeof(AtomicCommandHandlerDecorator<>)).LifestyleTransient());
 
             container.Register(Component.For(typeof(ExceptionQueryHandlerDecorator<,>)).LifestyleTransient());
 

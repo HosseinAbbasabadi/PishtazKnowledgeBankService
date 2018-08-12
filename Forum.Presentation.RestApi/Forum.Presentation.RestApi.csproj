@@ -9,11 +9,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="castle.windsor" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Forum.Infrastructure.Config\Forum.Infrastructure.Config.csproj" />
+    <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
+    <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
+    <ProjectReference Include="..\Framework.Castle\Framework.Castle.csproj" />
   </ItemGroup>
 
 </Project>

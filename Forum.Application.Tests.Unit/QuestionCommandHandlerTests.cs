@@ -1,6 +1,5 @@
-using System.Collections.Generic;
+using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Questions;
-using Forum.Presentation.Contracts;
 using Moq;
 using Xunit;
 
@@ -14,7 +13,7 @@ namespace Forum.Application.Tests.Unit
             //Arrange
             var repository = new Mock<IQuestionRepository>();
             var questionCommandHandler = new QuestionCommandHandler(repository.Object);
-            var command = new CreateQuestion("some question titlte", "some question body", new List<long> {1, 2, 3});
+            var command = CreateQuestionFactory.Create();
 
             //Act
             questionCommandHandler.Handle(command);

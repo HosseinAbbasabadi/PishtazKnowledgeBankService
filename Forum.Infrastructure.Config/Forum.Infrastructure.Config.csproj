@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="castle.windsor" Version="4.1.0" />
+    <PackageReference Include="nhibernate" Version="5.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
+    <ProjectReference Include="..\Forum.Infrastructure.Persistance.Nh\Forum.Infrastructure.Persistance.Nh.csproj" />
+  </ItemGroup>
+
+</Project>

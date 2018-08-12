@@ -17,7 +17,11 @@ namespace Forum.Domain.Models.Questions
         public List<Vote> Votes { get; private set; }
         public CurrectAnswer CurrectAnswer { get; private set; }
 
-        public Question(QuestionId id,string title, string body, List<long> tags, long creator) : base(id)
+        protected Question()
+        {
+        }
+
+        public Question(QuestionId id, string title, string body, List<long> tags, long creator) : base(id)
         {
             GaurdAgainsLessThan3Tags(tags);
 

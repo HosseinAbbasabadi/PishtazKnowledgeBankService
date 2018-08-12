@@ -23,7 +23,7 @@ namespace Framework.Nhibernate
             return Create(configuration, mappingAssembly);
         }
 
-        public static ISessionFactory CreateByConnectionStringName(string connectionStringName,
+        public static ISessionFactory CreateByConnectionStringName(string connectionString,
             Assembly mappingAssembly)
         {
             var configuration = new Configuration();
@@ -31,7 +31,8 @@ namespace Framework.Nhibernate
             {
                 cfg.Dialect<MsSql2012Dialect>();
                 cfg.Driver<SqlClientDriver>();
-                cfg.ConnectionStringName = connectionStringName;
+                cfg.ConnectionString = connectionString;
+                //cfg.ConnectionStringName = connectionStringName;
                 cfg.IsolationLevel = IsolationLevel.ReadCommitted;
             });
             return Create(configuration, mappingAssembly);
