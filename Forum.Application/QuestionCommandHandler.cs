@@ -17,7 +17,8 @@ namespace Forum.Application
         {
             var id = _questionRepository.GetNextId("QuestionSeq");
             var questionId = new QuestionId(id);
-            var question = new Question(questionId, command.Title, command.Body, command.Tags, command.Creator);
+            const long creator = 5;
+            var question = new Question(questionId, command.Title, command.Body, command.Tags, creator);
             _questionRepository.Create(question);
         }
     }

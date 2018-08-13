@@ -31,6 +31,7 @@ namespace Forum.Presentation.RestApi
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
             ForumBootstrapper.Wireup(container);
+            services.AddCors();
             services.AddMvc();
         }
 
@@ -42,6 +43,7 @@ namespace Forum.Presentation.RestApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseMvc();
         }
     }

@@ -8,7 +8,6 @@ namespace Forum.Presentation.Contracts
     {
         public string Title { get; set; }
         public string Body { get; set; }
-        public long Creator { get; set; }
         public List<long> Tags { get; set; }
     }
 }

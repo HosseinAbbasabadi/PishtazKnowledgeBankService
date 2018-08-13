@@ -9,16 +9,9 @@ namespace Forum.Domain.Models.Tags
     {
         public string Name { get; private set; }
 
-        protected Tag(string name)
+        public Tag(TagId id, string name) : base(id)
         {
             Name = name;
-        }
-    }
-
-    public class TagId : IdBase<long>
-    {
-        public TagId(long idDbId) : base(idDbId)
-        {
         }
     }
 }

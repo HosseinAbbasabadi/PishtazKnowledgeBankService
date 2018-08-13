@@ -11,7 +11,6 @@ namespace Forum.Application.Tests.Utils
             {
                 Title = "some question titlte",
                 Body = "some question body",
-                Creator = 5,
                 Tags = new List<long> {1, 2, 3}
             };
         }

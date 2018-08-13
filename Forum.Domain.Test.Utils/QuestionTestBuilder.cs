@@ -8,11 +8,11 @@ namespace Forum.Domain.Test.Utils
 {
     public class QuestionTestBuilder : IBuilder<Question>
     {
-        public QuestionId Id { get; set; }
+        public QuestionId Id { get; private set; }
         public string Title { get; private set; }
         public string Body { get; private set; }
         public long Creator { get; private set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; private set; }
         public List<long> Tags { get; private set; }
         public CurrectAnswer CurrectAnswer { get; private set; }
 
@@ -60,7 +60,7 @@ namespace Forum.Domain.Test.Utils
 
         public Question Build()
         {
-            return new Question(Id,Title, Body, Tags, Creator);
+            return new Question(Id, Title, Body, Tags, Creator);
         }
 
         public List<Question> BuildList(int count)

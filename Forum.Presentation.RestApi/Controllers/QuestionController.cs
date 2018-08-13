@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
 {
-    //[Produces("application/json")]
     [Route("api/Question")]
     public class QuestionController : Controller
     {

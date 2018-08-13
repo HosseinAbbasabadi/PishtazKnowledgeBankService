@@ -24,7 +24,7 @@ namespace Forum.Domain.Tests.Unit.Questions
             Assert.Equal(_builder.Id, question.Id);
             Assert.Equal(_builder.Title, question.Title);
             Assert.Equal(_builder.Body, question.Body);
-            Assert.Equal(_builder.Tags, question.Tags);
+            Assert.Equal(_builder.Tags.Count, question.Tags.Count);
             Assert.Equal(_builder.Creator, question.Creator);
         }
 
@@ -62,7 +62,6 @@ namespace Forum.Domain.Tests.Unit.Questions
             Assert.Empty(question.Views);
         }
 
-
         [Fact]
         public void Constructor_Should_Construct_Question_With_Zero_Votes()
         {
@@ -74,6 +73,19 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.Empty(question.Votes);
+        }
+
+        [Fact]
+        public void Constructor_Should_Map_Ids_To_TagId_When_List_Of_Tags_Passed()
+        {
+            //Arrange
+            _builder.WithTags(new List<long> {1, 2, 3});
+
+            //Act
+            var question = _builder.Build();
+
+            //Assert
+            Assert.Equal(_builder.Tags.Count, question.Tags.Count);
         }
     }
 }

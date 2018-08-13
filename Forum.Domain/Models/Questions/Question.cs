@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Forum.Domain.Models.Questions.Exceptions;
+using Forum.Domain.Models.Tags;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Questions
@@ -11,8 +13,7 @@ namespace Forum.Domain.Models.Questions
         public string Body { get; private set; }
         public long Creator { get; private set; }
         public bool HasTrueAnswer { get; private set; }
-        public DateTime CreationDate { get; private set; }
-        public List<long> Tags { get; private set; }
+        public List<TagId> Tags { get; private set; }
         public List<View> Views { get; private set; }
         public List<Vote> Votes { get; private set; }
         public CurrectAnswer CurrectAnswer { get; private set; }
@@ -27,9 +28,9 @@ namespace Forum.Domain.Models.Questions
 
             Title = title;
             Body = body;
-            Tags = tags;
+            Tags = MapToTagId(tags);
             Creator = creator;
-            CreationDate = DateTime.Now;
+            CreationDateTime = DateTime.Now;
             CurrectAnswer = null;
             HasTrueAnswer = false;
             Views = new List<View>();
@@ -40,6 +41,16 @@ namespace Forum.Domain.Models.Questions
         {
             if (tags.Count < 3)
                 throw new TagsAreLessThan3Exception();
+        }
+
+        private static List<TagId> MapToTagId(IEnumerable<long> tags)
+        {
+            return tags.Select(MapSingleTagId).ToList();
+        }
+
+        private static TagId MapSingleTagId(long tag)
+        {
+            return new TagId(tag);
         }
     }
 }
