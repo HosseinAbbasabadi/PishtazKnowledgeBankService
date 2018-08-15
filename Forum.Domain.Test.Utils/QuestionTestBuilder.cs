@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Users;
 using Framework.Core;
 using Framework.Core.Clock;
 
@@ -11,10 +12,9 @@ namespace Forum.Domain.Test.Utils
         public QuestionId Id { get; private set; }
         public string Title { get; private set; }
         public string Body { get; private set; }
-        public long Creator { get; private set; }
+        public UserId Inquirer { get; private set; }
         public DateTime CreationDate { get; private set; }
         public List<long> Tags { get; private set; }
-        public CurrectAnswer CurrectAnswer { get; private set; }
 
         public QuestionTestBuilder()
         {
@@ -23,9 +23,8 @@ namespace Forum.Domain.Test.Utils
             Title = "how to ?";
             Body = "the description";
             Tags = new List<long> {1, 2, 3};
-            Creator = 12;
+            Inquirer = new UserId(2);
             CreationDate = clock.PastDateTime();
-            CurrectAnswer = null;
         }
 
         //public QuestionTestBuilder WithTitle(string title)
@@ -60,7 +59,7 @@ namespace Forum.Domain.Test.Utils
 
         public Question Build()
         {
-            return new Question(Id, Title, Body, Tags, Creator);
+            return new Question(Id, Title, Body, Tags, Inquirer);
         }
 
         public List<Question> BuildList(int count)

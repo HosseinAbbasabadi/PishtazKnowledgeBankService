@@ -4,6 +4,8 @@ using Framework.Application;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
+using Framework.Nhibernate;
+
 //using Framework.RavenDb;
 
 namespace Framework.Castle
@@ -24,7 +26,7 @@ namespace Framework.Castle
 
             container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
 
-            //container.Register(Component.For<IUnitOfWork>().ImplementedBy<RavenUnitOfWork>().LifestylePerWebRequest());
+            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>());
         }
     }
 }

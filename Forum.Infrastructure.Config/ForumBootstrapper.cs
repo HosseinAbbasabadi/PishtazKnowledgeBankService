@@ -7,6 +7,7 @@ using Forum.Domain.Models.Questions;
 using Forum.Infrastructure.Persistance.Nh;
 using Forum.Infrastructure.Persistance.Nh.Mappings;
 using Framework.Application.Command;
+using Framework.Core;
 using Framework.Nhibernate;
 using NHibernate;
 
@@ -22,6 +23,7 @@ namespace Forum.Infrastructure.Config
             //var sessionFactoryName = boundedContextName + "_SessionFactory";
             //var unitOfWorkName = boundedContextName + "_UOW";
             //var unitOfWorkInterceptor = boundedContextName + "_UOW_Interceptor";
+
 
             container.Register(Classes.FromAssemblyContaining(typeof(QuestionCommandHandler))
                 .BasedOn(typeof(ICommandHandler<>)).WithService.AllInterfaces().LifestyleTransient());

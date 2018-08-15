@@ -1,5 +1,6 @@
 ﻿using System;
 using Forum.Domain.Models.Users;
+using Forum.Domain.Models.Users.Exceptions;
 using Forum.Domain.Test.Utils;
 using Xunit;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using Forum.Domain.Models.Users.Exceptions;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Users

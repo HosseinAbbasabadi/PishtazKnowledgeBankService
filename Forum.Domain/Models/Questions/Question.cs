@@ -1,40 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Forum.Domain.Models.Questions.Exceptions;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Tags;
+using Forum.Domain.Models.Users;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Questions
 {
     public class Question : AggregateRootBase<QuestionId>
     {
+        private readonly IList<TagId> _tags;
+        private readonly IList<View> _views;
+        private readonly IList<Vote> _votes;
+
         public string Title { get; private set; }
         public string Body { get; private set; }
-        public long Creator { get; private set; }
+        public UserId Inquirer { get; private set; }
         public bool HasTrueAnswer { get; private set; }
-        public List<TagId> Tags { get; private set; }
-        public List<View> Views { get; private set; }
-        public List<Vote> Votes { get; private set; }
-        public CurrectAnswer CurrectAnswer { get; private set; }
+        public IReadOnlyCollection<TagId> Tags => new ReadOnlyCollection<TagId>(_tags);
+        public IReadOnlyCollection<View> Views => new ReadOnlyCollection<View>(_views);
+        public IReadOnlyCollection<Vote> Votes => new ReadOnlyCollection<Vote>(_votes);
 
         protected Question()
         {
         }
 
-        public Question(QuestionId id, string title, string body, List<long> tags, long creator) : base(id)
+        public Question(QuestionId id, string title, string body, List<long> tags, UserId inquirer) : base(id)
         {
             GaurdAgainsLessThan3Tags(tags);
 
             Title = title;
             Body = body;
-            Tags = MapToTagId(tags);
-            Creator = creator;
+            Inquirer = inquirer;
             CreationDateTime = DateTime.Now;
-            CurrectAnswer = null;
             HasTrueAnswer = false;
-            Views = new List<View>();
-            Votes = new List<Vote>();
+            _tags = MapToTagId(tags);
+            _views = new List<View>();
+            _votes = new List<Vote>();
         }
 
         private static void GaurdAgainsLessThan3Tags(List<long> tags)

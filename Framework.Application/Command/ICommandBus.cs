@@ -2,6 +2,6 @@
 {
     public interface ICommandBus
     {
-        void Dispatch<T>(T command);
+        void Dispatch<T>(T command) where T : ICommand;
     }
 }

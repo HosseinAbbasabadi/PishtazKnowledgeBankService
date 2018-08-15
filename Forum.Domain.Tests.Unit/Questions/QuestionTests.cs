@@ -25,7 +25,7 @@ namespace Forum.Domain.Tests.Unit.Questions
             Assert.Equal(_builder.Title, question.Title);
             Assert.Equal(_builder.Body, question.Body);
             Assert.Equal(_builder.Tags.Count, question.Tags.Count);
-            Assert.Equal(_builder.Creator, question.Creator);
+            Assert.Equal(_builder.Inquirer, question.Inquirer);
         }
 
         [Fact]
@@ -36,7 +36,6 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.False(question.HasTrueAnswer);
-            Assert.Null(question.CurrectAnswer);
         }
 
         [Fact]

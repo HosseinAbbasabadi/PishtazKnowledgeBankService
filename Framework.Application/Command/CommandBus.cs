@@ -4,9 +4,9 @@ namespace Framework.Application.Command
 {
     public class CommandBus : ICommandBus
     {
-        public void Dispatch<T>(T command)
+        public void Dispatch<T>(T command) where T : ICommand
         {
-            var handler = ServiceLocator.Current.Resolve<ICommandHandler<T>>();
+            var handler = ServiceLocator.Current.Resolve<TransactionalCommandHandlerDecorator<T>>();
 
             try
             {
