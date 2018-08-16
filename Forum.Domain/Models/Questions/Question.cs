@@ -57,5 +57,18 @@ namespace Forum.Domain.Models.Questions
         {
             return new TagId(tag);
         }
+
+        public void Vote(Vote vote)
+        {
+            //guard agains Duplicate voter
+            _votes.Add(vote);
+        }
+
+        public long CalculateVotes()
+        {
+            var likes = _votes.Count(v => v.Opinion);
+            var disLikes = _votes.Count(v => v.Opinion == false);
+            return likes - disLikes;
+        }
     }
 }

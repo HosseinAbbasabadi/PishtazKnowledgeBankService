@@ -9,9 +9,14 @@ namespace Forum.Domain.Models.Tags
     {
         public string Name { get; private set; }
 
+        protected Tag()
+        {
+        }
+
         public Tag(TagId id, string name) : base(id)
         {
             Name = name;
+            CreationDateTime = DateTime.Now;
         }
     }
 }

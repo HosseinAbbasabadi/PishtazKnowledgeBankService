@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Framework.Core;
 using Framework.Core.Clock;
@@ -56,6 +57,13 @@ namespace Forum.Domain.Test.Utils
         //    CurrectAnswer = currectAnswer;
         //    return this;
         //}
+
+        public Question BuildWithVotes(List<Vote> votes)
+        {
+            var question = Build();
+            votes.ForEach(vote => { question.Vote(vote); });
+            return question;
+        }
 
         public Question Build()
         {

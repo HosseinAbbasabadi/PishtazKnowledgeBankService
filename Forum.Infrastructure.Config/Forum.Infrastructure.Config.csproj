@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Forum.Application\Forum.Application.csproj" />
     <ProjectReference Include="..\Forum.Infrastructure.Persistance.Nh\Forum.Infrastructure.Persistance.Nh.csproj" />
+    <ProjectReference Include="..\Forum.Presentation.Query\Forum.Presentation.Query.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions.Exceptions;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils;
 using Xunit;
 
@@ -85,6 +86,61 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.Equal(_builder.Tags.Count, question.Tags.Count);
+        }
+
+        [Fact]
+        public void Vote_Should_Add_A_Vote_To_Votes_Of_Question_When_Vote_Passed()
+        {
+            //Arrange
+            var vote = new Vote(5, false);
+            var question = _builder.Build();
+
+            //Act
+            question.Vote(vote);
+
+            //Assert
+            Assert.Equal(1, question.Votes.Count);
+        }
+
+        [Fact]
+        public void CalculateVotes_Should_Calculate_The_Result_Of_Votes()
+        {
+            //Arrange
+            var votes = VoteFactory(5);
+            var question = _builder.BuildWithVotes(votes);
+
+            //Act
+            var voteResult = question.CalculateVotes();
+
+            //Assert
+            Assert.Equal(-1, voteResult);
+        }
+
+        private static List<Vote> VoteFactory(int count)
+        {
+            var votes = new List<Vote>();
+            for (var i = 1; i <= count; i++)
+            {
+                var like = i % 2 == 0;
+                var vote = new Vote(i, like);
+                votes.Add(vote);
+            }
+
+            return votes;
+        }
+
+
+        [Fact]
+        public void CalculateVotes_Should_Return_Zero_When_Votes_Is_Empty()
+        {
+            //Arrange
+            var question = _builder.Build();
+
+            //Act
+            var voteResult = question.CalculateVotes();
+
+            //Assert
+            Assert.Equal(0, voteResult);
         }
     }
 }

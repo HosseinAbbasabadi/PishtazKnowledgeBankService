@@ -49,7 +49,7 @@ namespace Forum.Infrastructure.Persistance.Nh.Mappings
             }, relation => relation.Component(map =>
             {
                 map.Access(Accessor.Field);
-                map.Property(a => a.Viewer, a => a.Column("ViewrId"));
+                map.Property(a => a.Viewer, a => a.Column("ViewerId"));
             }));
 
             IdBag(a => a.Votes, map =>
@@ -66,7 +66,7 @@ namespace Forum.Infrastructure.Persistance.Nh.Mappings
             {
                 map.Access(Accessor.Field);
                 map.Property(a => a.Voter, a => a.Column("VoterId"));
-                map.Property(a => a.Like, a => a.Access(Accessor.Property));
+                map.Property(a => a.Opinion, a => a.Access(Accessor.Property));
             }));
         }
     }

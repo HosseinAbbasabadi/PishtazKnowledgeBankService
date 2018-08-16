@@ -5,16 +5,16 @@ namespace Forum.Domain.Models.Questions.ValueObjects
     public class Vote : ValueObjectBase
     {
         public long Voter { get; private set; }
-        public bool Like { get; private set; }
+        public bool Opinion { get; private set; }
 
         protected Vote()
         {
         }
 
-        public Vote(long voter, bool like)
+        public Vote(long voter, bool opinion)
         {
             Voter = voter;
-            Like = like;
+            Opinion = opinion;
         }
     }
 }
