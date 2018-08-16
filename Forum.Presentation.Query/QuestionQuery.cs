@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Forum.Domain.Models.Questions;
 using Forum.Domain.Models.Tags;
 using Forum.Presentation.Contracts.Query;
+using Framework.Core;
 using NHibernate;
 
 namespace Forum.Presentation.Query
@@ -19,10 +21,11 @@ namespace Forum.Presentation.Query
         public List<QuestionDto> GetQuestions()
         {
             var tags = _session.Query<Tag>().ToList();
-            var questions = _session.Query<Question>().OrderBy(x => x.HasTrueAnswer).ThenBy(x => x.CreationDateTime).ToList();
+            var questions = _session.Query<Question>().OrderBy(x => x.HasTrueAnswer).ThenBy(x => x.CreationDateTime)
+                .ToList();
             return MapQuestions(questions, tags);
         }
-        
+
         private static List<QuestionDto> MapQuestions(IEnumerable<Question> questions,
             IReadOnlyCollection<Tag> tags)
         {
@@ -38,6 +41,7 @@ namespace Forum.Presentation.Query
                 Body = question.Body,
                 Inquirer = "حسین عباس آبادی",
                 HasTrueAnswer = question.HasTrueAnswer,
+                CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
                 Tags = MapTags(question.Tags.ToList(), tags),
                 Views = question.Views.Count,
                 Votes = question.CalculateVotes()

@@ -11,6 +11,7 @@ namespace Forum.Presentation.Contracts.Query
         public string Body { get; set; }
         public string Inquirer { get; set; }
         public bool HasTrueAnswer { get; set; }
+        public DateTime CreationDateTime { get; set; }
         public List<TagDto> Tags { get; set; }
         public long Views { get; set; }
         public long Votes { get; set; }

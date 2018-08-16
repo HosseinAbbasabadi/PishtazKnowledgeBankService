@@ -3,12 +3,13 @@ using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.Query;
 using Framework.Application.Command;
+using Framework.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
 {
     [Route("api/Question")]
-    public class QuestionController : Controller
+    public class QuestionController : Controller, IGateway
     {
         private readonly ICommandBus _bus;
         private readonly IQuestionQuery _questionQuery;

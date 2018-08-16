@@ -16,17 +16,13 @@ namespace Framework.Castle
         {
             ServiceLocator.SetCurrent(new WindsorServiceLocator(container));
 
-            container.Register(Component.For(typeof(TransactionalCommandHandlerDecorator<>)).LifestyleTransient());
+            container.Register(Component.For(typeof(TransactionalCommandHandlerDecorator<>)).LifestyleSingleton());
 
-            //container.Register(Component.For(typeof(AtomicCommandHandlerDecorator<>)).LifestyleTransient());
-
-            container.Register(Component.For(typeof(ExceptionQueryHandlerDecorator<,>)).LifestyleTransient());
+            //container.Register(Component.For(typeof(ExceptionQueryHandlerDecorator<,>)).LifestyleTransient());
 
             container.Register(Component.For<ICommandBus>().ImplementedBy<CommandBus>().LifestyleSingleton());
 
-            container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
-
-            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>());
+            //container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
         }
     }
 }
