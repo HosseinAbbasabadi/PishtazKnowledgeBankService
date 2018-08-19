@@ -1,4 +1,5 @@
-﻿using Castle.Windsor;
+﻿using System;
+using Castle.Windsor;
 using Framework.Core;
 
 namespace Framework.Castle
@@ -20,6 +21,11 @@ namespace Framework.Castle
         public void Release(object obj)
         {
             _container.Release(obj);
+        }
+
+        public void Release(Type type)
+        {
+            _container.Release(type);
         }
     }
 }

@@ -1,17 +1,18 @@
-﻿using Framework.Domain;
+﻿using Forum.Domain.Models.Users;
+using Framework.Domain;
 
 namespace Forum.Domain.Models.Questions.ValueObjects
 {
     public class Vote : ValueObjectBase
     {
-        public long Voter { get; private set; }
+        public UserId Voter { get; private set; }
         public bool Opinion { get; private set; }
 
         protected Vote()
         {
         }
 
-        public Vote(long voter, bool opinion)
+        public Vote(UserId voter, bool opinion)
         {
             Voter = voter;
             Opinion = opinion;

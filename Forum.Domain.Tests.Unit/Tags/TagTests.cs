@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Forum.Domain.Models.Tags;
 using Forum.Domain.Test.Utils;
+using Forum.Domain.Test.Utils.Builders;
 using Xunit;
 
 namespace Forum.Domain.Tests.Unit.Tags

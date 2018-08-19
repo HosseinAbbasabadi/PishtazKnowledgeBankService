@@ -45,5 +45,19 @@ namespace Forum.Presentation.RestApi.Tests.Unit
             //Assert
             _questionQuery.Verify(x => x.GetQuestions());
         }
+
+
+        [Fact]
+        public void QuestionDetails_Should_Call_QuestionQuery_When_Api_Called()
+        {
+            //Arrange
+            var controller = new QuestionController(_commandBus.Object, _questionQuery.Object);
+
+            //Act
+            controller.QuestionDetails(5);
+
+            //Assert
+            _questionQuery.Verify(x => x.GetQuestionDetails(5));
+        }
     }
 }

@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Application.Tests.Uti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Infrastructure.Config", "Forum.Infrastructure.Config\Forum.Infrastructure.Config.csproj", "{9B8B5081-E2D8-4992-9DAF-94A1858F5C71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Presentation.Query", "Forum.Presentation.Query\Forum.Presentation.Query.csproj", "{18BA8FCD-92B6-43D5-ACA3-9464786BEB5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Forum.Presentation.Query", "Forum.Presentation.Query\Forum.Presentation.Query.csproj", "{18BA8FCD-92B6-43D5-ACA3-9464786BEB5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

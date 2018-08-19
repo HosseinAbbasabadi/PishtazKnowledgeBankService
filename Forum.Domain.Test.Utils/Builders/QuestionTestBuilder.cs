@@ -6,7 +6,7 @@ using Forum.Domain.Models.Users;
 using Framework.Core;
 using Framework.Core.Clock;
 
-namespace Forum.Domain.Test.Utils
+namespace Forum.Domain.Test.Utils.Builders
 {
     public class QuestionTestBuilder : IBuilder<Question>
     {

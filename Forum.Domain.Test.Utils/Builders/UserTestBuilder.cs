@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Forum.Domain.Models.Users;
 using Framework.Core;
 
-namespace Forum.Domain.Test.Utils
+namespace Forum.Domain.Test.Utils.Builders
 {
     public class UserTestBuilder : IBuilder<User>
     {

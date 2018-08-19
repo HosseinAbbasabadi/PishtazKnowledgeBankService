@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Forum.Domain.Models.Tags;
 using Framework.Core;
 
-namespace Forum.Domain.Test.Utils
+namespace Forum.Domain.Test.Utils.Builders
 {
     public class TagTestBuilder : IBuilder<Tag>
     {

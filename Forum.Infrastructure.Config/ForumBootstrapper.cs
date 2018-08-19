@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿using System.Reflection;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Forum.Application;
@@ -8,7 +8,6 @@ using Forum.Infrastructure.Persistance.Nh.Mappings;
 using Forum.Presentation.Query;
 using Framework.Application.Command;
 using Framework.Core;
-using Framework.Domain;
 using Framework.Nhibernate;
 using NHibernate;
 
@@ -19,34 +18,31 @@ namespace Forum.Infrastructure.Config
         public static void Wireup(WindsorContainer container)
         {
             const string boundedContextName = "Forum";
-            var sessionFactoryName = boundedContextName + "_SessionFactory";
+            //const string sessionFactoryName = boundedContextName + "_SessionFactory";
             const string sessionName = boundedContextName + "_Session";
             const string connectionString = "Data Source=.;Initial Catalog=KnowladgeBank;User ID=sa;Password=123456";
+
+            container.Register(Component.For<IMySessionFactoryBuilder>().ImplementedBy<SessionFactoryBuilder>());
 
             container.Register(Classes.FromAssemblyContaining(typeof(QuestionCommandHandler))
                 .BasedOn(typeof(ICommandHandler<>)).WithService.AllInterfaces().LifestyleTransient());
 
             container.Register(Component.For<IQuestionRepository>().ImplementedBy<QuestionRepository>()
-                .LifestyleBoundToNearest<IService>());
+                .LifestyleBoundTo<IService>());
 
-            //var sessionFactory =
-            //    SessionFactoryBuilder.CreateByConnectionStringName(connectionString, typeof(QuestionMapping).Assembly);
+            container.Register(Component.For<ISessionFactory>().UsingFactoryMethod(a => new SessionFactoryBuilder()
+                    .CreateByConnectionStringName(connectionString, typeof(QuestionMapping).Assembly))
+                .LifestyleSingleton());
 
-            //container.Register(Component.For<ISession>()
-            //    .UsingFactoryMethod(a => sessionFactory.OpenSession()).Named(sessionName).LifestyleBoundToNearest<IRepository>());
-
-            container.Register(Component.For<ISessionFactory>().UsingFactoryMethod(a => SessionFactoryBuilder.CreateByConnectionStringName(connectionString,
-                typeof(QuestionMapping).Assembly)).LifestyleSingleton().Named(sessionFactoryName));
-
-            container.Register(Component.For<ISession>().UsingFactoryMethod<ISession>(a =>
+            container.Register(Component.For<ISession>().UsingFactoryMethod(a =>
             {
                 var factory = a.Resolve<ISessionFactory>();
                 return factory.OpenSession();
-            }).LifestyleTransient().Named(sessionName));
+            }).LifestylePerThread().Named(sessionName));
 
-            container.Register(Component.For<IQuestionQuery>().ImplementedBy<QuestionQuery>().LifestyleTransient());
+            container.Register(Component.For<IQuestionQuery>().ImplementedBy<QuestionQuery>());
 
-            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>());
+            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>().LifestyleBoundTo<IService>().DependsOn(Dependency.OnComponent(typeof(ISession), sessionName)));
         }
     }
 }

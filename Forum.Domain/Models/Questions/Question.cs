@@ -60,8 +60,15 @@ namespace Forum.Domain.Models.Questions
 
         public void Vote(Vote vote)
         {
-            //guard agains Duplicate voter
+            GuardAgainstDuplicateVote(vote);
+
             _votes.Add(vote);
+        }
+
+        private void GuardAgainstDuplicateVote(Vote vote)
+        {
+            if (Votes.Any(a => Equals(a.Voter, vote.Voter)))
+                throw new DuplicateVoteException();
         }
 
         public long CalculateVotes()

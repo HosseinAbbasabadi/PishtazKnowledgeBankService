@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Forum.Domain.Models.Questions.ValueObjects;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Questions

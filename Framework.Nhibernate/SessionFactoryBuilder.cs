@@ -8,9 +8,9 @@ using NHibernate.Mapping.ByCode;
 
 namespace Framework.Nhibernate
 {
-    public class SessionFactoryBuilder
+    public class SessionFactoryBuilder : IMySessionFactoryBuilder
     {
-        public static ISessionFactory CreateByConnectionString(string connectionString, Assembly mappingAssembly)
+        public ISessionFactory CreateByConnectionString(string connectionString, Assembly mappingAssembly)
         {
             var configuration = new Configuration();
             configuration.DataBaseIntegration(cfg =>
@@ -23,7 +23,7 @@ namespace Framework.Nhibernate
             return Create(configuration, mappingAssembly);
         }
 
-        public static ISessionFactory CreateByConnectionStringName(string connectionString,
+        public ISessionFactory CreateByConnectionStringName(string connectionString,
             Assembly mappingAssembly)
         {
             var configuration = new Configuration();

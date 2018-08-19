@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
+using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Tags;
 using Forum.Presentation.Contracts.Query;
-using Framework.Core;
+using Forum.Presentation.Query.Mppers;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace Forum.Presentation.Query
 {
@@ -21,46 +23,20 @@ namespace Forum.Presentation.Query
         public List<QuestionDto> GetQuestions()
         {
             var tags = _session.Query<Tag>().ToList();
-            var questions = _session.Query<Question>().OrderBy(x => x.HasTrueAnswer).ThenBy(x => x.CreationDateTime)
-                .ToList();
-            return MapQuestions(questions, tags);
+            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Desc("CreationDateTime"))
+                .List<Question>();
+            return QuestionMapper.MapQuestions(questions, tags);
         }
 
-        private static List<QuestionDto> MapQuestions(IEnumerable<Question> questions,
-            IReadOnlyCollection<Tag> tags)
+        public QuestionDetailsDto GetQuestionDetails(long id)
         {
-            return questions.Select(question => MapQuestion(question, tags)).ToList();
-        }
-
-        private static QuestionDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags)
-        {
-            return new QuestionDto
-            {
-                Id = question.Id.DbId,
-                Title = question.Title,
-                Body = question.Body,
-                Inquirer = "حسین عباس آبادی",
-                HasTrueAnswer = question.HasTrueAnswer,
-                CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
-                Tags = MapTags(question.Tags.ToList(), tags),
-                Views = question.Views.Count,
-                Votes = question.CalculateVotes()
-            };
-        }
-
-        private static TagDto MapTag(TagId tagId, IEnumerable<Tag> tags)
-        {
-            var tag = tags.Single(t => Equals(t.Id, tagId));
-            return new TagDto
-            {
-                Id = tag.Id.DbId,
-                Name = tag.Name
-            };
-        }
-
-        private static List<TagDto> MapTags(IEnumerable<TagId> tagIds, IReadOnlyCollection<Tag> tags)
-        {
-            return tagIds.Select(a => MapTag(a, tags)).ToList();
+            var questionId = new QuestionId(id);
+            var question = _session.CreateCriteria<Question>().Add(Restrictions.Eq("Id", questionId))
+                .UniqueResult<Question>();
+            var tags = _session.Query<Tag>().ToList();
+            var answers = _session.CreateCriteria<Answer>().Add(Restrictions.Eq("Question", questionId))
+                .List<Answer>();
+            return QuestionMapper.MapQuestion(question, tags, answers);
         }
     }
 }

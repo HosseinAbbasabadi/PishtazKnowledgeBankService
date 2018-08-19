@@ -1,6 +1,7 @@
 ﻿using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
-using Forum.Presentation.Contracts;
+using Forum.Presentation.Contracts.Command;
 using Framework.Application.Command;
 
 namespace Forum.Application

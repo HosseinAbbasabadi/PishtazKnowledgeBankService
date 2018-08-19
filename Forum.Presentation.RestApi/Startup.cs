@@ -1,15 +1,14 @@
 ﻿using System;
-using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Lifestyle;
 using Castle.Windsor;
 using Forum.Infrastructure.Config;
 using Forum.Presentation.RestApi.Controllers;
-using Framework.Application.Command;
 using Framework.Castle;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using NHibernate.Linq;
 
 namespace Forum.Presentation.RestApi
 {
@@ -62,6 +61,12 @@ namespace Forum.Presentation.RestApi
             }
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        "default",
+            //        "{controller}/{id?}");
+            //});
             app.UseMvc();
         }
     }

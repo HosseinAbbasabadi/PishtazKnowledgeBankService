@@ -12,7 +12,7 @@ namespace Forum.Presentation.RestApi.Controllers
 
         public WindsorServiceResolver(IServiceCollection services, IWindsorContainer container)
         {
-            container.Register(Component.For<QuestionController>().LifestyleScoped());
+            container.Register(Component.For<QuestionController>());
             _serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 

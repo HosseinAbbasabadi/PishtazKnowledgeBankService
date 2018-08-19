@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
+using Forum.Domain.Models.Users;
 using Forum.Domain.Test.Utils;
+using Forum.Domain.Test.Utils.Builders;
+using Forum.Domain.Test.Utils.Constants;
 using Xunit;
 
 namespace Forum.Domain.Tests.Unit.Questions
@@ -53,8 +57,6 @@ namespace Forum.Domain.Tests.Unit.Questions
         [Fact]
         public void Constructor_Should_Construct_Question_With_Zero_Views()
         {
-            //Arrange
-
             //Act
             var question = _builder.Build();
 
@@ -65,9 +67,6 @@ namespace Forum.Domain.Tests.Unit.Questions
         [Fact]
         public void Constructor_Should_Construct_Question_With_Zero_Votes()
         {
-            //Arrange
-
-
             //Act
             var question = _builder.Build();
 
@@ -92,7 +91,8 @@ namespace Forum.Domain.Tests.Unit.Questions
         public void Vote_Should_Add_A_Vote_To_Votes_Of_Question_When_Vote_Passed()
         {
             //Arrange
-            var vote = new Vote(5, false);
+            var harry = Names.Harry;
+            var vote = new Vote(harry, false);
             var question = _builder.Build();
 
             //Act
@@ -100,6 +100,19 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.Equal(1, question.Votes.Count);
+        }
+
+        [Fact]
+        public void Vote_Should_Throw_Exception_When_The_Voter_Is_Duplicated()
+        {
+            //Arrange
+            var votes = VoteFactory(3);
+            var duplicateVoter = new UserId(1);
+            var duplicateVote = new Vote(duplicateVoter, false);
+            var question = _builder.BuildWithVotes(votes);
+
+            //Assert
+            Assert.Throws<DuplicateVoteException>(() => question.Vote(duplicateVote));
         }
 
         [Fact]
@@ -122,13 +135,13 @@ namespace Forum.Domain.Tests.Unit.Questions
             for (var i = 1; i <= count; i++)
             {
                 var like = i % 2 == 0;
-                var vote = new Vote(i, like);
+                var voter = new UserId(i);
+                var vote = new Vote(voter, like);
                 votes.Add(vote);
             }
 
             return votes;
         }
-
 
         [Fact]
         public void CalculateVotes_Should_Return_Zero_When_Votes_Is_Empty()

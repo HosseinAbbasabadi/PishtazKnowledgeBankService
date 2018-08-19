@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Framework.Application.Command;
 
-namespace Forum.Presentation.Contracts
+namespace Forum.Presentation.Contracts.Command
 {
     public class CreateQuestion : ICommand
     {

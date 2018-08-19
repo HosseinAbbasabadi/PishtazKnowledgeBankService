@@ -1,6 +1,6 @@
 ﻿using Framework.Domain;
 
-namespace Forum.Domain.Models.Questions
+namespace Forum.Domain.Models.Questions.ValueObjects
 {
     public class QuestionId : IdBase<long>
     {

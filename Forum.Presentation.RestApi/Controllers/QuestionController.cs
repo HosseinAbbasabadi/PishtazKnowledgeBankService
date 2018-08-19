@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Forum.Presentation.Contracts;
+using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.Query;
 using Framework.Application.Command;
@@ -30,6 +30,12 @@ namespace Forum.Presentation.RestApi.Controllers
         public List<QuestionDto> Questions()
         {
             return _questionQuery.GetQuestions();
+        }
+
+        [HttpGet("{id}")]
+        public QuestionDetailsDto QuestionDetails(long id)
+        {
+            return _questionQuery.GetQuestionDetails(id);
         }
     }
 }

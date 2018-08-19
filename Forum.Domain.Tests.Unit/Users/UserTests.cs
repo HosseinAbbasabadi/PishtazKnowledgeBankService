@@ -2,6 +2,7 @@
 using Forum.Domain.Models.Users;
 using Forum.Domain.Models.Users.Exceptions;
 using Forum.Domain.Test.Utils;
+using Forum.Domain.Test.Utils.Builders;
 using Xunit;
 
 namespace Forum.Domain.Tests.Unit.Users
