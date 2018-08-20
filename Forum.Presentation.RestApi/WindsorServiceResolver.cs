@@ -2,9 +2,10 @@
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.MsDependencyInjection;
+using Forum.Presentation.RestApi.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Forum.Presentation.RestApi.Controllers
+namespace Forum.Presentation.RestApi
 {
     public class WindsorServiceResolver
     {

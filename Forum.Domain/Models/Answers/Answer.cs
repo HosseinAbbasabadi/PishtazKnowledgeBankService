@@ -15,11 +15,11 @@ namespace Forum.Domain.Models.Answers
         {
         }
 
-        public Answer(AnswerId id, string body, QuestionId question, UserId responder) : base(id)
+        public Answer(AnswerId id, string body, long question, long responder) : base(id)
         {
             Body = body;
-            Question = question;
-            Responder = responder;
+            Question = new QuestionId(question);
+            Responder = new UserId(responder);
             IsChosen = false;
         }
     }

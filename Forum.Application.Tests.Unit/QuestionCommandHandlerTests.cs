@@ -13,7 +13,7 @@ namespace Forum.Application.Tests.Unit
             //Arrange
             var repository = new Mock<IQuestionRepository>();
             var questionCommandHandler = new QuestionCommandHandler(repository.Object);
-            var command = CreateQuestionFactory.Create();
+            var command = CommandFactory.Build().CreateQuestion;
 
             //Act
             questionCommandHandler.Handle(command);

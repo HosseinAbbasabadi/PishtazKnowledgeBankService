@@ -23,7 +23,7 @@ namespace Forum.Presentation.Query
         public List<QuestionDto> GetQuestions()
         {
             var tags = _session.Query<Tag>().ToList();
-            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Desc("CreationDateTime"))
+            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Asc("CreationDateTime"))
                 .List<Question>();
             return QuestionMapper.MapQuestions(questions, tags);
         }

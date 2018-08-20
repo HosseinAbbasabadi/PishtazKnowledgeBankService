@@ -23,7 +23,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         {
             //Arrange
             var controller = new QuestionController(_commandBus.Object, _questionQuery.Object);
-            var command = CreateQuestionFactory.Create();
+            var command = CommandFactory.Build().CreateQuestion;
 
             //Act
             controller.Create(command);

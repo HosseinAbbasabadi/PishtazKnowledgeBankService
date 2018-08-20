@@ -1,11 +1,10 @@
-﻿using Forum.Domain.Test.Utils;
+﻿using Forum.Domain.Test.Utils.Builders;
 using Xunit;
 
-namespace Forum.Domain.Tests.Unit
+namespace Forum.Domain.Tests.Unit.Answers
 {
     public class AnswerTests
     {
-
         [Fact]
         public void Constructor_Should_Construct_Answer_Properly()
         {
@@ -18,8 +17,8 @@ namespace Forum.Domain.Tests.Unit
             //Assert
             Assert.Equal(builder.Id, answer.Id);
             Assert.Equal(builder.Body, answer.Body);
-            Assert.Equal(builder.Question, answer.Question);
-            Assert.Equal(builder.Responder, answer.Responder);
+            Assert.Equal(builder.Question, answer.Question.DbId);
+            Assert.Equal(builder.Responder, answer.Responder.DbId);
             Assert.False(answer.IsChosen);
         }
     }
