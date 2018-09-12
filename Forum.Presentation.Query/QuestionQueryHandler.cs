@@ -24,7 +24,7 @@ namespace Forum.Presentation.Query
         public List<QuestionDto> Handle()
         {
             var tags = _session.Query<Tag>().ToList();
-            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Asc("CreationDateTime"))
+            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Desc("CreationDateTime"))
                 .List<Question>();
 
             return (from question in questions
