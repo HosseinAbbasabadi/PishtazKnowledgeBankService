@@ -11,18 +11,16 @@ namespace Forum.Presentation.RestApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            //var builder = new ConfigurationBuilder()
-            //    .SetBasePath(env.ContentRootPath)
-            //    .AddJsonFile("appsettings.json", false, true)
-            //    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-            //    .AddEnvironmentVariables();
-            //Configuration = builder.Build();
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -31,7 +29,8 @@ namespace Forum.Presentation.RestApi
             //services.AddSingleton<IQuestionQuery, QuestionQuery>();
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
-            ForumBootstrapper.Wireup(container);
+            var connectionString = Configuration["ConnectionStrings:DBConnection"];
+            ForumBootstrapper.Wireup(container, connectionString);
             services.AddCors();
             services.AddMvc();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
