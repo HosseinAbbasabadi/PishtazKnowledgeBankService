@@ -10,5 +10,6 @@ namespace Forum.Presentation.Contracts.Query
         public string Body { get; set; }
         public string Responder { get; set; }
         public bool IsChosen { get; set; }
+        public DateTime CreationDateTime { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using NHibernate.Mapping.ByCode;
 
 namespace Framework.Nhibernate
 {
-    public class SessionFactoryBuilder : IMySessionFactoryBuilder
+    public class SessionFactoryBuilder //: IMySessionFactoryBuilder
     {
         public ISessionFactory CreateByConnectionString(string connectionString, Assembly mappingAssembly)
         {
@@ -38,7 +38,7 @@ namespace Framework.Nhibernate
             return Create(configuration, mappingAssembly);
         }
 
-        private static ISessionFactory Create(Configuration configuration, Assembly mappingAssembly)
+        private ISessionFactory Create(Configuration configuration, Assembly mappingAssembly)
         {
             var modelMapper = new ModelMapper();
             modelMapper.AddMappings(mappingAssembly.GetExportedTypes());

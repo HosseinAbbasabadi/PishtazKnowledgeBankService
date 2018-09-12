@@ -27,5 +27,10 @@ namespace Framework.Castle
         {
             _container.Release(type);
         }
+
+        public void ReleaseAll()
+        {
+            _container.Dispose();
+        }
     }
 }

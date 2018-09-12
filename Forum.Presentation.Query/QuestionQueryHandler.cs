@@ -6,37 +6,42 @@ using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Tags;
 using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.Query.Mppers;
+using Framework.Application.Query;
 using NHibernate;
 using NHibernate.Criterion;
 
 namespace Forum.Presentation.Query
 {
-    public class QuestionQuery : IQuestionQuery
+    public class QuestionQueryHandler : IQueryHandler<List<QuestionDto>>, IQueryHandler<QuestionDetailsDto, long>
     {
         private readonly ISession _session;
 
-        public QuestionQuery(ISession session)
+        public QuestionQueryHandler(ISession session)
         {
             _session = session;
         }
 
-        public List<QuestionDto> GetQuestions()
+        public List<QuestionDto> Handle()
         {
             var tags = _session.Query<Tag>().ToList();
             var questions = _session.CreateCriteria<Question>().AddOrder(Order.Asc("CreationDateTime"))
                 .List<Question>();
-            return QuestionMapper.MapQuestions(questions, tags);
+
+            return (from question in questions
+                let answersCount = _session.CreateCriteria<Answer>()
+                    .Add(Restrictions.Eq("Question", question.Id))
+                    .SetProjection(Projections.Count(Projections.Id()))
+                    .UniqueResult<int>()
+                select QuestionMapper.MapQuestion(question, tags, answersCount)).ToList();
         }
 
-        public QuestionDetailsDto GetQuestionDetails(long id)
+        public QuestionDetailsDto Handle(long id)
         {
             var questionId = new QuestionId(id);
             var question = _session.CreateCriteria<Question>().Add(Restrictions.Eq("Id", questionId))
                 .UniqueResult<Question>();
             var tags = _session.Query<Tag>().ToList();
-            var answers = _session.CreateCriteria<Answer>().Add(Restrictions.Eq("Question", questionId))
-                .List<Answer>();
-            return QuestionMapper.MapQuestion(question, tags, answers);
+            return QuestionMapper.MapQuestion(question, tags);
         }
     }
 }

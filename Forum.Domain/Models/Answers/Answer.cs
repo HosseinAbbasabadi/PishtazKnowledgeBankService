@@ -1,4 +1,5 @@
-﻿using Forum.Domain.Models.Questions.ValueObjects;
+﻿using System;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Framework.Domain;
 
@@ -21,6 +22,7 @@ namespace Forum.Domain.Models.Answers
             Question = new QuestionId(question);
             Responder = new UserId(responder);
             IsChosen = false;
+            CreationDateTime = DateTime.Now;
         }
     }
 }

@@ -11,12 +11,12 @@ namespace Forum.Presentation.Query.Mppers
     public static class QuestionMapper
     {
         public static List<QuestionDto> MapQuestions(IEnumerable<Question> questions,
-            IReadOnlyCollection<Tag> tags)
+            IReadOnlyCollection<Tag> tags, long answers)
         {
-            return questions.Select(question => MapQuestion(question, tags)).ToList();
+            return questions.Select(question => MapQuestion(question, tags, answers)).ToList();
         }
 
-        public static QuestionDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags)
+        public static QuestionDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags, long answers)
         {
             return new QuestionDto
             {
@@ -28,12 +28,12 @@ namespace Forum.Presentation.Query.Mppers
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
                 Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
                 Views = question.Views.Count,
-                Votes = question.CalculateVotes()
+                Votes = question.CalculateVotes(),
+                Answers = answers
             };
         }
 
-        public static QuestionDetailsDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags,
-            IList<Answer> answers)
+        public static QuestionDetailsDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags)
         {
             return new QuestionDetailsDto
             {
@@ -43,8 +43,8 @@ namespace Forum.Presentation.Query.Mppers
                 Inquirer = "حسین عباس آبادی",
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
                 Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
-                Votes = question.CalculateVotes(),
-                Answers = AnswerMapper.MapAnswers(answers)
+                Votes = question.CalculateVotes()
+                //Answers = AnswerMapper.MapAnswers(answers)
             };
         }
     }

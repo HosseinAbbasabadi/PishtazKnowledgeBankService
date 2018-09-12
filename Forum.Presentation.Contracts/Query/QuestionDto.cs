@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Framework.Application.Query;
 
 namespace Forum.Presentation.Contracts.Query
 {
-    public class QuestionDto
+    public class QuestionDto : IQuery
     {
         public long Id { get; set; }
         public string Title { get; set; }
@@ -15,5 +16,6 @@ namespace Forum.Presentation.Contracts.Query
         public List<TagDto> Tags { get; set; }
         public long Views { get; set; }
         public long Votes { get; set; }
+        public long Answers { get; set; }
     }
 }

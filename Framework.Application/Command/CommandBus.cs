@@ -7,7 +7,7 @@ namespace Framework.Application.Command
         public void Dispatch<T>(T command) where T : ICommand
         {
             var handler = ServiceLocator.Current.Resolve<TransactionalCommandHandlerDecorator<T>>();
-
+            
             try
             {
                 handler.Handle(command);

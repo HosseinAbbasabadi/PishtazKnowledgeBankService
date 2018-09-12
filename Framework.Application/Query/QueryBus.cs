@@ -7,12 +7,22 @@ namespace Framework.Application.Query
     {
         public T Dispatch<T>()
         {
-            throw new NotImplementedException();
+            var handler = ServiceLocator.Current.Resolve<IQueryHandler<T>>();
+
+            try
+            {
+                return handler.Handle();
+            }
+            finally
+            {
+                ServiceLocator.Current.Release(handler);
+            }
         }
 
         public T Dispatch<T, TU>(TU condition)
         {
-            var handler = ServiceLocator.Current.Resolve<ExceptionQueryHandlerDecorator<T, TU>>();
+            var handler = ServiceLocator.Current.Resolve<IQueryHandler<T, TU>>();
+
             try
             {
                 return handler.Handle(condition);

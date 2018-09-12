@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
+using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.Query;
 using Forum.Presentation.RestApi.Controllers;
 using Framework.Application.Command;
+using Framework.Application.Query;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -10,54 +14,86 @@ namespace Forum.Presentation.RestApi.Tests.Unit
     public class QuestionControllerTests
     {
         private readonly Mock<ICommandBus> _commandBus;
-        private readonly Mock<IQuestionQuery> _questionQuery;
+        private readonly Mock<IQueryBus> _queryBus;
+        private readonly QuestionController _controller;
 
         public QuestionControllerTests()
         {
             _commandBus = new Mock<ICommandBus>();
-            _questionQuery = new Mock<IQuestionQuery>();
+            _queryBus = new Mock<IQueryBus>();
+            _controller = new QuestionController(_commandBus.Object, _queryBus.Object);
         }
 
         [Fact]
         public void Create_Should_Call_CommandBus_When_Api_Called()
         {
             //Arrange
-            var controller = new QuestionController(_commandBus.Object, _questionQuery.Object);
             var command = CommandFactory.Build().CreateQuestion;
 
             //Act
-            controller.Create(command);
+            _controller.Create(command);
 
             //Assert
             _commandBus.Verify(x => x.Dispatch(command));
         }
 
-
         [Fact]
-        public void Question_Should_Call_QuestionQuery_When_Api_Called()
+        public void Create_Should_Return_NoContent_Result()
         {
             //Arrange
-            var controller = new QuestionController(_commandBus.Object, _questionQuery.Object);
+            var command = CommandFactory.Build().CreateQuestion;
 
             //Act
-            controller.Questions();
+            var result = _controller.Create(command);
 
             //Assert
-            _questionQuery.Verify(x => x.GetQuestions());
+            Assert.IsType<NoContentResult>(result);
         }
 
+        [Fact]
+        public void Questions_Should_Call_QuestionQuery_When_Api_Called()
+        {
+            //Act
+            _controller.Questions();
+
+            //Assert
+            _queryBus.Verify(x => x.Dispatch<List<QuestionDto>>());
+        }
 
         [Fact]
         public void QuestionDetails_Should_Call_QuestionQuery_When_Api_Called()
         {
-            //Arrange
-            var controller = new QuestionController(_commandBus.Object, _questionQuery.Object);
-
             //Act
-            controller.QuestionDetails(5);
+            _controller.QuestionDetails(5);
 
             //Assert
-            _questionQuery.Verify(x => x.GetQuestionDetails(5));
+            _queryBus.Verify(x => x.Dispatch<QuestionDetailsDto, long>(5));
+        }
+
+        [Fact]
+        public void AddVote_Should_Call_Command_Bus_When_Api_Called()
+        {
+            //Arrange
+            var command = CommandFactory.Build().AddVote;
+
+            //Act
+            _controller.AddVote(command);
+
+            //Assert
+            _commandBus.Verify(x=>x.Dispatch(command));
+        }
+
+        [Fact]
+        public void AddVote_Should_Return_NoContent_Result()
+        {
+            //Arrange
+            var command = CommandFactory.Build().AddVote;
+
+            //Act
+            var result = _controller.AddVote(command);
+
+            //Assert
+            Assert.IsType<NoContentResult>(result);
         }
     }
 }

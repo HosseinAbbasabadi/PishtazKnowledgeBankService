@@ -7,5 +7,6 @@ namespace Framework.Core
         T Resolve<T>();
         void Release(object obj);
         void Release(Type type);
+        void ReleaseAll();
     }
 }

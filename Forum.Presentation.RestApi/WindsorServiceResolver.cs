@@ -13,7 +13,8 @@ namespace Forum.Presentation.RestApi
 
         public WindsorServiceResolver(IServiceCollection services, IWindsorContainer container)
         {
-            container.Register(Component.For<QuestionController>());
+            container.Register(Component.For<QuestionController>().LifestyleTransient());
+            container.Register(Component.For<AnswerController>().LifestyleTransient());
             _serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 

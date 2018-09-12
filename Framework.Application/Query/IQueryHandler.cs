@@ -7,4 +7,9 @@ namespace Framework.Application.Query
         //T Handle(object condition);
         T Handle(TU condition);
     }
+
+    public interface IQueryHandler<out T>
+    {
+        T Handle();
+    }
 }

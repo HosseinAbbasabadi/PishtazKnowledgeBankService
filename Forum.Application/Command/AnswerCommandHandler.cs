@@ -18,6 +18,7 @@ namespace Forum.Application
         {
             var id = _answerRepository.GetNextId(AnswerSequenceName);
             var answerId = new AnswerId(id);
+            command.Responder = 5;
             var answer = new Answer(answerId, command.Body, command.Question, command.Responder);
             _answerRepository.Create(answer);
         }

@@ -14,6 +14,7 @@ namespace Framework.Domain
         List<T> GetAll();
         List<T> Get(Expression<Func<T, bool>> predicate);
         void Create(T aggregate);
+        void Update(T aggregate);
         void Delete(T aggregate);
         long GetNextId(string sequenceName);
     }

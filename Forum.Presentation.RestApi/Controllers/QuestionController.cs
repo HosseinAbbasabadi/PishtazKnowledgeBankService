@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
-using Forum.Presentation.Query;
 using Framework.Application.Command;
+using Framework.Application.Query;
 using Framework.Core;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,30 +12,38 @@ namespace Forum.Presentation.RestApi.Controllers
     public class QuestionController : Controller, IGateway
     {
         private readonly ICommandBus _bus;
-        private readonly IQuestionQuery _questionQuery;
+        private readonly IQueryBus _queryBus;
 
-        public QuestionController(ICommandBus bus, IQuestionQuery questionQuery)
+        public QuestionController(ICommandBus bus, IQueryBus queryBus)
         {
             _bus = bus;
-            _questionQuery = questionQuery;
+            _queryBus = queryBus;
         }
 
         [HttpPost]
-        public void Create([FromBody]CreateQuestion command)
+        public IActionResult Create([FromBody] CreateQuestion command)
         {
             _bus.Dispatch(command);
+            return NoContent();
         }
 
         [HttpGet]
         public List<QuestionDto> Questions()
         {
-            return _questionQuery.GetQuestions();
+            return _queryBus.Dispatch<List<QuestionDto>>();
         }
 
         [HttpGet("{id}")]
         public QuestionDetailsDto QuestionDetails(long id)
         {
-            return _questionQuery.GetQuestionDetails(id);
+            return _queryBus.Dispatch<QuestionDetailsDto, long>(id);
+        }
+
+        [HttpPut]
+        public IActionResult AddVote([FromBody] AddVote command)
+        {
+            _bus.Dispatch(command);
+            return NoContent();
         }
     }
 }

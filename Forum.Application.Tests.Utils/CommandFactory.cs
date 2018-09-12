@@ -4,18 +4,18 @@ using Forum.Presentation.Contracts.Command;
 namespace Forum.Application.Tests.Utils
 {
 
-    public class CommandObjects
+    public class Commands
     {
         public CreateQuestion CreateQuestion { get; set; }
         public AddAnswer AddAnswer { get; set; }
+        public AddVote AddVote { get; set; }
     }
 
     public static class CommandFactory
     {
-        
-        public static CommandObjects Build()
+        public static Commands Build()
         {
-            return new CommandObjects
+            return new Commands
             {
                 CreateQuestion = new CreateQuestion
                 {
@@ -28,6 +28,11 @@ namespace Forum.Application.Tests.Utils
                     Body = "some body",
                     Question = 45,
                     Responder = 6
+                },
+                AddVote = new AddVote
+                {
+                    QuestionId = 1,
+                    Opinion = true
                 }
             };
         }

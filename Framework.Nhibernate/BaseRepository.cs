@@ -21,6 +21,11 @@ namespace Framework.Nhibernate
             _session.Save(aggregate);
         }
 
+        public void Update(T aggregate)
+        {
+            _session.Update(aggregate);
+        }
+
         public void Delete(T aggregate)
         {
             _session.Delete(aggregate);
