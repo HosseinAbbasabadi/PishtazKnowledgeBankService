@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Framework.Domain;
 using UserManagement.Domain.Models.Roles;
@@ -8,23 +10,26 @@ namespace UserManagement.Domain
 {
     public class User : AggregateRootBase<UserId>, IAggregateRoot
     {
-        public string UserName { get; private set; }
+        private readonly IList<RoleId> _roles;
+
+        public string Username { get; private set; }
         public string Password { get; private set; }
         public string Firstname { get; private set; }
         public string Lastname { get; private set; }
-        public List<RoleId> Roles { get; private set; }
+        public IReadOnlyCollection<RoleId> Roles => new ReadOnlyCollection<RoleId>(_roles);
 
-        public User(UserId id, string userName, string password, string firstName, string lastName, List<long> roles) : base(id)
+        public User(UserId id, string username, string password, string firstName, string lastName, List<long> roles) : base(id)
         {
             GuardAgainstConstructingUserWithAnyRole(roles);
 
-            UserName = userName;
+            Username = username;
             Password = password;
             Firstname = firstName;
             Lastname = lastName;
-            Roles = MapRoles(roles);
+            CreationDateTime = DateTime.Now;
+            _roles = MapRoles(roles);
         }
-
+        protected User() { }
         private static void GuardAgainstConstructingUserWithAnyRole(List<long> roles)
         {
             if (roles.Count < 1)

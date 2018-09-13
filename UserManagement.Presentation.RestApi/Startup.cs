@@ -18,18 +18,23 @@ namespace UserManagement.Presentation.RestApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
+
             var connectionString = Configuration["ConnectionStrings:DBConnection"];
             UserManagementBootstrapper.Wireup(container, connectionString);
             services.AddCors();

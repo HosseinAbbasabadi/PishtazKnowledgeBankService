@@ -13,7 +13,7 @@ namespace UserManagement.Infrastructure.Persistance.Nh.Mappings
 
             ComponentAsId(z => z.Id, x => { x.Property(z => z.DbId, a => a.Column("Id")); });
 
-            Property(x => x.UserName);
+            Property(x => x.Username);
             Property(x => x.Password);
             Property(x => x.Firstname);
             Property(x => x.Lastname);
@@ -22,8 +22,8 @@ namespace UserManagement.Infrastructure.Persistance.Nh.Mappings
             IdBag(a => a.Roles, map =>
             {
                 map.Access(Accessor.Field);
-                map.Table("QuestionTags");
-                map.Key(a => a.Column("QuestionId"));
+                map.Table("UserRoles");
+                map.Key(a => a.Column("UserId"));
                 map.Id(a =>
                 {
                     a.Column("Id");
@@ -32,7 +32,7 @@ namespace UserManagement.Infrastructure.Persistance.Nh.Mappings
             }, relation => relation.Component(map =>
             {
                 map.Access(Accessor.Property);
-                map.Property(a => a.DbId, a => a.Column("TagId"));
+                map.Property(a => a.DbId, a => a.Column("RoleId"));
             }));
         }
     }

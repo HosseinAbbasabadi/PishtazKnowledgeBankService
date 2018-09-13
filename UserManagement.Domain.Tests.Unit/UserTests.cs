@@ -19,7 +19,7 @@ namespace UserManagement.Domain.Tests.Unit
 
             //Assert
             user.Id.Should().Be(userBuilder.UserId);
-            user.UserName.Should().Be(userBuilder.Username);
+            user.Username.Should().Be(userBuilder.Username);
             user.Password.Should().Be(userBuilder.Password);
             user.Firstname.Should().Be(userBuilder.Firstname);
             user.Lastname.Should().Be(userBuilder.Lastname);
