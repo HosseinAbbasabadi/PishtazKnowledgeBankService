@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Windsor;
+using Framework.Castle;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using UserManagement.Infrastructure.Config;
 
 namespace UserManagement.Presentation.RestApi
 {
@@ -23,9 +26,16 @@ namespace UserManagement.Presentation.RestApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var container = new WindsorContainer();
+            Bootstrapper.WireUp(container);
+            var connectionString = Configuration["ConnectionStrings:DBConnection"];
+            UserManagementBootstrapper.Wireup(container, connectionString);
+            services.AddCors();
+            services.AddMvc();
+            var service = new WindsorServiceResolver(services, container).GetServiceProvider();
+            return service;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,12 +45,14 @@ namespace UserManagement.Presentation.RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        "default",
+            //        "{controller}/{id?}");
+            //});
             app.UseMvc();
         }
     }

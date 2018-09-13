@@ -14,15 +14,14 @@ using NHibernate;
 
 namespace Forum.Infrastructure.Config
 {
-    public static class  ForumBootstrapper
+    public static class ForumBootstrapper
     {
         public static void Wireup(WindsorContainer container, string connectionString)
         {
             const string boundedContextName = "Forum";
-            //const string sessionFactoryName = boundedContextName + "_SessionFactory";
+            const string sessionFactoryName = boundedContextName + "_SessionFactory";
+            const string unitOfWorkName = boundedContextName + "_UOW";
             const string sessionName = boundedContextName + "_Session";
-            
-            //container.Register(Component.For<IMySessionFactoryBuilder>().ImplementedBy<SessionFactoryBuilder>());
 
             container.Register(Classes.FromAssemblyContaining(typeof(QuestionCommandHandler))
                 .BasedOn(typeof(ICommandHandler<>)).WithService.AllInterfaces().LifestyleTransient());
@@ -41,7 +40,7 @@ namespace Forum.Infrastructure.Config
 
             container.Register(Component.For<ISessionFactory>().UsingFactoryMethod(a => new SessionFactoryBuilder()
                     .CreateByConnectionStringName(connectionString, typeof(QuestionMapping).Assembly))
-                .LifestyleSingleton());
+                .Named(sessionFactoryName).LifestyleSingleton());
 
             container.Register(Component.For<ISession>().UsingFactoryMethod(a =>
             {
@@ -49,15 +48,8 @@ namespace Forum.Infrastructure.Config
                 return factory.OpenSession();
             }).LifestyleScoped().Named(sessionName));
 
-
-            //var sessionFactory = SessionFactoryBuilder
-            //    .CreateByConnectionStringName(connectionString, typeof(QuestionMapping).Assembly);
-
-            //container.Register(Component.For<ISession>()
-            //    .UsingFactoryMethod(a => sessionFactory.OpenSession())
-            //    .LifestyleScoped());
-
-            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>().LifestyleBoundTo<IService>());
+            container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>().LifestyleBoundTo<IService>()
+                .Named(unitOfWorkName));
         }
     }
 }
