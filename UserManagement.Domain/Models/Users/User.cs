@@ -8,15 +8,17 @@ namespace UserManagement.Domain
     public class User : AggregateRootBase<UserId>, IAggregateRoot
     {
         public string UserName { get; private set; }
+        public string Password { get; private set; }
         public string Firstname { get; private set; }
         public string Lastname { get; private set; }
-        public List<UserRoleId> Roles { get; set; }
+        public List<UserRoleId> Roles { get; private set; }
 
-        public User(UserId id, string userName, string firstName, string lastName, List<long> roles) : base(id)
+        public User(UserId id, string userName, string password, string firstName, string lastName, List<long> roles) : base(id)
         {
             GuardAgainstConstructingUserWithAnyRole(roles);
 
             UserName = userName;
+            Password = password;
             Firstname = firstName;
             Lastname = lastName;
             Roles = MapRoles(roles);

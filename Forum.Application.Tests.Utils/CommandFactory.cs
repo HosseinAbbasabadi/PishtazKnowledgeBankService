@@ -3,7 +3,6 @@ using Forum.Presentation.Contracts.Command;
 
 namespace Forum.Application.Tests.Utils
 {
-
     public class Commands
     {
         public CreateQuestion CreateQuestion { get; set; }
@@ -13,7 +12,7 @@ namespace Forum.Application.Tests.Utils
 
     public static class CommandFactory
     {
-        public static Commands BuildAnInstanceOfType()
+        public static Commands BuildACommandOfType()
         {
             return new Commands
             {
@@ -37,6 +36,4 @@ namespace Forum.Application.Tests.Utils
             };
         }
     }
-
-    
 }

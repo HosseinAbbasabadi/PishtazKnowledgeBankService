@@ -8,6 +8,7 @@ namespace UserManagement.Domain.Utils
     {
         public UserId UserId;
         public string Username;
+        public string Password;
         public string Firstname;
         public string Lastname;
         public List<long> Roles;
@@ -16,6 +17,7 @@ namespace UserManagement.Domain.Utils
         {
             UserId = new UserId(1);
             Username = "sharkProgrammer";
+            Password = "123456";
             Firstname = "hossein";
             Lastname = "abbasabadi";
             Roles = new List<long>
@@ -39,7 +41,7 @@ namespace UserManagement.Domain.Utils
 
         public User Build()
         {
-            return new User(UserId, Username, Firstname, Lastname, Roles);
+            return new User(UserId, Username, Password, Firstname, Lastname, Roles);
         }
 
         public List<User> BuildList(int count)

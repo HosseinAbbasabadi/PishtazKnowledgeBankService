@@ -23,7 +23,7 @@ namespace Forum.Application.Tests.Unit
         public void Should_Call_Create_On_Repository_When_Command_Passed()
         {
             //Arrange
-            var command = CommandFactory.BuildAnInstanceOfType().CreateQuestion;
+            var command = CommandFactory.BuildACommandOfType().CreateQuestion;
 
             //Act
             _questionCommandHandler.Handle(command);
@@ -37,7 +37,7 @@ namespace Forum.Application.Tests.Unit
         public void Should_Call_Get_Then_Update_On_Repository_When_Command_Passed()
         {
             //Arrange
-            var command = CommandFactory.BuildAnInstanceOfType().AddVote;
+            var command = CommandFactory.BuildACommandOfType().AddVote;
             var question = new QuestionTestBuilder().Build();
             _repository.Setup(x => x.Get(It.IsAny<QuestionId>())).Returns(question);
 

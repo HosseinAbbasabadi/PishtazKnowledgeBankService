@@ -27,7 +27,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void Add_Should_Call_Bus_When_Api_Called()
         {
             //Arrange
-            var command = CommandFactory.BuildAnInstanceOfType().AddAnswer;
+            var command = CommandFactory.BuildACommandOfType().AddAnswer;
 
             //Act
             _controller.Add(command);
@@ -40,7 +40,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void Add_Should_Return_NoContent_Result()
         {
             //Arrange
-            var command = CommandFactory.BuildAnInstanceOfType().AddAnswer;
+            var command = CommandFactory.BuildACommandOfType().AddAnswer;
 
             //Act
             var resutl = _controller.Add(command);
