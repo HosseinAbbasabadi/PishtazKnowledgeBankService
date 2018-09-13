@@ -1,5 +1,4 @@
-﻿using System;
-using Framework.Application.Command;
+﻿using Framework.Application.Command;
 using UserManagement.Domain;
 using UserManagement.Domain.Models.Users;
 using UserManagement.Interface.Facade.Contract;
