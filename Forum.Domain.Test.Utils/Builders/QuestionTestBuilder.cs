@@ -72,7 +72,13 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public List<Question> BuildList(int count)
         {
-            throw new NotImplementedException();
+            var questions = new List<Question>();
+            for (var i = 0; i <= count; i++)
+            {
+                questions.Add(Build());
+            }
+
+            return questions;
         }
     }
 }

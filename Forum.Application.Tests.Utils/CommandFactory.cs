@@ -13,7 +13,7 @@ namespace Forum.Application.Tests.Utils
 
     public static class CommandFactory
     {
-        public static Commands Build()
+        public static Commands BuildAnInstanceOfType()
         {
             return new Commands
             {

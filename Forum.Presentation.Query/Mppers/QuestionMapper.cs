@@ -44,7 +44,6 @@ namespace Forum.Presentation.Query.Mppers
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
                 Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
                 Votes = question.CalculateVotes()
-                //Answers = AnswerMapper.MapAnswers(answers)
             };
         }
     }

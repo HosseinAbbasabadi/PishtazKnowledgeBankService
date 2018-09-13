@@ -36,7 +36,13 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public List<Tag> BuildList(int count)
         {
-            throw new NotImplementedException();
+            var tags = new List<Tag>();
+            for (var i = 1; i <= count; i++)
+            {
+                tags.Add(WithId(i).Build());
+            }
+
+            return tags;
         }
     }
 }

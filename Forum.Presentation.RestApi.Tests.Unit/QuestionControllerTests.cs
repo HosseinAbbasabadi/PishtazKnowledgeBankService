@@ -28,7 +28,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void Create_Should_Call_CommandBus_When_Api_Called()
         {
             //Arrange
-            var command = CommandFactory.Build().CreateQuestion;
+            var command = CommandFactory.BuildAnInstanceOfType().CreateQuestion;
 
             //Act
             _controller.Create(command);
@@ -41,7 +41,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void Create_Should_Return_NoContent_Result()
         {
             //Arrange
-            var command = CommandFactory.Build().CreateQuestion;
+            var command = CommandFactory.BuildAnInstanceOfType().CreateQuestion;
 
             //Act
             var result = _controller.Create(command);
@@ -74,7 +74,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void AddVote_Should_Call_Command_Bus_When_Api_Called()
         {
             //Arrange
-            var command = CommandFactory.Build().AddVote;
+            var command = CommandFactory.BuildAnInstanceOfType().AddVote;
 
             //Act
             _controller.AddVote(command);
@@ -87,7 +87,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         public void AddVote_Should_Return_NoContent_Result()
         {
             //Arrange
-            var command = CommandFactory.Build().AddVote;
+            var command = CommandFactory.BuildAnInstanceOfType().AddVote;
 
             //Act
             var result = _controller.AddVote(command);

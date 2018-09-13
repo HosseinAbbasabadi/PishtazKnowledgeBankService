@@ -5,7 +5,7 @@ using Framework.Core;
 
 namespace Forum.Domain.Test.Utils.Builders
 {
-    public class AnswerTestBuilder: IBuilder<Answer>
+    public class AnswerTestBuilder : IBuilder<Answer>
     {
         public AnswerId Id { get; private set; }
         public string Body { get; private set; }
@@ -27,7 +27,13 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public List<Answer> BuildList(int count)
         {
-            throw new NotImplementedException();
+            var answers = new List<Answer>();
+            for (var i = 0; i < count; i++)
+            {
+                answers.Add(Build());
+            }
+
+            return answers;
         }
     }
 }
