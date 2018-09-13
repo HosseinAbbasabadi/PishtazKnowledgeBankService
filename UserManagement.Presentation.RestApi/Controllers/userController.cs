@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Framework.Application.Command;
-using Microsoft.AspNetCore.Http;
+﻿using Framework.Application.Command;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Interface.Facade.Contract;
 

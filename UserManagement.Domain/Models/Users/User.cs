@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Framework.Domain;
+using UserManagement.Domain.Models.Roles;
 using UserManagement.Domain.Models.Users;
 
 namespace UserManagement.Domain
@@ -11,7 +12,7 @@ namespace UserManagement.Domain
         public string Password { get; private set; }
         public string Firstname { get; private set; }
         public string Lastname { get; private set; }
-        public List<UserRoleId> Roles { get; private set; }
+        public List<RoleId> Roles { get; private set; }
 
         public User(UserId id, string userName, string password, string firstName, string lastName, List<long> roles) : base(id)
         {
@@ -30,14 +31,14 @@ namespace UserManagement.Domain
                 throw new UserShouldHaveARoleException();
         }
 
-        public List<UserRoleId> MapRoles(List<long> roles)
+        public List<RoleId> MapRoles(List<long> roles)
         {
             return roles.Select(a => MapOneRole(a)).ToList();
         }
 
-        public UserRoleId MapOneRole(long role)
+        public RoleId MapOneRole(long role)
         {
-            return new UserRoleId(role);    
+            return new RoleId(role);    
         }
     }
 }
