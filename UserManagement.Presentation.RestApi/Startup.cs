@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
+using Owin;
 using UserManagement.Infrastructure.Config;
 
 namespace UserManagement.Presentation.RestApi
@@ -43,6 +46,26 @@ namespace UserManagement.Presentation.RestApi
             return service;
         }
 
+        private void ConfigureOAuth(IAppBuilder app)
+        {
+            //            var allowInsecureHttp = false;
+
+            //#if DEBUG
+            //            allowInsecureHttp = true;
+            //#endif
+
+            var options = new OAuthAuthorizationServerOptions()
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = new TimeSpan(1, 0, 0, 0),
+                Provider = new AuthorizationProvider()
+            };
+
+            app.UseOAuthAuthorizationServer(options);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -50,7 +73,7 @@ namespace UserManagement.Presentation.RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             //app.UseMvc(routes =>
             //{
