@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.OAuth;
-using Owin;
 using UserManagement.Infrastructure.Config;
 
 namespace UserManagement.Presentation.RestApi
@@ -28,6 +25,16 @@ namespace UserManagement.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            //Begin Identity Configuration
+
+            services.AddIdentityServer()
+                .AddInMemoryClients(IdentityServerConfiguration.Clients())
+                .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources())
+                .AddTestUsers(Users.GetUsers())
+                .AddDeveloperSigningCredential();
+                
+
+            //End Identity Configuration
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
 
@@ -37,26 +44,6 @@ namespace UserManagement.Presentation.RestApi
             services.AddMvc();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
-        }
-
-        private void ConfigureOAuth(IAppBuilder app)
-        {
-            //            var allowInsecureHttp = false;
-
-            //#if DEBUG
-            //            allowInsecureHttp = true;
-            //#endif
-
-            var options = new OAuthAuthorizationServerOptions()
-            {
-                AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = new TimeSpan(1, 0, 0, 0),
-                Provider = new AuthorizationProvider()
-            };
-
-            app.UseOAuthAuthorizationServer(options);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

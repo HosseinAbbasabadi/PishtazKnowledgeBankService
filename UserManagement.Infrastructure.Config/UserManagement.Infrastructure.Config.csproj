@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="castle.windsor" Version="4.1.0" />
+    <PackageReference Include="identityserver4" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

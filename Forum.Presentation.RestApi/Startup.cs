@@ -25,14 +25,23 @@ namespace Forum.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<ICommandBus>(new CommandBus());
-            //services.AddSingleton<IQuestionQuery, QuestionQuery>();
+            //Begin Identity Configuration
+
+            services.AddMvcCore().AddAuthorization().AddJsonFormatters();
+            services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = "http://localhost:5000";
+                options.RequireHttpsMetadata = false;
+                options.ApiName = "Forum_Api";
+            });
+
+            //End Identity Configuration
+
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
             var connectionString = Configuration["ConnectionStrings:DBConnection"];
             ForumBootstrapper.Wireup(container, connectionString);
             services.AddCors();
-            services.AddMvc();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
         }
