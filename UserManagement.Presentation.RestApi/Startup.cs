@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Castle.Windsor;
 using Framework.Castle;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using UserManagement.Infrastructure.Config;
 
 namespace UserManagement.Presentation.RestApi
@@ -32,6 +27,26 @@ namespace UserManagement.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            //Begin Identity Configuration
+
+            services.AddMvc();
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryApiResources(Config.ApiResources())
+                .AddInMemoryClients(Config.Clients())
+                .AddTestUsers(TestUser.GetUsers())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources());
+
+            services.AddCors();
+            var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))
+            {
+                AllowedOrigins = { "http://localhost:4200" }
+            };
+            services.AddSingleton<ICorsPolicyService>(cors);
+
+
+
+            //End Identity Configuration
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
 
@@ -39,6 +54,7 @@ namespace UserManagement.Presentation.RestApi
             UserManagementBootstrapper.Wireup(container, connectionString);
             services.AddCors();
             services.AddMvc();
+            services.AddCors();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
         }
@@ -51,14 +67,10 @@ namespace UserManagement.Presentation.RestApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        "default",
-            //        "{controller}/{id?}");
-            //});
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseIdentityServer();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

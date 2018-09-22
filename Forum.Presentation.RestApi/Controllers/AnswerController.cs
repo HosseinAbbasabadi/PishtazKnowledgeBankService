@@ -4,12 +4,14 @@ using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
 {
     [Route("api/Answer")]
     [Produces("application/json")]
+    [Authorize]
     public class AnswerController : Controller, IGateway
     {
         private readonly ICommandBus _commandBus;
