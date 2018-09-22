@@ -1,10 +1,12 @@
 ﻿using System;
 using Castle.Windsor;
 using Framework.Castle;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using UserManagement.Infrastructure.Config;
 
 namespace UserManagement.Presentation.RestApi
@@ -27,12 +29,22 @@ namespace UserManagement.Presentation.RestApi
         {
             //Begin Identity Configuration
 
+            services.AddMvc();
             services.AddIdentityServer()
-                .AddInMemoryClients(IdentityServerConfiguration.Clients())
-                .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources())
-                .AddTestUsers(Users.GetUsers())
-                .AddDeveloperSigningCredential();
-                
+                .AddDeveloperSigningCredential()
+                .AddInMemoryApiResources(Config.ApiResources())
+                .AddInMemoryClients(Config.Clients())
+                .AddTestUsers(TestUser.GetUsers())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources());
+
+            services.AddCors();
+            var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))
+            {
+                AllowedOrigins = { "http://localhost:4200" }
+            };
+            services.AddSingleton<ICorsPolicyService>(cors);
+
+
 
             //End Identity Configuration
             var container = new WindsorContainer();
@@ -42,6 +54,7 @@ namespace UserManagement.Presentation.RestApi
             UserManagementBootstrapper.Wireup(container, connectionString);
             services.AddCors();
             services.AddMvc();
+            services.AddCors();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
         }
@@ -53,15 +66,11 @@ namespace UserManagement.Presentation.RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        "default",
-            //        "{controller}/{id?}");
-            //});
-            app.UseMvc();
+
+            app.UseStaticFiles();
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseIdentityServer();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

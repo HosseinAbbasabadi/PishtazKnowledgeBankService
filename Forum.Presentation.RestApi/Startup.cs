@@ -46,17 +46,6 @@ namespace Forum.Presentation.RestApi
             return service;
         }
 
-        //public IServiceProvider ConfigureServices(IServiceCollection services)
-        //{
-        //    var container = new WindsorContainer();
-        //    var service = new WindsorServiceResolver(container);
-        //    Bootstrapper.WireUp(container);
-        //    ForumBootstrapper.Wireup(container);
-        //    services.AddCors();
-        //    services.AddMvc();
-        //    return service;
-        //}
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -66,12 +55,7 @@ namespace Forum.Presentation.RestApi
             }
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        "default",
-            //        "{controller}/{id?}");
-            //});
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
