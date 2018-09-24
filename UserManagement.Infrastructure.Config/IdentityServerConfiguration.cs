@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -10,12 +11,14 @@ namespace UserManagement.Infrastructure.Config
         {
             return new List<ApiResource>
             {
-                new ApiResource("Forum_Api", "ForumManagement")
+                new ApiResource("Forum_Api", "سرویس بانک دانش")
                 {
                     UserClaims =
                     {
                         Id,
-                        Role
+                        Role,
+                        AccessTokenHash,
+                        "UserId"
                     }
                 }
             };
@@ -27,15 +30,36 @@ namespace UserManagement.Infrastructure.Config
             {
                 new Client
                 {
-                    ClientId = "knowladgeBank",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    ClientSecrets =
+                    ClientId = "KnowladgeBankUi",
+                    ClientName = "Knowladge Bank User Interface Application",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    IdentityTokenLifetime = 28800,
+                    RedirectUris = {"http://localhost:4200"},
+                    PostLogoutRedirectUris = {"http://localhost:4200"},
+                    AllowedCorsOrigins = {"http://localhost:4200/"},
+                    AllowedScopes = {"openid", "profile", "Forum_Api"},
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AlwaysSendClientClaims = true,
+                    AllowOfflineAccess = true,
+                    ClientSecrets = new List<Secret>()
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = {"Forum_Api"}
+                    Claims = new List<Claim>()
+                    {
+                        new Claim(AccessTokenHash, "token")
+                    }
                 }
+            };
+        }
+
+        public static List<IdentityResource> IdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
         }
     }

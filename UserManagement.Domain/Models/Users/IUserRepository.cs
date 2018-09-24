@@ -7,5 +7,6 @@ namespace UserManagement.Domain.Models.Users
 {
     public interface IUserRepository : IRepository<UserId, User>
     {
+
     }
 }

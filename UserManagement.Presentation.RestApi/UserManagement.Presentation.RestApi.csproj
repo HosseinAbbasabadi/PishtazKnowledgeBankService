@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180924142724_InitIdentityserverTables.cs" />
+    <Compile Remove="Migrations\20180924142724_InitIdentityserverTables.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -12,6 +17,7 @@
     <PackageReference Include="castle.windsor" Version="4.1.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
@@ -20,7 +26,15 @@
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
     <ProjectReference Include="..\Framework.Castle\Framework.Castle.csproj" />
     <ProjectReference Include="..\UserManagement.Infrastructure.Config\UserManagement.Infrastructure.Config.csproj" />
+    <ProjectReference Include="..\UserManagement.Infrastructure.EntityFramework\UserManagement.Infrastructure.EntityFramework.csproj" />
     <ProjectReference Include="..\UserManagement.Interface.Facade.Contract\UserManagement.Interface.Facade.Contract.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Windows.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

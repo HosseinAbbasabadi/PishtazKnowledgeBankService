@@ -1,29 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
-using IdentityModel;
 using IdentityServer4.Models;
 
-namespace UserManagement.Presentation.RestApi
+namespace IdentityServerDefaultTemplate
 {
     public class Config
     {
-        public static IEnumerable<ApiResource> ApiResources()
-        {
-            return new List<ApiResource>
-            {
-                new ApiResource("Forum_Api", "سرویس بانک دانش")
-                {
-                    UserClaims =
-                    {
-                        JwtClaimTypes.Id,
-                        JwtClaimTypes.Role,
-                        JwtClaimTypes.AccessTokenHash,
-                        "UserId"
-                    }
-                }
-            };
-        }
-
         public static IEnumerable<Client> Clients()
         {
             return new List<Client>
@@ -45,16 +26,28 @@ namespace UserManagement.Presentation.RestApi
                     ClientSecrets = new List<Secret>()
                     {
                         new Secret("secret".Sha256())
-                    },
-                    Claims = new List<Claim>()
+                    }
+                }
+            };
+        }
+        public static IEnumerable<ApiResource> ApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("Forum_Api", "سرویس بانک دانش")
+                {
+                    UserClaims =
                     {
-                        new Claim(JwtClaimTypes.AccessTokenHash, "token")
+                        //Id,
+                        //Role,
+                        //AccessTokenHash,
+                        "UserId"
                     }
                 }
             };
         }
 
-        public static List<IdentityResource> GetIdentityResources()
+        public static List<IdentityResource> IdentityResources()
         {
             return new List<IdentityResource>
             {
