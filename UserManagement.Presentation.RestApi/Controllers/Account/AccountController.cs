@@ -1,14 +1,11 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 using IdentityModel;
-using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -19,10 +16,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace UserManagement.Presentation.RestApi.Controllers.Account
 {
@@ -40,55 +34,22 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly ApplicationDbContext _context;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events, ApplicationDbContext context, TestUserStore users = null)
+            IEventService events,
+            TestUserStore users)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
+            _users = users ?? new TestUserStore(TestUser.GetUsers());
 
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
-            _context = context;
-            _users = new TestUserStore(GetUsers());
-            var userstore = new UserStore<ApplicationUser>(_context);
-            //var manager= new UserManager<ApplicationUser>(userstore);
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View("Register");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (!UserAlreadyExists(model))
-            {
-                var user = new ApplicationUser
-                {
-                    UserName = model.Username,
-                    PasswordHash = model.Password.ToSha256(),
-                    FullName = model.FullName
-                };
-                await _context.Users.AddAsync(user);
-                _context.SaveChanges();
-                return StatusCode(200, "رکورد با موفقیت ثبت شد");
-            }
-
-            return StatusCode(400, "رکوردی با این نام کاربری قبلا ثبت شده است");
-        }
-
-        private bool UserAlreadyExists(RegisterViewModel model)
-        {
-            return _context.Users.Any(a => a.UserName == model.Username);
         }
 
         /// <summary>
@@ -103,7 +64,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
             if (vm.IsExternalLoginOnly)
             {
                 // we only have one option for logging in and it's an external provider
-                return RedirectToAction("Challenge", "External", new {provider = vm.ExternalLoginScheme, returnUrl});
+                return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
             }
 
             return View(vm);
@@ -134,7 +95,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
                     {
                         // if the client is PKCE then we assume it's native, so this change in how to
                         // return the response is for better UX for the end user.
-                        return View("Redirect", new RedirectViewModel {RedirectUrl = model.ReturnUrl});
+                        return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
                     }
 
                     return Redirect(model.ReturnUrl);
@@ -164,9 +125,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
                             IsPersistent = true,
                             ExpiresUtc = DateTimeOffset.UtcNow.Add(AccountOptions.RememberMeLoginDuration)
                         };
-                    }
-
-                    ;
+                    };
 
                     // issue authentication cookie with subject ID and username
                     await HttpContext.SignInAsync(user.SubjectId, user.Username, props);
@@ -176,7 +135,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
                         {
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
-                            return View("Redirect", new RedirectViewModel {RedirectUrl = model.ReturnUrl});
+                            return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
                         }
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
@@ -208,14 +167,13 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
             return View(vm);
         }
 
-
+        
         /// <summary>
         /// Show logout page
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            logoutId = 1.ToString();
             // build a model so the logout page knows what to display
             var vm = await BuildLogoutViewModelAsync(logoutId);
 
@@ -254,14 +212,15 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                string url = Url.Action("Logout", new {logoutId = vm.LogoutId});
+                string url = Url.Action("Logout", new { logoutId = vm.LogoutId });
 
                 // this triggers a redirect to the external provider for sign-out
-                return SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
+                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
             return View("LoggedOut", vm);
         }
+
 
 
         /*****************************************/
@@ -278,8 +237,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
                     EnableLocalLogin = false,
                     ReturnUrl = returnUrl,
                     Username = context?.LoginHint,
-                    ExternalProviders = new ExternalProvider[]
-                        {new ExternalProvider {AuthenticationScheme = context.IdP}}
+                    ExternalProviders = new ExternalProvider[] { new ExternalProvider { AuthenticationScheme = context.IdP } }
                 };
             }
 
@@ -287,8 +245,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
 
             var providers = schemes
                 .Where(x => x.DisplayName != null ||
-                            (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName,
-                                StringComparison.OrdinalIgnoreCase))
+                            (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName, StringComparison.OrdinalIgnoreCase))
                 )
                 .Select(x => new ExternalProvider
                 {
@@ -306,8 +263,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
 
                     if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
                     {
-                        providers = providers.Where(provider =>
-                            client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
                     }
                 }
             }
@@ -332,7 +288,7 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
 
         private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
         {
-            var vm = new LogoutViewModel {LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt};
+            var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
 
             if (User?.Identity.IsAuthenticated != true)
             {
@@ -390,25 +346,6 @@ namespace UserManagement.Presentation.RestApi.Controllers.Account
             }
 
             return vm;
-        }
-
-        private List<IdentityServer4.Test.TestUser> GetUsers()
-        {
-            var dbUsers = _context.Users.ToList();
-            return dbUsers.Select(Map).ToList();
-        }
-
-        private IdentityServer4.Test.TestUser Map(ApplicationUser user)
-        {
-            //var pwd = new PasswordHasher<ApplicationUser>();
-            //pwd.HashPassword(user, user.PasswordHash);
-            //pwd.VerifyHashedPassword();
-            return new IdentityServer4.Test.TestUser
-            {
-                Username = user.UserName,
-                Password = user.PasswordHash,
-                SubjectId = user.SubjectId.ToString()
-            };
         }
     }
 }

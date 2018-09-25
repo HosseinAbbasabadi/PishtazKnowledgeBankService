@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
 namespace UserManagement.Presentation.RestApi
@@ -7,15 +8,12 @@ namespace UserManagement.Presentation.RestApi
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
+
         }
 
-        public static IWebHost CreateWebHostBuilder(string[] args) =>
-            new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
     }
 }

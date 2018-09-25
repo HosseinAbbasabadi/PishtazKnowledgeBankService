@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.Claims;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -41,15 +40,15 @@ namespace UserManagement.Infrastructure.Config
                     AllowedScopes = {"openid", "profile", "Forum_Api"},
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
-                    AllowOfflineAccess = true,
-                    ClientSecrets = new List<Secret>()
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    Claims = new List<Claim>()
-                    {
-                        new Claim(AccessTokenHash, "token")
-                    }
+                    AllowOfflineAccess = true
+                    //ClientSecrets = new List<Secret>()
+                    //{
+                    //    new Secret("secret".Sha256())
+                    //},
+                    //Claims = new List<Claim>()
+                    //{
+                    //    new Claim(AccessTokenHash, "token")
+                    //}
                 }
             };
         }
@@ -59,7 +58,7 @@ namespace UserManagement.Infrastructure.Config
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
             };
         }
     }

@@ -43,7 +43,7 @@ namespace UserManagement.Presentation.RestApi
                 .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources())
                 .AddInMemoryClients(IdentityServerConfiguration.Clients())
                 .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources())
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddTestUsers(TestUser.GetUsers());
 
             services.AddCors();
             var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))
@@ -57,9 +57,6 @@ namespace UserManagement.Presentation.RestApi
             Bootstrapper.WireUp(container);
 
             UserManagementBootstrapper.Wireup(container, connectionString);
-            services.AddCors();
-            services.AddMvc();
-            services.AddCors();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
         }
@@ -71,48 +68,10 @@ namespace UserManagement.Presentation.RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseStaticFiles();
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
         }
-
-        //private void InitializeDatabase(IApplicationBuilder app)
-        //{
-        //    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-        //    {
-        //        serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
-
-        //        var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-        //        context.Database.Migrate();
-        //        if (!context.Clients.Any())
-        //        {
-        //            foreach (var client in IdentityServerConfiguration.Clients())
-        //            {
-        //                context.Clients.Add(client.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
-
-        //        if (!context.IdentityResources.Any())
-        //        {
-        //            foreach (var resource in IdentityServerConfiguration.IdentityResources())
-        //            {
-        //                context.IdentityResources.Add(resource.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
-
-        //        if (!context.ApiResources.Any())
-        //        {
-        //            foreach (var resource in IdentityServerConfiguration.ApiResources())
-        //            {
-        //                context.ApiResources.Add(resource.ToEntity());
-        //            }
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //}
     }
 }

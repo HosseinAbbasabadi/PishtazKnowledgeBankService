@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Presentation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Presentation.RestApi", "UserManagement.Presentation.RestApi\UserManagement.Presentation.RestApi.csproj", "{EBB8D8F8-676B-4198-AE25-B4BAC4FE8CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Infrastructure.EntityFramework", "UserManagement.Infrastructure.EntityFramework\UserManagement.Infrastructure.EntityFramework.csproj", "{58B695E6-2A0C-4FE0-B5EE-899112B1F6A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Infrastructure.EntityFramework", "UserManagement.Infrastructure.EntityFramework\UserManagement.Infrastructure.EntityFramework.csproj", "{58B695E6-2A0C-4FE0-B5EE-899112B1F6A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
