@@ -13,7 +13,6 @@ namespace UserManagement.Presentation.RestApi
 
         public WindsorServiceResolver(IServiceCollection services, IWindsorContainer container)
         {
-            container.Register(Component.For<UserController>().LifestyleTransient());
             _serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 
