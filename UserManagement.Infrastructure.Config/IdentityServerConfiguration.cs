@@ -15,9 +15,7 @@ namespace UserManagement.Infrastructure.Config
                     UserClaims =
                     {
                         Id,
-                        Role,
-                        AccessTokenHash,
-                        "UserId"
+                        Role
                     }
                 }
             };
@@ -41,14 +39,6 @@ namespace UserManagement.Infrastructure.Config
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
                     AllowOfflineAccess = true
-                    //ClientSecrets = new List<Secret>()
-                    //{
-                    //    new Secret("secret".Sha256())
-                    //},
-                    //Claims = new List<Claim>()
-                    //{
-                    //    new Claim(AccessTokenHash, "token")
-                    //}
                 }
             };
         }

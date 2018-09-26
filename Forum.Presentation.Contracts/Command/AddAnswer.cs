@@ -9,6 +9,5 @@ namespace Forum.Presentation.Contracts.Command
     {
         public string Body { get; set; }
         public long Question { get; set; }
-        public long Responder { get; set; }
     }
 }

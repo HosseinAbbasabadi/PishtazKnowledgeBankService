@@ -25,8 +25,7 @@ namespace Forum.Application.Tests.Utils
                 AddAnswer = new AddAnswer
                 {
                     Body = "some body",
-                    Question = 45,
-                    Responder = 6
+                    Question = 45
                 },
                 AddVote = new AddVote
                 {

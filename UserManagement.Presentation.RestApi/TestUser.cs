@@ -12,14 +12,13 @@ namespace UserManagement.Presentation.RestApi
             {
                 new IdentityServer4.Test.TestUser
                 {
-                    SubjectId = "1",
+                    SubjectId = "122",
                     Username = "hossein",
                     Password = "123456",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "1"),
-                        new Claim(JwtClaimTypes.Role, "SysAdmin"),
-                        new Claim("UserId", "10")
+                        new Claim(JwtClaimTypes.Role, "SysAdmin")
                     },
                 },
                 new IdentityServer4.Test.TestUser
@@ -30,8 +29,7 @@ namespace UserManagement.Presentation.RestApi
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "2"),
-                        new Claim(JwtClaimTypes.Role, "Expert"),
-                        new Claim("UserId", "11")
+                        new Claim(JwtClaimTypes.Role, "Expert")
                     }
                 },
                 new IdentityServer4.Test.TestUser
@@ -42,8 +40,7 @@ namespace UserManagement.Presentation.RestApi
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "6"),
-                        new Claim(JwtClaimTypes.Role, "Expert"),
-                        new Claim("UserId", "12")
+                        new Claim(JwtClaimTypes.Role, "Expert")
                     }
                 }
             };

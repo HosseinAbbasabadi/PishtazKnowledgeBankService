@@ -1,5 +1,6 @@
 ﻿using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Answers;
+using Framework.Identity;
 using Moq;
 using Xunit;
 
@@ -13,7 +14,8 @@ namespace Forum.Application.Tests.Unit
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddAnswer;
             var repository = new Mock<IAnswerRepository>();
-            var answerCommandHandler = new AnswerCommandHandler(repository.Object);
+            var cliamHelper = new Mock<IClaimHelper>();
+            var answerCommandHandler = new AnswerCommandHandler(repository.Object, cliamHelper.Object);
 
             //Act
             answerCommandHandler.Handle(command);

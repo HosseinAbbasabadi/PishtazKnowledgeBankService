@@ -3,6 +3,7 @@ using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Questions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
+using Framework.Identity;
 using Moq;
 using Xunit;
 
@@ -16,7 +17,8 @@ namespace Forum.Application.Tests.Unit
         public QuestionCommandHandlerTests()
         {
             _repository = new Mock<IQuestionRepository>();
-            _questionCommandHandler = new QuestionCommandHandler(_repository.Object);
+            var claimHelper = new Mock<IClaimHelper>();
+            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object);
         }
 
         [Fact]
