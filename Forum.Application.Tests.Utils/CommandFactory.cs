@@ -8,6 +8,8 @@ namespace Forum.Application.Tests.Utils
         public CreateQuestion CreateQuestion { get; set; }
         public AddAnswer AddAnswer { get; set; }
         public AddVote AddVote { get; set; }
+        public ChosenAnswer ChosenAnswer { get; set; }
+        public ContainsTrueAnswer ContainsTrueAnswer { get; set; }
     }
 
     public static class CommandFactory
@@ -31,6 +33,14 @@ namespace Forum.Application.Tests.Utils
                 {
                     QuestionId = 1,
                     Opinion = true
+                },
+                ChosenAnswer = new ChosenAnswer
+                {
+                    AnswerId = 5
+                },
+                ContainsTrueAnswer =  new ContainsTrueAnswer
+                {
+                    QuestionId = 6
                 }
             };
         }

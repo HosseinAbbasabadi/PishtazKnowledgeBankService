@@ -24,7 +24,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         }
 
         [Fact]
-        public void Add_Should_Call_Bus_When_Api_Called()
+        public void Add_Should_Call_Dispatch_On_Bus_When_Api_Called()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddAnswer;
@@ -37,20 +37,21 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         }
 
         [Fact]
-        public void Add_Should_Return_NoContent_Result()
+        public void Add_Should_Call_Dispatch_On_Bus_When_Api_Called_And_Return_NoContent_Result()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddAnswer;
 
             //Act
-            var resutl = _controller.Add(command);
+            var result = _controller.Add(command);
 
             //Assert
-            Assert.IsType<NoContentResult>(resutl);
+            _commandBus.Verify(a=>a.Dispatch(command));
+            Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
-        public void Answers_Should_Call_Bus_When_Api_Called()
+        public void Answers_Should_Call_Dispatch_On_Bus_When_Api_Called()
         {
             //Arrange
             const long questionId = 5;
@@ -60,6 +61,20 @@ namespace Forum.Presentation.RestApi.Tests.Unit
 
             //Assert
             _queryBus.Verify(x => x.Dispatch<List<AnswerDto>, long>(questionId));
+        }
+
+        [Fact]
+        public void SetAsChosenAnswer_Should_Call_Dispatch_On_Bus_When_Api_Called_And_Return_NoContent_Result()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
+
+            //Act
+            var result = _controller.SetAsChosenAnswer(command);
+
+            //Assert
+            _commandBus.Verify(a=>a.Dispatch(command));
+            Assert.IsType<NoContentResult>(result);
         }
     }
 }

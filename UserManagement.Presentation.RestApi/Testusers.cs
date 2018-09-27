@@ -4,7 +4,7 @@ using IdentityModel;
 
 namespace UserManagement.Presentation.RestApi
 {
-    public class TestUser
+    public static class TestUsers
     {
         public static List<IdentityServer4.Test.TestUser> GetUsers()
         {
@@ -18,7 +18,8 @@ namespace UserManagement.Presentation.RestApi
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "1"),
-                        new Claim(JwtClaimTypes.Role, "SysAdmin")
+                        new Claim(JwtClaimTypes.Role, "SysAdmin"),
+                        new Claim(JwtClaimTypes.Name, "حسین عباس آبادی")
                     },
                 },
                 new IdentityServer4.Test.TestUser
@@ -29,7 +30,8 @@ namespace UserManagement.Presentation.RestApi
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "2"),
-                        new Claim(JwtClaimTypes.Role, "Expert")
+                        new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Name, "روح الله خوشدل")
                     }
                 },
                 new IdentityServer4.Test.TestUser
@@ -40,7 +42,8 @@ namespace UserManagement.Presentation.RestApi
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "6"),
-                        new Claim(JwtClaimTypes.Role, "Expert")
+                        new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Name, "سپهر پاکپور")
                     }
                 }
             };

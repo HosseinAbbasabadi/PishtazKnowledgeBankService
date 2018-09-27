@@ -5,15 +5,13 @@ namespace Forum.Domain.Models.Users
 {
     public class User : EntityBase<UserId>, IAggregateRoot
     {
-        public string Firstname { get; private set; }
-        public string Lastname { get; private set; }
+        public string FullName { get; private set; }
 
-        public User(UserId userid, string firstName, string lastName) : base(userid)
+        public User(UserId userid, string fullName) : base(userid)
         {
             GuardAgainsInvalidUser(userid);
 
-            Firstname = firstName;
-            Lastname = lastName;
+            FullName = fullName;
         }
 
         private static void GuardAgainsInvalidUser(UserId userid)

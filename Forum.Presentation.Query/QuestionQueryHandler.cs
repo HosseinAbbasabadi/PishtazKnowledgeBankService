@@ -4,6 +4,7 @@ using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Tags;
+using Forum.Domin.Contracts.Services;
 using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.Query.Mppers;
 using Framework.Application.Query;
@@ -15,10 +16,12 @@ namespace Forum.Presentation.Query
     public class QuestionQueryHandler : IQueryHandler<List<QuestionDto>>, IQueryHandler<QuestionDetailsDto, long>
     {
         private readonly ISession _session;
+        private readonly QuestionMapper _questionMapper;
 
-        public QuestionQueryHandler(ISession session)
+        public QuestionQueryHandler(ISession session, IUserService userService)
         {
             _session = session;
+            _questionMapper = new QuestionMapper(userService);
         }
 
         public List<QuestionDto> Handle()
@@ -32,7 +35,7 @@ namespace Forum.Presentation.Query
                     .Add(Restrictions.Eq("Question", question.Id))
                     .SetProjection(Projections.Count(Projections.Id()))
                     .UniqueResult<int>()
-                select QuestionMapper.MapQuestion(question, tags, answersCount)).ToList();
+                select _questionMapper.MapQuestion(question, tags, answersCount)).ToList();
         }
 
         public QuestionDetailsDto Handle(long id)
@@ -41,7 +44,7 @@ namespace Forum.Presentation.Query
             var question = _session.CreateCriteria<Question>().Add(Restrictions.Eq("Id", questionId))
                 .UniqueResult<Question>();
             var tags = _session.Query<Tag>().ToList();
-            return QuestionMapper.MapQuestion(question, tags);
+            return _questionMapper.MapQuestion(question, tags);
         }
     }
 }

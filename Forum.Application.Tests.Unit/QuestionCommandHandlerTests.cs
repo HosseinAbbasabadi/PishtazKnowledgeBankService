@@ -36,7 +36,7 @@ namespace Forum.Application.Tests.Unit
 
 
         [Fact]
-        public void Should_Call_Get_Then_Update_On_Repository_When_Command_Passed()
+        public void Should_Call_Get_Then_Update_On_Repository_When_AddVote_Command_Passed()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddVote;
@@ -48,6 +48,22 @@ namespace Forum.Application.Tests.Unit
 
             //Assert
             _repository.Verify(x=>x.Get(question.Id));
+            _repository.Verify(x => x.Update(question));
+        }
+
+        [Fact]
+        public void Should_Call_Get_Then_Update_On_Repository_When_ContainsTrueAnswser_Command_Passed()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ContainsTrueAnswer;
+            var question = new QuestionTestBuilder().WithId(command.QuestionId).Build();
+            _repository.Setup(x => x.Get(It.IsAny<QuestionId>())).Returns(question);
+
+            //Act
+            _questionCommandHandler.Handle(command);
+
+            //Assert
+            _repository.Verify(x => x.Get(question.Id));
             _repository.Verify(x => x.Update(question));
         }
     }

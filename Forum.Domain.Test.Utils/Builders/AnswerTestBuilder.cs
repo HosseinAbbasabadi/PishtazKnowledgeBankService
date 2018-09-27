@@ -7,6 +7,8 @@ namespace Forum.Domain.Test.Utils.Builders
 {
     public class AnswerTestBuilder : IBuilder<Answer>
     {
+        public long QuestionInquirer = 5;
+        public long PersonWhoIsSettingTheAnswerAsChosen = 5;
         public AnswerId Id { get; private set; }
         public string Body { get; private set; }
         public long Responder { get; private set; }
@@ -18,6 +20,27 @@ namespace Forum.Domain.Test.Utils.Builders
             Body = "Some Answer Text";
             Responder = 6;
             Question = 83;
+        }
+
+        public AnswerTestBuilder WithId(long id)
+        {
+            var answerId = new AnswerId(id);
+            Id = answerId;
+            return this;
+        }
+
+        public AnswerTestBuilder WithDifferentQuestionInquirerAndPersonWhoIsSettingTheAnswerAsChosen()
+        {
+            QuestionInquirer = 10;
+            PersonWhoIsSettingTheAnswerAsChosen = 16;
+            return this;
+        }
+
+        public Answer BuildChosenAnswer()
+        {
+            var answer = Build();
+            answer.SetAsChosenAnswer(QuestionInquirer, PersonWhoIsSettingTheAnswerAsChosen);
+            return answer;
         }
 
         public Answer Build()

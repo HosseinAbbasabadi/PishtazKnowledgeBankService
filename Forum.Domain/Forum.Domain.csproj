@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Framework.Domain\Framework.Domain.csproj" />
+    <Compile Remove="Models\Categories\**" />
+    <EmbeddedResource Remove="Models\Categories\**" />
+    <None Remove="Models\Categories\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Categories\" />
+    <ProjectReference Include="..\Framework.Domain\Framework.Domain.csproj" />
   </ItemGroup>
 
 </Project>

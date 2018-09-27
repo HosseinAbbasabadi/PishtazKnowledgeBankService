@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj" />
+    <ProjectReference Include="..\Forum.Domin.Contracts\Forum.Domin.Contracts.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
   </ItemGroup>
 

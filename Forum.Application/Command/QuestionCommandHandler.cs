@@ -7,7 +7,7 @@ using Framework.Identity;
 
 namespace Forum.Application.Command
 {
-    public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>
+    public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>, ICommandHandler<ContainsTrueAnswer>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
@@ -37,6 +37,14 @@ namespace Forum.Application.Command
             var questionId = new QuestionId(command.QuestionId);
             var question = _questionRepository.Get(questionId);
             question.Vote(vote);
+            _questionRepository.Update(question);
+        }
+
+        public void Handle(ContainsTrueAnswer command)
+        {
+            var questionId = new QuestionId(command.QuestionId);
+            var question = _questionRepository.Get(questionId);
+            question.ContainsTrueAnswser();
             _questionRepository.Update(question);
         }
     }

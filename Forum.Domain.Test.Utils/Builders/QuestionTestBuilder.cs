@@ -28,6 +28,11 @@ namespace Forum.Domain.Test.Utils.Builders
             CreationDate = clock.PastDateTime();
         }
 
+        public QuestionTestBuilder WithId(long id)
+        {
+            Id = new QuestionId(id);
+            return this;
+        }
         //public QuestionTestBuilder WithTitle(string title)
         //{
         //    Title = title;

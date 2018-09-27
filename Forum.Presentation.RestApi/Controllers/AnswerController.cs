@@ -35,5 +35,12 @@ namespace Forum.Presentation.RestApi.Controllers
         {
             return _queryBus.Dispatch<List<AnswerDto>, long>(id);
         }
+
+        [HttpPost("SetAsChosenAnswer")]
+        public IActionResult SetAsChosenAnswer([FromBody] ChosenAnswer command)
+        {
+            _commandBus.Dispatch(command);
+            return NoContent();
+        }
     }
 }

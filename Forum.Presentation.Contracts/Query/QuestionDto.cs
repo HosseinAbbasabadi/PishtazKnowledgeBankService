@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Framework.Application.Query;
 
@@ -11,6 +12,7 @@ namespace Forum.Presentation.Contracts.Query
         public string Title { get; set; }
         public string Body { get; set; }
         public string Inquirer { get; set; }
+        public long InquirerId { get; set; }
         public bool HasTrueAnswer { get; set; }
         public DateTime CreationDateTime { get; set; }
         public List<TagDto> Tags { get; set; }

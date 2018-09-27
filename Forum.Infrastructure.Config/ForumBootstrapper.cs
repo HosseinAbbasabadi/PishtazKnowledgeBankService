@@ -3,6 +3,8 @@ using Castle.Windsor;
 using Forum.Application.Command;
 using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions;
+using Forum.Domin.Contracts.Services;
+using Forum.Infrastructure.ACL.UserManagement;
 using Forum.Infrastructure.Persistance.Nh;
 using Forum.Infrastructure.Persistance.Nh.Mappings;
 using Forum.Presentation.Query;
@@ -50,6 +52,8 @@ namespace Forum.Infrastructure.Config
 
             container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>().LifestyleBoundTo<IService>()
                 .Named(unitOfWorkName));
+
+            container.Register(Component.For<IUserService>().ImplementedBy<UserService>().LifestyleSingleton());
         }
     }
 }

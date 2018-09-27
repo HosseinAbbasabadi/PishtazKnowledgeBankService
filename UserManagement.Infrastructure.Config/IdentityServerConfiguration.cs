@@ -15,7 +15,8 @@ namespace UserManagement.Infrastructure.Config
                     UserClaims =
                     {
                         Id,
-                        Role
+                        Role,
+                        Name
                     }
                 }
             };
@@ -47,8 +48,16 @@ namespace UserManagement.Infrastructure.Config
         {
             return new List<IdentityResource>
             {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                new IdentityResources.OpenId
+                {
+                    Name = "سیستم مرکزی احراز هویت",
+                    DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
+                },
+                new IdentityResources.Profile
+                {
+                    Name = "سیستم اطلاعات کاربر",
+                    DisplayName = "دسترسی به سیستم اطلاعات کاربر"
+                },
             };
         }
     }

@@ -43,7 +43,7 @@ namespace UserManagement.Presentation.RestApi
                 .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources())
                 .AddInMemoryClients(IdentityServerConfiguration.Clients())
                 .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources())
-                .AddTestUsers(TestUser.GetUsers());
+                .AddTestUsers(TestUsers.GetUsers());
 
             services.AddCors();
             var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))

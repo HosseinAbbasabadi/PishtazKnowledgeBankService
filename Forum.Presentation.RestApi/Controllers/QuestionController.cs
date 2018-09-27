@@ -47,5 +47,12 @@ namespace Forum.Presentation.RestApi.Controllers
             _bus.Dispatch(command);
             return NoContent();
         }
+
+        [HttpPut("ContainsTrueAnswer")]
+        public IActionResult ContainsTrueAnswer([FromBody] ContainsTrueAnswer command)
+        {
+            _bus.Dispatch(command);
+            return NoContent();
+        }
     }
 }

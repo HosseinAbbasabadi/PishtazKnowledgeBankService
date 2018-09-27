@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Framework.Domain;
 using UserManagement.Domain.Models.Roles;
-using UserManagement.Domain.Models.Users;
+using UserManagement.Domain.Models.Users.Exceptions;
 
-namespace UserManagement.Domain
+namespace UserManagement.Domain.Models.Users
 {
     public class User : AggregateRootBase<UserId>, IAggregateRoot
     {

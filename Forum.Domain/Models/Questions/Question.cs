@@ -77,5 +77,10 @@ namespace Forum.Domain.Models.Questions
             var disLikes = _votes.Count(v => v.Opinion == false);
             return likes - disLikes;
         }
+
+        public void ContainsTrueAnswser()
+        {
+            HasTrueAnswer = true;
+        }
     }
 }
