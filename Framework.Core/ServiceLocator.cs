@@ -1,4 +1,6 @@
-﻿namespace Framework.Core
+﻿using System.Reflection.Metadata;
+
+namespace Framework.Core
 {
     public static class ServiceLocator
     {

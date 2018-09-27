@@ -1,6 +1,7 @@
 ﻿using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 using UserManagement.Domain;
+using UserManagement.Domain.Models.Users;
 
 namespace UserManagement.Infrastructure.Persistance.Nh.Mappings
 {
@@ -15,7 +16,7 @@ namespace UserManagement.Infrastructure.Persistance.Nh.Mappings
 
             Property(x => x.Username);
             Property(x => x.Password);
-            Property(x => x.Firstname);
+            Property(x => x.FullName);
             Property(x => x.Lastname);
             Property(x => x.CreationDateTime);
 

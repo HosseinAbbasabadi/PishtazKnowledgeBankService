@@ -8,14 +8,12 @@ namespace Forum.Domain.Test.Utils.Builders
     public class UserTestBuilder : IBuilder<User>
     {
         public long Id { get; private set; }
-        public string Firstname { get; private set; }
-        public string Lastname { get; private set; }
+        public string FullName { get; private set; }
 
         public UserTestBuilder()
         {
             Id = 1;
-            Firstname = "sepehr";
-            Lastname = "pakpoor";
+            FullName = "سپهر پاکپور";
         }
 
         public UserTestBuilder WithId(long id)
@@ -26,20 +24,15 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public UserTestBuilder WithFirstname(string firstname)
         {
-            Firstname = firstname;
+            FullName = firstname;
             return this;
         }
 
-        public UserTestBuilder WithLastname(string lastname)
-        {
-            Lastname = lastname;
-            return this;
-        }
 
         public User Build()
         {
             var userId = new UserId(Id);
-            return new User(userId, Firstname, Lastname);
+            return new User(userId, FullName);
         }
 
         public List<User> BuildList(int count)

@@ -3,6 +3,8 @@ using Castle.Windsor;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
+using Framework.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace Framework.Castle
 {
@@ -22,6 +24,8 @@ namespace Framework.Castle
                 Component.For<IQueryBus>().ImplementedBy<ScoppedQuerydBusDecorator>().LifestyleSingleton(),
                 Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
 
+            container.Register(Component.For<IHttpContextAccessor>().ImplementedBy<HttpContextAccessor>().LifestyleSingleton());
+            container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
             //container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
         }
     }

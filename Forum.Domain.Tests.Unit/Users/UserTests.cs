@@ -24,8 +24,7 @@ namespace Forum.Domain.Tests.Unit.Users
 
             //Assert
             Assert.Equal(_builder.Id, user.Id.DbId);
-            Assert.Equal(_builder.Firstname, user.Firstname);
-            Assert.Equal(_builder.Lastname, user.Lastname);
+            Assert.Equal(_builder.FullName, user.FullName);
         }
 
 

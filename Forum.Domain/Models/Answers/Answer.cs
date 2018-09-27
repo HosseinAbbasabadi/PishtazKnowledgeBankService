@@ -1,4 +1,5 @@
 ﻿using System;
+using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Framework.Domain;
@@ -23,6 +24,15 @@ namespace Forum.Domain.Models.Answers
             Responder = new UserId(responder);
             IsChosen = false;
             CreationDateTime = DateTime.Now;
+        }
+
+        public void SetAsChosenAnswer(long questionInquirer, long manInCharge)
+        {
+            if(IsChosen)
+                throw new AnswerIsAlreadySetAsChosenException();
+            if(!questionInquirer.Equals(manInCharge))
+                throw new QuestionInquirerIsNotSameAsTheManInChanrgeException();
+            IsChosen = true;
         }
     }
 }

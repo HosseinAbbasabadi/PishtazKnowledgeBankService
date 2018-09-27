@@ -16,8 +16,7 @@ namespace UserManagement.Infrastructure.Config
                     {
                         Id,
                         Role,
-                        AccessTokenHash,
-                        "UserId"
+                        Name
                     }
                 }
             };
@@ -41,14 +40,6 @@ namespace UserManagement.Infrastructure.Config
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
                     AllowOfflineAccess = true
-                    //ClientSecrets = new List<Secret>()
-                    //{
-                    //    new Secret("secret".Sha256())
-                    //},
-                    //Claims = new List<Claim>()
-                    //{
-                    //    new Claim(AccessTokenHash, "token")
-                    //}
                 }
             };
         }
@@ -57,8 +48,16 @@ namespace UserManagement.Infrastructure.Config
         {
             return new List<IdentityResource>
             {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                new IdentityResources.OpenId
+                {
+                    Name = "سیستم مرکزی احراز هویت",
+                    DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
+                },
+                new IdentityResources.Profile
+                {
+                    Name = "سیستم اطلاعات کاربر",
+                    DisplayName = "دسترسی به سیستم اطلاعات کاربر"
+                },
             };
         }
     }

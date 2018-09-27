@@ -95,5 +95,18 @@ namespace Forum.Presentation.RestApi.Tests.Unit
             //Assert
             Assert.IsType<NoContentResult>(result);
         }
+
+        [Fact]
+        public void ContainsTrueAnswer_Should_Return_NoContent_Result()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ContainsTrueAnswer;
+
+            //Act
+            var result = _controller.ContainsTrueAnswer(command);
+
+            //Assert
+            Assert.IsType<NoContentResult>(result);
+        }
     }
 }

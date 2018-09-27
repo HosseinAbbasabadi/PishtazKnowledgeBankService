@@ -3,13 +3,25 @@ using System.Linq;
 using FluentAssertions;
 using Forum.Domain.Models.Tags;
 using Forum.Domain.Test.Utils.Builders;
+using Forum.Domin.Contracts.Services;
 using Forum.Presentation.Query.Mppers;
+using Moq;
 using Xunit;
 
 namespace Forum.Presentation.Query.Tests.Unit
 {
     public class MappersTests
     {
+        private readonly QuestionMapper _questionMapper;
+        private readonly AnswerMapper _answerMapper;
+
+        public MappersTests()
+        {
+            var userService = new Mock<IUserService>();
+            _questionMapper = new QuestionMapper(userService.Object);
+            _answerMapper = new AnswerMapper(userService.Object);
+        }
+
         [Fact]
         public void MapAnswer_Should_Convert_Answer_To_AnswerDto()
         {
@@ -17,13 +29,12 @@ namespace Forum.Presentation.Query.Tests.Unit
             var answer = new AnswerTestBuilder().Build();
 
             //Act
-            var answerDto = AnswerMapper.MapAnswer(answer);
+            var answerDto = _answerMapper.MapAnswer(answer);
 
             //Assert
             answerDto.Id.Should().Be(answer.Id.DbId);
             answerDto.Body.Should().Be(answer.Body);
             answerDto.IsChosen.Should().Be(answer.IsChosen);
-            answerDto.Responder.Should().BeOfType<string>();
         }
 
         [Fact]
@@ -33,7 +44,7 @@ namespace Forum.Presentation.Query.Tests.Unit
             var answers = new AnswerTestBuilder().BuildList(3);
 
             //Act
-            var answerDtos = AnswerMapper.MapAnswers(answers);
+            var answerDtos = _answerMapper.MapAnswers(answers);
 
             //Assert
             answerDtos.Count.Should().Be(answers.Count);
@@ -48,13 +59,13 @@ namespace Forum.Presentation.Query.Tests.Unit
             var question = new QuestionTestBuilder().WithTags(tagIds).Build();
 
             //Act
-            var questionDto = QuestionMapper.MapQuestion(question, tags);
+            var questionDto = _questionMapper.MapQuestion(question, tags);
 
             //Assert
             questionDto.Id.Should().Be(question.Id.DbId);
             questionDto.Body.Should().Be(question.Body);
             questionDto.Title.Should().Be(question.Title);
-            questionDto.Inquirer.Should().BeOfType<string>();
+            questionDto.InquirerId.Should().Be(question.Inquirer.DbId);
             questionDto.Tags.Count.Should().Be(tagIds.Count);
         }
 
@@ -67,7 +78,7 @@ namespace Forum.Presentation.Query.Tests.Unit
             var questions = new QuestionTestBuilder().BuildList(3);
 
             //Act
-            var questionDetailsDtos = QuestionMapper.MapQuestions(questions, tags, 2);
+            var questionDetailsDtos = _questionMapper.MapQuestions(questions, tags, 2);
 
             //Assert
             questionDetailsDtos.Count.Should().Be(questions.Count);

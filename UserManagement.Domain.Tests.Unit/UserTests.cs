@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
+using UserManagement.Domain.Models.Users;
+using UserManagement.Domain.Models.Users.Exceptions;
 using UserManagement.Domain.Utils;
 using Xunit;
 
@@ -21,7 +23,7 @@ namespace UserManagement.Domain.Tests.Unit
             user.Id.Should().Be(userBuilder.UserId);
             user.Username.Should().Be(userBuilder.Username);
             user.Password.Should().Be(userBuilder.Password);
-            user.Firstname.Should().Be(userBuilder.Firstname);
+            user.FullName.Should().Be(userBuilder.Firstname);
             user.Lastname.Should().Be(userBuilder.Lastname);
         }
 

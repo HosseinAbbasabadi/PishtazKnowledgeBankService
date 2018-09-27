@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
-using Forum.Domain.Test.Utils;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.Domain.Test.Utils.Constants;
 using Xunit;
@@ -47,7 +45,7 @@ namespace Forum.Domain.Tests.Unit.Questions
         public void Constructor_Should_Throw_Exception_When_Tags_Are_Less_Than_3()
         {
             //Arrange
-            var tags = new List<long>() {1, 2};
+            var tags = new List<long> {1, 2};
             _builder.WithTags(tags);
 
             //Assert
@@ -154,6 +152,19 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.Equal(0, voteResult);
+        }
+
+        [Fact]
+        public void ContainsTrueAnswser_Should_Set_HasTrueAnswer_Property_True()
+        {
+            //Arrange
+            var question = _builder.Build();
+
+            //Act
+            question.ContainsTrueAnswser();
+
+            //Assert
+            Assert.True(question.HasTrueAnswer);
         }
     }
 }

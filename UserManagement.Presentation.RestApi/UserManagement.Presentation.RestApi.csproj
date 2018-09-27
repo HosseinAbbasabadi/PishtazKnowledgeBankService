@@ -27,8 +27,6 @@
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
     <ProjectReference Include="..\Framework.Castle\Framework.Castle.csproj" />
     <ProjectReference Include="..\UserManagement.Infrastructure.Config\UserManagement.Infrastructure.Config.csproj" />
-    <ProjectReference Include="..\UserManagement.Infrastructure.EntityFramework\UserManagement.Infrastructure.EntityFramework.csproj" />
-    <ProjectReference Include="..\UserManagement.Interface.Facade.Contract\UserManagement.Interface.Facade.Contract.csproj" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.1.0" />

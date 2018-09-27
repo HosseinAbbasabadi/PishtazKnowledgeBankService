@@ -11,8 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
-    <ProjectReference Include="..\UserManagement.Application\UserManagement.Application.csproj" />
-    <ProjectReference Include="..\UserManagement.Infrastructure.Persistance.Nh\UserManagement.Infrastructure.Persistance.Nh.csproj" />
   </ItemGroup>
 
 </Project>

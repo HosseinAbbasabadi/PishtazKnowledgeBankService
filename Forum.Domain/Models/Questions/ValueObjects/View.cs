@@ -7,13 +7,12 @@ namespace Forum.Domain.Models.Questions.ValueObjects
     {
         public UserId Viewer { get; private set; }
 
-        protected View()
-        {
-        }
-
         public View(UserId viewer)
         {
             Viewer = viewer;
+        }
+        protected View()
+        {
         }
     }
 }

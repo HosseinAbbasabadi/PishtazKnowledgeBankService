@@ -1,6 +1,6 @@
 ﻿using Framework.Domain;
 
-namespace UserManagement.Domain
+namespace UserManagement.Domain.Models.Users
 {
     public class UserId : IdBase<long>
     {
