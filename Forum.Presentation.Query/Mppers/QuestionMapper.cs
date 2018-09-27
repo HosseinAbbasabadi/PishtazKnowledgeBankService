@@ -18,9 +18,9 @@ namespace Forum.Presentation.Query.Mppers
         }
 
         public List<QuestionDto> MapQuestions(IEnumerable<Question> questions,
-            IReadOnlyCollection<Tag> tags, long answers)
+            IReadOnlyCollection<Tag> tags, long answersCount)
         {
-            return questions.Select(question => MapQuestion(question, tags, answers)).ToList();
+            return questions.Select(question => MapQuestion(question, tags, answersCount)).ToList();
         }
 
         public QuestionDto MapQuestion(Question question, IReadOnlyCollection<Tag> tags, long answers)
@@ -29,9 +29,9 @@ namespace Forum.Presentation.Query.Mppers
             {
                 Id = question.Id.DbId,
                 Title = question.Title,
-                Body = question.Body,
+                //Body = question.Body,
                 Inquirer = _userService.GetUserFullName(question.Inquirer.DbId),
-                InquirerId = question.Inquirer.DbId,
+                //InquirerId = question.Inquirer.DbId,
                 HasTrueAnswer = question.HasTrueAnswer,
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
                 Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
