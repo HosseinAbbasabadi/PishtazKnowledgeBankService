@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IdentityServer4;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -36,7 +37,12 @@ namespace UserManagement.Infrastructure.Config
                     RedirectUris = {"http://localhost:4200"},
                     PostLogoutRedirectUris = {"http://localhost:4200"},
                     AllowedCorsOrigins = {"http://localhost:4200/"},
-                    AllowedScopes = {"openid", "profile", "Forum_Api"},
+                    AllowedScopes =
+                    {
+                        "openid",
+                        "profile",
+                        "Forum_Api"
+                    },
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
                     AllowOfflineAccess = true
@@ -50,13 +56,13 @@ namespace UserManagement.Infrastructure.Config
             {
                 new IdentityResources.OpenId
                 {
-                    Name = "سیستم مرکزی احراز هویت",
-                    DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
+                    //Name = "سیستم مرکزی احراز هویت",
+                    //DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
                 },
                 new IdentityResources.Profile
                 {
-                    Name = "سیستم اطلاعات کاربر",
-                    DisplayName = "دسترسی به سیستم اطلاعات کاربر"
+                    //Name = "سیستم اطلاعات کاربر",
+                    //DisplayName = "دسترسی به سیستم اطلاعات کاربر"
                 },
             };
         }

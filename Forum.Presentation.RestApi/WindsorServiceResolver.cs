@@ -16,6 +16,7 @@ namespace Forum.Presentation.RestApi
             container.Register(Component.For<QuestionController>().LifestyleTransient());
             container.Register(Component.For<AnswerController>().LifestyleTransient());
             container.Register(Component.For<IdentityController>().LifestyleTransient());
+            container.Register(Component.For<SearchController>().LifestyleTransient());
             _serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }
 
