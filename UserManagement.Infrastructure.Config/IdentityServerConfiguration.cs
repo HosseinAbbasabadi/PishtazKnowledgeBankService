@@ -36,7 +36,7 @@ namespace UserManagement.Infrastructure.Config
                     IdentityTokenLifetime = 28800,
                     RedirectUris = {"http://localhost:4200"},
                     PostLogoutRedirectUris = {"http://localhost:4200"},
-                    AllowedCorsOrigins = {"http://localhost:4200/"},
+                    AllowedCorsOrigins = {"http://localhost:4200"},
                     AllowedScopes =
                     {
                         "openid",

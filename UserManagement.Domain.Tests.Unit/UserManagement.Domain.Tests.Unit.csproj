@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.Domain.Utils\UserManagement.Domain.Utils.csproj" />
-    <ProjectReference Include="..\UserManagement.Domain\UserManagement.Domain.csproj" />
   </ItemGroup>
 
 </Project>

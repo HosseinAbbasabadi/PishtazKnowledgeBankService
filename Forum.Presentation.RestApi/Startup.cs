@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Forum.Presentation.RestApi
 {
@@ -30,7 +31,7 @@ namespace Forum.Presentation.RestApi
             services.AddMvcCore().AddAuthorization().AddJsonFormatters();
             services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://localhost:5000";
+                options.Authority = "http://192.168.249.12:5000";
                 options.RequireHttpsMetadata = false;
                 options.ApiName = "Forum_Api";
             });
