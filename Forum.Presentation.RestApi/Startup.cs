@@ -3,10 +3,12 @@ using Castle.Windsor;
 using Forum.Infrastructure.Config;
 using Framework.Castle;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Forum.Presentation.RestApi
 {
@@ -26,12 +28,22 @@ namespace Forum.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("policy",
+                builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling =
+                Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.Configure<MvcOptions>(options =>
+            {
+                //options.Filters.Add(new CorsAuthorizationFilterFactory("policy"));
+            });
+
             //Begin Identity Configuration
 
-            services.AddMvcCore().AddAuthorization().AddJsonFormatters();
             services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://192.168.249.12:5000";
+                options.Authority = "http://localhost:5000";
                 options.RequireHttpsMetadata = false;
                 options.ApiName = "Forum_Api";
             });
@@ -42,7 +54,6 @@ namespace Forum.Presentation.RestApi
             Bootstrapper.WireUp(container);
             var connectionString = Configuration["ConnectionStrings:DBConnection"];
             ForumBootstrapper.Wireup(container, connectionString);
-            services.AddCors();
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();
             return service;
         }
@@ -50,13 +61,16 @@ namespace Forum.Presentation.RestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("policy");
+            //app.UseCorsMiddleware();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseAuthentication();
+            app.UseControllerExceptionHandler();
             app.UseMvc();
         }
     }

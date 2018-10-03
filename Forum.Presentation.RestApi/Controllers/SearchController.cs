@@ -21,7 +21,7 @@ namespace Forum.Presentation.RestApi.Controllers
         [HttpGet]
         public List<QuestionDto> Search(string expression)
         {
-                return _queryBus.Dispatch<List<QuestionDto>, string>(expression);
+            return _queryBus.Dispatch<List<QuestionDto>, string>(expression);
         }
     }
 }

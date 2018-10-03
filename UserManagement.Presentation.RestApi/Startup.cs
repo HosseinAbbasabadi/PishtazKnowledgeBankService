@@ -29,6 +29,12 @@ namespace UserManagement.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))
+            {
+                AllowAll = true
+            };
+            services.AddSingleton<ICorsPolicyService>(cors);
             var connectionString = Configuration["ConnectionStrings:DBConnection"];
 
             //Begin Identity Configuration
@@ -45,13 +51,6 @@ namespace UserManagement.Presentation.RestApi
                 .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources())
                 .AddTestUsers(TestUsers.GetUsers());
 
-            services.AddCors();
-            var cors = new DefaultCorsPolicyService(new Logger<DefaultCorsPolicyService>(new LoggerFactory()))
-            {
-                AllowedOrigins = {"http://localhost:4200"}
-            };
-            services.AddSingleton<ICorsPolicyService>(cors);
-
             //End Identity Configuration
             var container = new WindsorContainer();
             Bootstrapper.WireUp(container);
@@ -64,12 +63,13 @@ namespace UserManagement.Presentation.RestApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
         }

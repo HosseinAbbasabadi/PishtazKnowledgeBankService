@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
@@ -12,7 +13,7 @@ namespace Forum.Presentation.RestApi.Controllers
     [Route("api/Answer")]
     [Produces("application/json")]
     [Authorize]
-    public class AnswerController : Controller, IGateway
+    public class AnswerController : ControllerBase, IGateway
     {
         private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;

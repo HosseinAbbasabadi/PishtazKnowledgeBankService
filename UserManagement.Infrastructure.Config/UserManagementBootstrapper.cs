@@ -9,10 +9,10 @@ namespace UserManagement.Infrastructure.Config
     {
         public static void Wireup(WindsorContainer container, string connectionString)
         {
-            const string boundedContextName = "UserManagement";
-            const string sessionFactoryName = boundedContextName + "_SessionFactory";
-            const string unitOfWorkName = boundedContextName + "_UOW";
-            const string sessionName = boundedContextName + "_Session";
+            //const string boundedContextName = "UserManagement";
+            //const string sessionFactoryName = boundedContextName + "_SessionFactory";
+            //const string unitOfWorkName = boundedContextName + "_UOW";
+            //const string sessionName = boundedContextName + "_Session";
 
             //container.Register(Classes.FromAssemblyContaining(typeof(UserCommandHandler))
             //    .BasedOn(typeof(ICommandHandler<>)).WithService.AllInterfaces().LifestyleTransient());

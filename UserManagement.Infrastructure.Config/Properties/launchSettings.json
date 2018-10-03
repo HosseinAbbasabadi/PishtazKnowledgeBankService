@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "UserManagement.Infrastructure.Config": {
+      "commandName": "Project"
+    }
+  }
+}

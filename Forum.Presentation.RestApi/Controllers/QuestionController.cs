@@ -5,10 +5,12 @@ using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
 {
+    [EnableCors("policy")]
     [Route("api/Question")]
     [Authorize]
     public class QuestionController : Controller, IGateway
@@ -30,9 +32,10 @@ namespace Forum.Presentation.RestApi.Controllers
         }
 
         [HttpGet]
-        public List<QuestionDto> Questions()
+        public IActionResult Questions()
         {
-            return _queryBus.Dispatch<List<QuestionDto>>();
+            var questions = _queryBus.Dispatch<List<QuestionDto>>();
+            return Ok(questions);
         }
 
         [HttpGet("{id}")]

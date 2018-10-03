@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -54,16 +53,8 @@ namespace UserManagement.Infrastructure.Config
         {
             return new List<IdentityResource>
             {
-                new IdentityResources.OpenId
-                {
-                    //Name = "سیستم مرکزی احراز هویت",
-                    //DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
-                },
-                new IdentityResources.Profile
-                {
-                    //Name = "سیستم اطلاعات کاربر",
-                    //DisplayName = "دسترسی به سیستم اطلاعات کاربر"
-                },
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
         }
     }
