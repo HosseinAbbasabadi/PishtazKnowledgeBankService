@@ -6,7 +6,6 @@ using Framework.Core;
 using Framework.Core.Exceptions;
 using Framework.Identity;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace Framework.Castle
 {
