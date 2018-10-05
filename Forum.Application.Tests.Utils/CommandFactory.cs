@@ -36,7 +36,8 @@ namespace Forum.Application.Tests.Utils
                 },
                 ChosenAnswer = new ChosenAnswer
                 {
-                    AnswerId = 5
+                    AnswerId = 5,
+                    QuestionId = 6
                 },
                 ContainsTrueAnswer =  new ContainsTrueAnswer
                 {

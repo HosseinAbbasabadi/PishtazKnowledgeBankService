@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using IdentityServer4;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -25,6 +24,7 @@ namespace UserManagement.Infrastructure.Config
 
         public static IEnumerable<Client> Clients()
         {
+            const string clientUri = "http://localhost:4200";
             return new List<Client>
             {
                 new Client
@@ -34,9 +34,9 @@ namespace UserManagement.Infrastructure.Config
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     IdentityTokenLifetime = 28800,
-                    RedirectUris = {"http://localhost:4200"},
-                    PostLogoutRedirectUris = {"http://localhost:4200"},
-                    AllowedCorsOrigins = {"http://localhost:4200"},
+                    RedirectUris = {clientUri},
+                    PostLogoutRedirectUris = {clientUri},
+                    AllowedCorsOrigins = {clientUri},
                     AllowedScopes =
                     {
                         "openid",
@@ -54,16 +54,8 @@ namespace UserManagement.Infrastructure.Config
         {
             return new List<IdentityResource>
             {
-                new IdentityResources.OpenId
-                {
-                    //Name = "سیستم مرکزی احراز هویت",
-                    //DisplayName = "دسترسی به سیستم مرکزی احراز هویت"
-                },
-                new IdentityResources.Profile
-                {
-                    //Name = "سیستم اطلاعات کاربر",
-                    //DisplayName = "دسترسی به سیستم اطلاعات کاربر"
-                },
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
         }
     }

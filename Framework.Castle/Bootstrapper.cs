@@ -3,6 +3,7 @@ using Castle.Windsor;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
+using Framework.Core.Exceptions;
 using Framework.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,8 @@ namespace Framework.Castle
                 .LifestyleSingleton());
             container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
 
+            container.Register(Component.For<IControllerExceptionTranslator>()
+                .ImplementedBy<ControllerExceptionTranslator>().LifestyleSingleton());
             //container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
         }
     }

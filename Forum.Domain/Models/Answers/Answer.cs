@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
@@ -26,13 +28,20 @@ namespace Forum.Domain.Models.Answers
             CreationDateTime = DateTime.Now;
         }
 
-        public void SetAsChosenAnswer(long questionInquirer, long manInCharge)
+        public void SetAsChosenAnswer(long questionInquirer, long manInCharge, List<Answer> questionAnswers)
         {
+            if(QuestionHasAlreadyAChosenAnswer(questionAnswers))
+                throw new QuestionAlreadyHasAChosenAnswerException();
             if(IsChosen)
                 throw new AnswerIsAlreadySetAsChosenException();
             if(!questionInquirer.Equals(manInCharge))
                 throw new QuestionInquirerIsNotSameAsTheManInChanrgeException();
             IsChosen = true;
+        }
+
+        private static bool QuestionHasAlreadyAChosenAnswer(IEnumerable<Answer> questionAnswers)
+        {
+            return questionAnswers.Any(z=>z.IsChosen);
         }
     }
 }

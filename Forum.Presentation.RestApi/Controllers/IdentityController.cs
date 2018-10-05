@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers

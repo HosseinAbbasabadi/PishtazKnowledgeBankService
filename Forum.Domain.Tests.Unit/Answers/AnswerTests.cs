@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Test.Utils.Builders;
 using Xunit;
@@ -8,10 +10,12 @@ namespace Forum.Domain.Tests.Unit.Answers
     public class AnswerTests
     {
         private readonly AnswerTestBuilder _builder;
+        private readonly List<Answer> _answersOfSpecificQuestion;
 
         public AnswerTests()
         {
             _builder = new AnswerTestBuilder();
+            _answersOfSpecificQuestion = _builder.BuildList(3);
         }
 
         [Fact]
@@ -50,7 +54,8 @@ namespace Forum.Domain.Tests.Unit.Answers
             var answer = _builder.Build();
 
             //Act
-            answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen);
+            answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
+                _answersOfSpecificQuestion);
 
             //Assert
             Assert.True(answer.IsChosen);
@@ -64,7 +69,8 @@ namespace Forum.Domain.Tests.Unit.Answers
 
             //Assert
             Assert.Throws<AnswerIsAlreadySetAsChosenException>(() =>
-                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen));
+                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
+                    _answersOfSpecificQuestion));
         }
 
         [Fact]
@@ -76,7 +82,23 @@ namespace Forum.Domain.Tests.Unit.Answers
 
             //Assert
             Assert.Throws<QuestionInquirerIsNotSameAsTheManInChanrgeException>(() =>
-                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen));
+                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
+                    _answersOfSpecificQuestion));
+        }
+
+        [Fact]
+        public void SetAsChosenAnswer_Should_Throw_Exception_When_Question_Already_Has_Chosen_Answer()
+        {
+            //Arrange
+            var chosingAnswer = _builder.Build();
+            var chosenAnswer = _builder.BuildChosenAnswer();
+            _answersOfSpecificQuestion.Add(chosenAnswer);
+            _answersOfSpecificQuestion.Add(chosingAnswer);
+
+            //Assert
+            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() => chosingAnswer.SetAsChosenAnswer(_builder.QuestionInquirer,
+                _builder.PersonWhoIsSettingTheAnswerAsChosen,
+                _answersOfSpecificQuestion));
         }
     }
 }

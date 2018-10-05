@@ -6,5 +6,6 @@ namespace Forum.Presentation.Contracts.Command
     {
         public long AnswerId { get; set; }
         public long QuestionInquirerId { get; set; }
+        public long QuestionId { get; set; }
     }
 }

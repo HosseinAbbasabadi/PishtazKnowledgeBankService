@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
 using Forum.Presentation.RestApi.Controllers;
@@ -75,6 +76,20 @@ namespace Forum.Presentation.RestApi.Tests.Unit
             //Assert
             _commandBus.Verify(a=>a.Dispatch(command));
             Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public void SetAsChosenAnswer_Should_Return_BadRequest_Result_When_Dispatch_Throws_An_Exception()
+        {
+            ////Arrange
+            //var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
+            //_commandBus.Setup(z => z.Dispatch(command)).Throws<Exception>();
+
+            ////Act
+            //var result = _controller.SetAsChosenAnswer(command);
+
+            ////Assert
+            //Assert.IsType<>()
         }
     }
 }
