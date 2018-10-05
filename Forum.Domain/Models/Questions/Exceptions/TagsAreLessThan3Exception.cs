@@ -4,9 +4,9 @@ namespace Forum.Domain.Models.Questions.Exceptions
 {
     public class TagsAreLessThan3Exception : Exception
     {
-        private new const string Message = "Tags Should Not Be Less Than 0";
-        public TagsAreLessThan3Exception() : base(Message)
+        public TagsAreLessThan3Exception() : base(ExceptionMessages.Message704)
         {
+            HResult = 704;
         }
     }
 }

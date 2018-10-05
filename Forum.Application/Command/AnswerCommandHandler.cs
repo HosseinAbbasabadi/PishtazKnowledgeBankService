@@ -1,4 +1,5 @@
 ﻿using Forum.Domain.Models.Answers;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Presentation.Contracts.Command;
 using Framework.Application.Command;
 using Framework.Identity;
@@ -30,7 +31,10 @@ namespace Forum.Application.Command
         {
             var answerId = new AnswerId(command.AnswerId);
             var answer = _answerRepository.Get(answerId);
-            answer.SetAsChosenAnswer(_claimHelper.GetUserId(), command.QuestionInquirerId);
+            var questionId = new QuestionId(command.QuestionId);
+            var questionAnswers = _answerRepository.GetByQuestionId(questionId);
+            var userId = _claimHelper.GetUserId();
+            answer.SetAsChosenAnswer(command.QuestionInquirerId, userId, questionAnswers);
             _answerRepository.Update(answer);
         }
     }

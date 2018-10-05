@@ -3,10 +3,8 @@ using Castle.Windsor;
 using Forum.Infrastructure.Config;
 using Framework.Castle;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,7 +27,7 @@ namespace Forum.Presentation.RestApi
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => options.AddPolicy("policy",
-                builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -43,7 +41,7 @@ namespace Forum.Presentation.RestApi
 
             services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://localhost:5000";
+                options.Authority = "http://192.168.0.37:5000";
                 options.RequireHttpsMetadata = false;
                 options.ApiName = "Forum_Api";
             });
@@ -62,15 +60,19 @@ namespace Forum.Presentation.RestApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("policy");
-            //app.UseCorsMiddleware();
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseControllerExceptionHandler();
             }
+            //else
+            //{
+            //    app.UseControllerExceptionHandler();
+            //    app.UseExceptionHandler();
+            //}
 
             app.UseAuthentication();
-            app.UseControllerExceptionHandler();
             app.UseMvc();
         }
     }

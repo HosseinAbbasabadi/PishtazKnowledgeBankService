@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
 {
-    [EnableCors("policy")]
     [Route("api/Question")]
     [Authorize]
     public class QuestionController : Controller, IGateway
@@ -44,7 +43,7 @@ namespace Forum.Presentation.RestApi.Controllers
             return _queryBus.Dispatch<QuestionDetailsDto, long>(id);
         }
 
-        [HttpPut]
+        [HttpPut("AddVote")]
         public IActionResult AddVote([FromBody] AddVote command)
         {
             _bus.Dispatch(command);

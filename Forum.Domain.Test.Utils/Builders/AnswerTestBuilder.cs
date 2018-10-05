@@ -39,7 +39,8 @@ namespace Forum.Domain.Test.Utils.Builders
         public Answer BuildChosenAnswer()
         {
             var answer = Build();
-            answer.SetAsChosenAnswer(QuestionInquirer, PersonWhoIsSettingTheAnswerAsChosen);
+            var answersOfSpecificQuestion = BuildList(3);
+            answer.SetAsChosenAnswer(QuestionInquirer, PersonWhoIsSettingTheAnswerAsChosen, answersOfSpecificQuestion);
             return answer;
         }
 

@@ -40,8 +40,20 @@ namespace Forum.Presentation.RestApi.Controllers
         [HttpPost("SetAsChosenAnswer")]
         public IActionResult SetAsChosenAnswer([FromBody] ChosenAnswer command)
         {
-            _commandBus.Dispatch(command);
-            return NoContent();
+            try
+            {
+                _commandBus.Dispatch(command);
+                return NoContent();
+            }
+            catch (Exception exception)
+            {
+                var error = new ErrorDetails
+                {
+                    Message = exception.Message,
+                    StatusCode =  exception.HResult
+                };
+                return BadRequest(error);
+            }
         }
     }
 }

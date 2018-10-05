@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Framework.Core;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,7 @@ namespace Forum.Presentation.RestApi
                     StatusCode = exception.HResult
                 };
                 
-                context.Response.StatusCode = error.StatusCode;
+                context.Response.StatusCode = 400;
                 await context.Response.WriteJsonAsync(error);
             }
         }

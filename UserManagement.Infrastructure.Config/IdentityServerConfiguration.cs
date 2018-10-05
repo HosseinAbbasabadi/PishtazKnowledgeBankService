@@ -24,6 +24,7 @@ namespace UserManagement.Infrastructure.Config
 
         public static IEnumerable<Client> Clients()
         {
+            const string clientUri = "http://localhost:4200";
             return new List<Client>
             {
                 new Client
@@ -33,9 +34,9 @@ namespace UserManagement.Infrastructure.Config
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     IdentityTokenLifetime = 28800,
-                    RedirectUris = {"http://localhost:4200"},
-                    PostLogoutRedirectUris = {"http://localhost:4200"},
-                    AllowedCorsOrigins = {"http://localhost:4200"},
+                    RedirectUris = {clientUri},
+                    PostLogoutRedirectUris = {clientUri},
+                    AllowedCorsOrigins = {clientUri},
                     AllowedScopes =
                     {
                         "openid",

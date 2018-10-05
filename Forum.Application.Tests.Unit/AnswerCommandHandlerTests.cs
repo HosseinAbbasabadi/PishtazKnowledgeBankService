@@ -1,6 +1,8 @@
-﻿using Forum.Application.Command;
+﻿using System.Collections.Generic;
+using Forum.Application.Command;
 using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Answers;
+using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.Presentation.Contracts.Command;
 using Framework.Identity;
@@ -40,8 +42,12 @@ namespace Forum.Application.Tests.Unit
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
             var answer = CreateAnswer(command);
+            var answersOfSpecificQuestion = CreateAnswers(3);
+            answersOfSpecificQuestion.Add(answer);
             _answerRepository.Setup(a => a.Get(answer.Id)).Returns(answer);
-            
+            var questionId = new QuestionId(command.QuestionId);
+            _answerRepository.Setup(a => a.GetByQuestionId(questionId)).Returns(answersOfSpecificQuestion);
+
             //Act
             _answerCommandHandler.Handle(command);
 
@@ -52,6 +58,11 @@ namespace Forum.Application.Tests.Unit
         private static Answer CreateAnswer(ChosenAnswer command)
         {
             return new AnswerTestBuilder().WithId(command.AnswerId).Build();
+        }
+
+        private static List<Answer> CreateAnswers(int count)
+        {
+            return new AnswerTestBuilder().BuildList(count);
         }
     }
 }
