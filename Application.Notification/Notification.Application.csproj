@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Notification.Application</AssemblyName>
+    <RootNamespace>Notification.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

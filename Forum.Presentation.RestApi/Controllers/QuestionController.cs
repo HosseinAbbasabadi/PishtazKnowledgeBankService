@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi.Controllers
@@ -46,15 +46,39 @@ namespace Forum.Presentation.RestApi.Controllers
         [HttpPut("AddVote")]
         public IActionResult AddVote([FromBody] AddVote command)
         {
-            _bus.Dispatch(command);
-            return NoContent();
+            try
+            {
+                _bus.Dispatch(command);
+                return NoContent();
+            }
+            catch (Exception exception)
+            {
+                var error = new ErrorDetails
+                {
+                    Message = exception.Message,
+                    StatusCode = exception.HResult
+                };
+                return BadRequest(error);
+            }
         }
 
         [HttpPut("ContainsTrueAnswer")]
         public IActionResult ContainsTrueAnswer([FromBody] ContainsTrueAnswer command)
         {
-            _bus.Dispatch(command);
-            return NoContent();
+            try
+            {
+                _bus.Dispatch(command);
+                return NoContent();
+            }
+            catch (Exception exception)
+            {
+                var error = new ErrorDetails
+                {
+                    Message = exception.Message,
+                    StatusCode = exception.HResult
+                };
+                return BadRequest(error);
+            }
         }
     }
 }
