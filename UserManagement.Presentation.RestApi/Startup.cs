@@ -53,7 +53,7 @@ namespace UserManagement.Presentation.RestApi
 
             //End Identity Configuration
             var container = new WindsorContainer();
-            Bootstrapper.WireUp(container);
+            FrameworkBootstrapper.WireUp(container);
 
             UserManagementBootstrapper.Wireup(container, connectionString);
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();

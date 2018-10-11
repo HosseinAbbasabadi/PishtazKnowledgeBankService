@@ -41,7 +41,7 @@ namespace Forum.Presentation.RestApi
 
             services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://192.168.249.12:5000";
+                options.Authority = "http://localhost:5000";
                 options.RequireHttpsMetadata = false;
                 options.ApiName = "Forum_Api";
             });
@@ -49,7 +49,7 @@ namespace Forum.Presentation.RestApi
             //End Identity Configuration
 
             var container = new WindsorContainer();
-            Bootstrapper.WireUp(container);
+            FrameworkBootstrapper.WireUp(container);
             var connectionString = Configuration["ConnectionStrings:DBConnection"];
             ForumBootstrapper.Wireup(container, connectionString);
             var service = new WindsorServiceResolver(services, container).GetServiceProvider();

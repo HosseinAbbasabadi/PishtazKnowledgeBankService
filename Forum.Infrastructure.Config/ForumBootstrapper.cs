@@ -11,6 +11,7 @@ using Forum.Presentation.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
+using Framework.Core.Events;
 using Framework.Nhibernate;
 using NHibernate;
 
@@ -52,6 +53,9 @@ namespace Forum.Infrastructure.Config
 
             container.Register(Component.For<IUnitOfWork>().ImplementedBy<NhUnitOfWork>().LifestyleBoundTo<IService>()
                 .Named(unitOfWorkName));
+
+            container.Register(Component.For<IEventListener>().Forward<IEventPublisher>()
+                .ImplementedBy<EventAggregator>().LifestyleSingleton());
 
             container.Register(Component.For<IUserService>().ImplementedBy<UserService>().LifestyleSingleton());
         }

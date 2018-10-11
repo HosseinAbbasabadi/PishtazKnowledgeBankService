@@ -2,6 +2,7 @@
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Presentation.Contracts.Command;
 using Framework.Application.Command;
+using Framework.Core.Events;
 using Framework.Identity;
 
 namespace Forum.Application.Command
@@ -10,12 +11,14 @@ namespace Forum.Application.Command
     {
         private readonly IAnswerRepository _answerRepository;
         private readonly IClaimHelper _claimHelper;
+        private readonly IEventPublisher _eventPublisher;
         private const string AnswerSequenceName = "AnswerSeq";
 
-        public AnswerCommandHandler(IAnswerRepository answerRepository, IClaimHelper claimHelper)
+        public AnswerCommandHandler(IAnswerRepository answerRepository, IClaimHelper claimHelper, IEventPublisher eventPublisher)
         {
             _answerRepository = answerRepository;
             _claimHelper = claimHelper;
+            _eventPublisher = eventPublisher;
         }
 
         public void Handle(AddAnswer command)

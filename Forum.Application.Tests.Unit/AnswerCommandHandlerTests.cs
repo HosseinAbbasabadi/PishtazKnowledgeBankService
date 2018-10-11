@@ -5,6 +5,7 @@ using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.Presentation.Contracts.Command;
+using Framework.Core.Events;
 using Framework.Identity;
 using Moq;
 using Xunit;
@@ -15,12 +16,14 @@ namespace Forum.Application.Tests.Unit
     {
         private readonly Mock<IAnswerRepository> _answerRepository;
         private readonly AnswerCommandHandler _answerCommandHandler;
+        private readonly Mock<IEventPublisher> _eventPublisher;
 
         public AnswerCommandHandlerTests()
         {
+            _eventPublisher = new Mock<IEventPublisher>();
             _answerRepository = new Mock<IAnswerRepository>();
             var claimHelper = new Mock<IClaimHelper>();
-            _answerCommandHandler = new AnswerCommandHandler(_answerRepository.Object, claimHelper.Object);
+            _answerCommandHandler = new AnswerCommandHandler(_answerRepository.Object, claimHelper.Object, _eventPublisher.Object);
         }
 
         [Fact]

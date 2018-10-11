@@ -9,11 +9,11 @@ namespace Notification.Domain
         public bool IsSeen { get; private set; }
         public dynamic Event { get; private set; }
 
-        public Notification(long id, string name, long relatedUser, bool isSeen, dynamic @event) : base(id)
+        public Notification(long id, string name, long relatedUser, dynamic @event) : base(id)
         {
             Name = name;
             RelatedUser = relatedUser;
-            IsSeen = isSeen;
+            IsSeen = false;
             Event = @event;
         }
     }

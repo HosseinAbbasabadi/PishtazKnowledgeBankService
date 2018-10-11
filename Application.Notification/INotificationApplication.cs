@@ -1,6 +1,6 @@
 ﻿namespace Notification.Application
 {
-    public interface INotificationCommandHandler
+    public interface INotificationApplication
     {
         //void Push(DomainEvent @event);
     }

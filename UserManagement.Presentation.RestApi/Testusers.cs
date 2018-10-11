@@ -57,7 +57,30 @@ namespace UserManagement.Presentation.RestApi
                         new Claim(JwtClaimTypes.Role, "Expert"),
                         new Claim(JwtClaimTypes.Name, "کسری چوبینه")
                     }
-                }
+                },
+                new IdentityServer4.Test.TestUser
+                {
+                    SubjectId = "5",
+                    Username = "Mohammadi",
+                    Password = "123456",
+                    Claims = new List<Claim>
+                    {
+                        new Claim(JwtClaimTypes.Id, "5"),
+                        new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Name, "آقای اصغر محمدی")
+                    }
+                },new IdentityServer4.Test.TestUser
+                {
+                    SubjectId = "6",
+                    Username = "Mortazavi",
+                    Password = "123456",
+                    Claims = new List<Claim>
+                    {
+                        new Claim(JwtClaimTypes.Id, "6"),
+                        new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Name, "فاطمه مرتضوی")
+                    }
+                },
             };
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Forum.Domain.Models.Answers;
 using Framework.Core;
+using Framework.Core.Events;
 
 namespace Forum.Domain.Test.Utils.Builders
 {
@@ -13,6 +14,7 @@ namespace Forum.Domain.Test.Utils.Builders
         public string Body { get; private set; }
         public long Responder { get; private set; }
         public long Question { get; private set; }
+        public IEventPublisher FakePublisher { get; set; }
 
         public AnswerTestBuilder()
         {
@@ -20,6 +22,7 @@ namespace Forum.Domain.Test.Utils.Builders
             Body = "Some Answer Text";
             Responder = 6;
             Question = 83;
+            FakePublisher = new FakePublisher();
         }
 
         public AnswerTestBuilder WithId(long id)
@@ -46,7 +49,7 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public Answer Build()
         {
-            return new Answer(Id, Body, Question, Responder);
+            return new Answer(Id, Body, Question, Responder, FakePublisher);
         }
 
         public List<Answer> BuildList(int count)

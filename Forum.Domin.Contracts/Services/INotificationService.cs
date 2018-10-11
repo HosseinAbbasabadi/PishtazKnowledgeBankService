@@ -4,6 +4,6 @@ namespace Forum.Domin.Contracts.Services
 {
     public interface INotificationService
     {
-        void Push(IEvent @event);
+        void Push(DomainEvent @event);
     }
 }

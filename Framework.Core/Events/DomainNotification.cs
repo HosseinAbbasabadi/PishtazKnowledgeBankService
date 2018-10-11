@@ -2,13 +2,16 @@
 
 namespace Framework.Core.Events
 {
-    public abstract class DomainEvent : IEvent
+    public class DomainNotification : IEvent
     {
         public Guid EventId { get; }
         public string Name { get; set; }
-        protected DomainEvent()
+        public long RelatedUser { get; set; }
+
+        public DomainNotification(long relatedUser)
         {
             EventId = Guid.NewGuid();
+            RelatedUser = relatedUser;
         }
     }
 }

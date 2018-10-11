@@ -27,7 +27,7 @@ namespace Notification.Domain.Tests.Unit
 
         public Notification Build()
         {
-            return new Notification(Id, Name, RelatedUser, IsSeen, Event);
+            return new Notification(Id, Name, RelatedUser, Event);
         }
 
         public List<Notification> BuildList(int count)

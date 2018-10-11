@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application.Notification\Notification.Application.csproj" />
+    <PackageReference Include="RestSharp" Version="106.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Forum.Domin.Contracts\Forum.Domin.Contracts.csproj" />
   </ItemGroup>
 

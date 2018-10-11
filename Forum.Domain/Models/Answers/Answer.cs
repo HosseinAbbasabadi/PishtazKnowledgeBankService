@@ -4,6 +4,7 @@ using System.Linq;
 using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
+using Framework.Core.Events;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Answers
@@ -19,13 +20,14 @@ namespace Forum.Domain.Models.Answers
         {
         }
 
-        public Answer(AnswerId id, string body, long question, long responder) : base(id)
+        public Answer(AnswerId id, string body, long question, long responder, IEventPublisher publisher) : base(id)
         {
             Body = body;
             Question = new QuestionId(question);
             Responder = new UserId(responder);
             IsChosen = false;
             CreationDateTime = DateTime.Now;
+            publisher.Publish(new AnswerAdded);
         }
 
         public void SetAsChosenAnswer(long questionInquirer, long manInCharge, List<Answer> questionAnswers)

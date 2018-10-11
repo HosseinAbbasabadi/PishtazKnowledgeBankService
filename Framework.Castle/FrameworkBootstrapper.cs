@@ -3,13 +3,12 @@ using Castle.Windsor;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
-using Framework.Core.Exceptions;
 using Framework.Identity;
 using Microsoft.AspNetCore.Http;
 
 namespace Framework.Castle
 {
-    public static class Bootstrapper
+    public static class FrameworkBootstrapper
     {
         public static void WireUp(IWindsorContainer container)
         {
@@ -27,11 +26,8 @@ namespace Framework.Castle
 
             container.Register(Component.For<IHttpContextAccessor>().ImplementedBy<HttpContextAccessor>()
                 .LifestyleSingleton());
-            container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
 
-            container.Register(Component.For<IControllerExceptionTranslator>()
-                .ImplementedBy<ControllerExceptionTranslator>().LifestyleSingleton());
-            //container.Register(Component.For<IQueryBus>().ImplementedBy<QueryBus>().LifestyleSingleton());
+            container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
         }
     }
 }

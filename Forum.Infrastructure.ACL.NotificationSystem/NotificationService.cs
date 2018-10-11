@@ -1,20 +1,14 @@
 ﻿using Forum.Domin.Contracts.Services;
 using Framework.Core.Events;
-using Notification.Application;
+using RestSharp;
 
 namespace Forum.Infrastructure.ACL.NotificationSystem
 {
     public class NotificationService : INotificationService
     {
-        private readonly INotificationCommandHandler _commandHandler;
-
-        public NotificationService(INotificationCommandHandler commandHandler)
+        public void Push(DomainEvent @event)
         {
-            _commandHandler = commandHandler;
-        }
-
-        public void Push(IEvent @event)
-        {
+            var client = new RestClient();
         }
     }
 }

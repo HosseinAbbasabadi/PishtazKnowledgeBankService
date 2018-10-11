@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="moq" Version="4.10.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Notification\Notification.Application.csproj" />
+    <ProjectReference Include="..\Notification.Interface.RestApi\Notification.Interface.RestApi.csproj" />
+  </ItemGroup>
+
+</Project>
