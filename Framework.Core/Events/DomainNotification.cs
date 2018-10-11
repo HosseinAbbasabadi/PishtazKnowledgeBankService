@@ -12,6 +12,7 @@ namespace Framework.Core.Events
         {
             EventId = Guid.NewGuid();
             RelatedUser = relatedUser;
+            Name = GetType().Name;
         }
     }
 }

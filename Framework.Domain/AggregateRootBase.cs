@@ -19,10 +19,10 @@ namespace Framework.Domain
             Id = id;
         }
 
-        protected AggregateRootBase(TKey id, IEventPublisher publisher) : base(id)
+        protected AggregateRootBase(TKey id, IEventPublisher eventPublisher) : base(id, eventPublisher)
         {
             Id = id;
-            _publisher = publisher;
+            _publisher = eventPublisher;
         }
 
         public void Publish<TEvent>(TEvent @event) where TEvent : DomainEvent

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Answers.Exceptions;
+using Forum.Domain.Test.Utils;
 using Forum.Domain.Test.Utils.Builders;
+using Forum.DomainEvents;
+using Framework.Core.Events;
+using Moq;
 using Xunit;
 
 namespace Forum.Domain.Tests.Unit.Answers
@@ -96,9 +100,27 @@ namespace Forum.Domain.Tests.Unit.Answers
             _answersOfSpecificQuestion.Add(chosingAnswer);
 
             //Assert
-            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() => chosingAnswer.SetAsChosenAnswer(_builder.QuestionInquirer,
+            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() => chosingAnswer.SetAsChosenAnswer(
+                _builder.QuestionInquirer,
                 _builder.PersonWhoIsSettingTheAnswerAsChosen,
                 _answersOfSpecificQuestion));
+        }
+
+        [Fact]
+        public void RaseAnswerAdded_Should_Call_Publish_On_EventPublisher_To_Raise_AnswerAdded_Event()
+        {
+            //Arrange
+            var publisher = new Mock<IEventPublisher>();
+            var answer = new AnswerTestBuilder().WithEventPublisher(publisher.Object).Build();
+            const long relatedUser = 5;
+            const string questionTitle = "some question title";
+            const string responderName = "some responder name";
+
+            //Act
+            answer.RaseAnswerAdded(relatedUser, questionTitle, responderName);
+
+            //Assert
+            publisher.Verify(x => x.Publish(It.IsAny<AnswerAdded>()));
         }
     }
 }

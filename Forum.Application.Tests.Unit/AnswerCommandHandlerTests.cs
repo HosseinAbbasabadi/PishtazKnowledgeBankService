@@ -2,8 +2,11 @@
 using Forum.Application.Command;
 using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Answers;
+using Forum.Domain.Models.Questions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
+using Forum.Domain.Test.Utils.Constants;
+using Forum.Domin.Contracts.Services;
 using Forum.Presentation.Contracts.Command;
 using Framework.Core.Events;
 using Framework.Identity;
@@ -15,22 +18,32 @@ namespace Forum.Application.Tests.Unit
     public class AnswerCommandHandlerTests
     {
         private readonly Mock<IAnswerRepository> _answerRepository;
+        private readonly Mock<IUserService> _userService;
+        private readonly Mock<IQuestionRepository> _questionRepository;
         private readonly AnswerCommandHandler _answerCommandHandler;
-        private readonly Mock<IEventPublisher> _eventPublisher;
 
         public AnswerCommandHandlerTests()
         {
-            _eventPublisher = new Mock<IEventPublisher>();
+            var eventPublisher = new Mock<IEventPublisher>();
+            var eventListener = new Mock<IEventListener>();
+            _userService = new Mock<IUserService>();
             _answerRepository = new Mock<IAnswerRepository>();
+            _questionRepository = new Mock<IQuestionRepository>();
             var claimHelper = new Mock<IClaimHelper>();
-            _answerCommandHandler = new AnswerCommandHandler(_answerRepository.Object, claimHelper.Object, _eventPublisher.Object);
+            _answerCommandHandler =
+                new AnswerCommandHandler(_answerRepository.Object, claimHelper.Object, eventPublisher.Object,
+                    eventListener.Object, _questionRepository.Object, _userService.Object);
         }
 
         [Fact]
         public void Should_Call_Add_On_Repository_When_Command_Passed()
         {
             //Arrange
+
             var command = CommandFactory.BuildACommandOfType().AddAnswer;
+            var question = new QuestionTestBuilder().Build();
+            _userService.Setup(x => x.GetUserFullName(Names.Hossein)).Returns("hossein abbasabadi");
+            _questionRepository.Setup(x => x.Get(new QuestionId(command.Question))).Returns(question);
 
             //Act
             _answerCommandHandler.Handle(command);

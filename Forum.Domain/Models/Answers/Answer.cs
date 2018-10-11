@@ -4,6 +4,7 @@ using System.Linq;
 using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
+using Forum.DomainEvents;
 using Framework.Core.Events;
 using Framework.Domain;
 
@@ -20,30 +21,36 @@ namespace Forum.Domain.Models.Answers
         {
         }
 
-        public Answer(AnswerId id, string body, long question, long responder, IEventPublisher publisher) : base(id)
+        public Answer(AnswerId id, string body, long question, long responder, IEventPublisher eventPublisher) : base(
+            id, eventPublisher)
         {
             Body = body;
             Question = new QuestionId(question);
             Responder = new UserId(responder);
             IsChosen = false;
             CreationDateTime = DateTime.Now;
-            publisher.Publish(new AnswerAdded);
+        }
+
+        public void RaseAnswerAdded(long relatedUser, string questionTitle, string responderName)
+        {
+            var @event = new AnswerAdded(relatedUser, Question.DbId, questionTitle, responderName);
+            EventPublisher.Publish(@event);
         }
 
         public void SetAsChosenAnswer(long questionInquirer, long manInCharge, List<Answer> questionAnswers)
         {
-            if(QuestionHasAlreadyAChosenAnswer(questionAnswers))
+            if (QuestionHasAlreadyAChosenAnswer(questionAnswers))
                 throw new QuestionAlreadyHasAChosenAnswerException();
-            if(IsChosen)
+            if (IsChosen)
                 throw new AnswerIsAlreadySetAsChosenException();
-            if(!questionInquirer.Equals(manInCharge))
+            if (!questionInquirer.Equals(manInCharge))
                 throw new QuestionInquirerIsNotSameAsTheManInChanrgeException();
             IsChosen = true;
         }
 
         private static bool QuestionHasAlreadyAChosenAnswer(IEnumerable<Answer> questionAnswers)
         {
-            return questionAnswers.Any(z=>z.IsChosen);
+            return questionAnswers.Any(z => z.IsChosen);
         }
     }
 }

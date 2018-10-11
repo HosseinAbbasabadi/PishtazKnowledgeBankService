@@ -14,7 +14,7 @@ namespace Forum.Domain.Test.Utils.Builders
         public string Body { get; private set; }
         public long Responder { get; private set; }
         public long Question { get; private set; }
-        public IEventPublisher FakePublisher { get; set; }
+        public IEventPublisher EventPublisher { get; set; }
 
         public AnswerTestBuilder()
         {
@@ -22,13 +22,19 @@ namespace Forum.Domain.Test.Utils.Builders
             Body = "Some Answer Text";
             Responder = 6;
             Question = 83;
-            FakePublisher = new FakePublisher();
+            EventPublisher = new FakePublisher();
         }
 
         public AnswerTestBuilder WithId(long id)
         {
             var answerId = new AnswerId(id);
             Id = answerId;
+            return this;
+        }
+
+        public AnswerTestBuilder WithEventPublisher(IEventPublisher eventPublisher)
+        {
+            EventPublisher = eventPublisher;
             return this;
         }
 
@@ -49,7 +55,7 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public Answer Build()
         {
-            return new Answer(Id, Body, Question, Responder, FakePublisher);
+            return new Answer(Id, Body, Question, Responder, EventPublisher);
         }
 
         public List<Answer> BuildList(int count)
