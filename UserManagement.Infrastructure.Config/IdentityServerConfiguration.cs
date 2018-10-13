@@ -18,7 +18,8 @@ namespace UserManagement.Infrastructure.Config
                         Role,
                         Name
                     }
-                }
+                },
+                new ApiResource("Notification_Api", "سرویس اطلاع رسانی و اعلانات")
             };
         }
 
@@ -41,7 +42,8 @@ namespace UserManagement.Infrastructure.Config
                     {
                         "openid",
                         "profile",
-                        "Forum_Api"
+                        "Forum_Api",
+                        "Notification_Api"
                     },
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
