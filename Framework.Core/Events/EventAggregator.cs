@@ -12,6 +12,12 @@ namespace Framework.Core.Events
         {
             var handlers = _listeners.OfType<IEventHandler<T>>().ToList();
             handlers.ForEach(handler => { handler.Handle(@event); });
+            ClearHandler(handlers);
+        }
+
+        private void ClearHandler<T>(List<IEventHandler<T>> handlers) where T : IEvent
+        {
+            handlers.ForEach(a => { _listeners.Remove(a); });
         }
 
         public void Listen<T>(IEventHandler<T> eventHandler) where T : IEvent

@@ -8,11 +8,20 @@ namespace Forum.Infrastructure.ACL.NotificationSystem
     {
         public void Handle(T @event)
         {
-            var baseUri = new Uri("http://localhost:6060/api/PushNotification/");
-            var client = new RestClient(baseUri);
-            var request = new RestRequest("NotifyAnswerAdded", Method.POST, DataFormat.Json);
-            request.AddBody(@event);
-            client.Post(request);
+            try
+            {
+                var baseUri = new Uri("http://localhost:6060/api/PushNotification/");
+                var client = new RestClient(baseUri);
+                var request = new RestRequest("NotifyAnswerAdded", Method.POST, DataFormat.Json);
+                request.AddBody(@event);
+                client.Post(request);
+            }
+            catch (Exception exception)
+            {
+                //TODO: 100% Log Here
+                Console.WriteLine(exception);
+                throw;
+            }
         }
     }
 }
