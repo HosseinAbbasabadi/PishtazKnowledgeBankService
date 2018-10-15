@@ -9,46 +9,46 @@ namespace Framework.Nhibernate
 {
     public class BaseRepository<TKey, T> : IRepository<TKey, T> where T : IAggregateRoot
     {
-        private readonly ISession _session;
+        public readonly ISession Session;
 
         public BaseRepository(ISession session)
         {
-            _session = session;
+            Session = session;
         }
 
         public void Create(T aggregate)
         {
-            _session.Save(aggregate);
+            Session.Save(aggregate);
         }
 
         public void Update(T aggregate)
         {
-            _session.Update(aggregate);
+            Session.Update(aggregate);
         }
 
         public void Delete(T aggregate)
         {
-            _session.Delete(aggregate);
+            Session.Delete(aggregate);
         }
 
         public T Get(TKey id)
         {
-            return _session.Get<T>(id);
+            return Session.Get<T>(id);
         }
 
         public List<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return _session.Query<T>().Where(predicate).ToList();
+            return Session.Query<T>().Where(predicate).ToList();
         }
 
         public List<T> GetAll()
         {
-            return _session.Query<T>().ToList();
+            return Session.Query<T>().ToList();
         }
 
         public long GetNextId(string sequenceName)
         {
-            return _session.GetNextSequence(sequenceName);
+            return Session.GetNextSequence(sequenceName);
         }
     }
 }

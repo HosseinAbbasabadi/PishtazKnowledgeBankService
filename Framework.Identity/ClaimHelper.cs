@@ -10,7 +10,7 @@ namespace Framework.Identity
         {
             _httpContextAccessor = new HttpContextAccessor();
         }
-        public long GetUserId()
+        public long GetCurrentUserId()
         {
             return long.Parse(_httpContextAccessor.HttpContext.User.Claims.First(a => a.Type == "sub").Value);
         }

@@ -9,16 +9,13 @@ namespace Forum.Infrastructure.Persistance.Nh
 {
     public class AnswerRepository : BaseRepository<AnswerId, Answer>, IAnswerRepository
     {
-        private readonly ISession _session;
-
         public AnswerRepository(ISession session) : base(session)
         {
-            _session = session;
         }
 
         public List<Answer> GetByQuestionId(QuestionId questionId)
         {
-            return _session.Query<Answer>().Where(x => x.Question == questionId).ToList();
+            return Session.Query<Answer>().Where(x => x.Question == questionId).ToList();
         }
     }
 }

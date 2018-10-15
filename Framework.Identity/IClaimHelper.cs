@@ -6,6 +6,6 @@ namespace Framework.Identity
 {
     public interface IClaimHelper
     {
-        long GetUserId();
+        long GetCurrentUserId();
     }
 }

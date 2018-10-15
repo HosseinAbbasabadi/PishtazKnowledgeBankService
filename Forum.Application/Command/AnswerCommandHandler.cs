@@ -37,7 +37,7 @@ namespace Forum.Application.Command
         {
             var id = _answerRepository.GetNextId(AnswerSequenceName);
             var answerId = new AnswerId(id);
-            var responderId = _claimHelper.GetUserId();
+            var responderId = _claimHelper.GetCurrentUserId();
             var answer = new Answer(answerId, command.Body, command.Question, responderId, _eventPublisher);
             _answerRepository.Create(answer);
             _eventListener.Listen(new PushNotificationEventHandler<AnswerAdded>());
@@ -52,7 +52,7 @@ namespace Forum.Application.Command
             var answer = _answerRepository.Get(answerId);
             var questionId = new QuestionId(command.QuestionId);
             var questionAnswers = _answerRepository.GetByQuestionId(questionId);
-            var userId = _claimHelper.GetUserId();
+            var userId = _claimHelper.GetCurrentUserId();
             answer.SetAsChosenAnswer(command.QuestionInquirerId, userId, questionAnswers);
             _answerRepository.Update(answer);
         }
