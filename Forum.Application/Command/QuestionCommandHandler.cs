@@ -7,7 +7,8 @@ using Framework.Identity;
 
 namespace Forum.Application.Command
 {
-    public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>, ICommandHandler<ContainsTrueAnswer>
+    public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>,
+        ICommandHandler<ContainsTrueAnswer>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
@@ -23,7 +24,7 @@ namespace Forum.Application.Command
         {
             var id = _questionRepository.GetNextId(QuestionSequenceName);
             var questionId = new QuestionId(id);
-            var inquirerId = _claimHelper.GetUserId();
+            var inquirerId = _claimHelper.GetCurrentUserId();
             var inquirer = new UserId(inquirerId);
             var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer);
             _questionRepository.Create(question);
@@ -31,7 +32,7 @@ namespace Forum.Application.Command
 
         public void Handle(AddVote command)
         {
-            var voterId = _claimHelper.GetUserId();
+            var voterId = _claimHelper.GetCurrentUserId();
             var voter = new UserId(voterId);
             var vote = new Vote(voter, command.Opinion);
             var questionId = new QuestionId(command.QuestionId);
