@@ -7,7 +7,12 @@ namespace Forum.Presentation.Query.Mppers
 {
     public static class TagMapper
     {
-        public static TagDto MapTag(TagId tagId, IEnumerable<Tag> tags)
+        public static List<TagDto> MapTagsBy(IEnumerable<TagId> tagIds, IReadOnlyCollection<Tag> tags)
+        {
+            return tagIds.Select(a => MapTagBy(a, tags)).ToList();
+        }
+
+        public static TagDto MapTagBy(TagId tagId, IEnumerable<Tag> tags)
         {
             var tag = tags.Single(t => Equals(t.Id, tagId));
             return new TagDto
@@ -17,9 +22,18 @@ namespace Forum.Presentation.Query.Mppers
             };
         }
 
-        public static List<TagDto> MapTags(IEnumerable<TagId> tagIds, IReadOnlyCollection<Tag> tags)
+        public static List<TagDto> MapTags(IEnumerable<Tag> tags)
         {
-            return tagIds.Select(a => MapTag(a, tags)).ToList();
+            return tags.Select(MapTag).ToList();
+        }
+
+        public static TagDto MapTag(Tag tag)
+        {
+            return new TagDto
+            {
+                Id = tag.Id.DbId,
+                Name = tag.Name
+            };
         }
     }
 }

@@ -103,7 +103,7 @@ namespace Forum.Presentation.Query.Tests.Unit
             var tags = new TagTestBuilder().BuildList(tagIds.Count);
 
             //Act
-            var tagDtos = TagMapper.MapTags(tagIds, tags);
+            var tagDtos = TagMapper.MapTagsBy(tagIds, tags);
 
             //Assert
             tagDtos.Count.Should().Be(tags.Count);
@@ -127,7 +127,7 @@ namespace Forum.Presentation.Query.Tests.Unit
             var tags = new TagTestBuilder().BuildList(3);
 
             //Act
-            var tagDto = TagMapper.MapTag(tags.First().Id, tags);
+            var tagDto = TagMapper.MapTagBy(tags.First().Id, tags);
 
             //Assert
             tagDto.Id.Should().Be(tagDto.Id);

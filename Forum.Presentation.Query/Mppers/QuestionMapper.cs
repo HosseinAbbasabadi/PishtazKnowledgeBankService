@@ -34,7 +34,7 @@ namespace Forum.Presentation.Query.Mppers
                 //InquirerId = question.Inquirer.DbId,
                 HasTrueAnswer = question.HasTrueAnswer,
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
-                Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
+                Tags = TagMapper.MapTagsBy(question.Tags.ToList(), tags),
                 Views = question.Views.Count,
                 Votes = question.CalculateVotes(),
                 Answers = answers
@@ -51,7 +51,7 @@ namespace Forum.Presentation.Query.Mppers
                 Inquirer = _userService.GetUserFullName(question.Inquirer.DbId),
                 InquirerId = question.Inquirer.DbId,
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(question.CreationDateTime),
-                Tags = TagMapper.MapTags(question.Tags.ToList(), tags),
+                Tags = TagMapper.MapTagsBy(question.Tags.ToList(), tags),
                 Votes = question.CalculateVotes()
             };
         }
