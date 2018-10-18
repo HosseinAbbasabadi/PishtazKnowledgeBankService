@@ -3,6 +3,7 @@ using Castle.Windsor;
 using Forum.Application.Command;
 using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Tags;
 using Forum.Domin.Contracts.Services;
 using Forum.Infrastructure.ACL.UserManagement;
 using Forum.Infrastructure.Persistance.Nh;
@@ -39,6 +40,9 @@ namespace Forum.Infrastructure.Config
                 .LifestyleBoundTo<IService>());
 
             container.Register(Component.For<IAnswerRepository>().ImplementedBy<AnswerRepository>()
+                .LifestyleBoundTo<IService>());
+
+            container.Register(Component.For<ITagRepository>().ImplementedBy<TagRepository>()
                 .LifestyleBoundTo<IService>());
 
             container.Register(Component.For<ISessionFactory>().UsingFactoryMethod(a => new SessionFactoryBuilder()
