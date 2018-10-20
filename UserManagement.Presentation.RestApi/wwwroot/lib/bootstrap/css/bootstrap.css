@@ -11,6 +11,7 @@ html {
 }
 body {
   margin: 0;
+    direction: rtl;
 }
 article,
 aside,
@@ -4224,7 +4225,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar-header {
-    float: left;
+    float: right;
   }
 }
 .navbar-collapse {
