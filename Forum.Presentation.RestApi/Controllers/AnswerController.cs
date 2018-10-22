@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
@@ -15,45 +16,29 @@ namespace Forum.Presentation.RestApi.Controllers
     [Authorize]
     public class AnswerController : ControllerBase, IGateway
     {
-        private readonly ICommandBus _commandBus;
-        private readonly IQueryBus _queryBus;
+        private readonly IAnswerFacadeService _answerFacadeService;
 
-        public AnswerController(ICommandBus commandBus, IQueryBus queryBus)
+        public AnswerController(IAnswerFacadeService answerFacadeService)
         {
-            _commandBus = commandBus;
-            _queryBus = queryBus;
+            _answerFacadeService = answerFacadeService;
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] AddAnswer command)
+        public void Post([FromBody] AddAnswer command)
         {
-            _commandBus.Dispatch(command);
-            return NoContent();
+            _answerFacadeService.Add(command);
         }
 
         [HttpGet("{id}")]
-        public List<AnswerDto> Answers(long id)
+        public List<AnswerDto> Get(long id)
         {
-            return _queryBus.Dispatch<List<AnswerDto>, long>(id);
+            return _answerFacadeService.Answers(id);
         }
 
         [HttpPost("SetAsChosenAnswer")]
-        public IActionResult SetAsChosenAnswer([FromBody] ChosenAnswer command)
+        public void Post([FromBody] ChosenAnswer command)
         {
-            try
-            {
-                _commandBus.Dispatch(command);
-                return NoContent();
-            }
-            catch (Exception exception)
-            {
-                var error = new ErrorDetails
-                {
-                    Message = exception.Message,
-                    StatusCode =  exception.HResult
-                };
-                return BadRequest(error);
-            }
+            _answerFacadeService.SetAsChosenAnswer(command);
         }
     }
 }

@@ -2,25 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
-    <AssemblyName>Forum.Presentation.Facade.Tests.Unit</AssemblyName>
-
-    <RootNamespace>Forum.Presentation.Facade.Tests.Unit</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="moq" Version="4.10.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Forum.Application.Tests.Utils\Forum.Application.Tests.Utils.csproj" />
-    <ProjectReference Include="..\Forum.Presentation.RestApi\Forum.Presentation.RestApi.csproj" />
+    <ProjectReference Include="..\Forum.Presentation.Facade\Forum.Presentation.Facade.csproj" />
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
   </ItemGroup>
 

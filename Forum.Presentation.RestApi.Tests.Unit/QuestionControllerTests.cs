@@ -1,127 +1,81 @@
-using System;
-using System.Collections.Generic;
-using Forum.Application.Tests.Utils;
-using Forum.Presentation.Contracts.Query;
-using Forum.Presentation.Query;
+﻿using Forum.Application.Tests.Utils;
+using Forum.Presentation.Contracts;
 using Forum.Presentation.RestApi.Controllers;
-using Framework.Application.Command;
-using Framework.Application.Query;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Forum.Presentation.RestApi.Tests.Unit
+namespace Forum.Presentation.Facade.Tests.Unit
 {
     public class QuestionControllerTests
     {
-        private readonly Mock<ICommandBus> _commandBus;
-        private readonly Mock<IQueryBus> _queryBus;
-        private readonly QuestionController _controller;
-
+        private readonly Mock<IQuestionFacadeService> _questionFacadeService;
+        private readonly QuestionController _questionController;
         public QuestionControllerTests()
         {
-            _commandBus = new Mock<ICommandBus>();
-            _queryBus = new Mock<IQueryBus>();
-            _controller = new QuestionController(_commandBus.Object, _queryBus.Object);
+            _questionFacadeService = new Mock<IQuestionFacadeService>();
+            this._questionController  = new QuestionController(_questionFacadeService.Object);
         }
 
         [Fact]
-        public void Create_Should_Call_CommandBus_When_Api_Called()
+        public void Post_Should_Call_Create_On_Facade()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().CreateQuestion;
 
             //Act
-            _controller.Create(command);
+            _questionController.Post(command);
 
             //Assert
-            _commandBus.Verify(x => x.Dispatch(command));
+            _questionFacadeService.Verify(x=>x.Create(command));
         }
 
         [Fact]
-        public void Create_Should_Return_NoContent_Result()
+        public void Get_Should_Call_Questions_On_Facade()
+        {
+            //Act
+            _questionController.Get();
+
+            //Assert
+            _questionFacadeService.Verify(x => x.Questions());
+        }
+
+        [Fact]
+        public void Get_Should_Call_QuestionDetails_On_Facade_When_Question_Id_Passed()
         {
             //Arrange
-            var command = CommandFactory.BuildACommandOfType().CreateQuestion;
+            const long questionId = 6;
 
             //Act
-            var result = _controller.Create(command);
+            _questionController.Get(questionId);
 
             //Assert
-            Assert.IsType<NoContentResult>(result);
+            _questionFacadeService.Verify(x => x.QuestionDetails(questionId));
         }
 
         [Fact]
-        public void Createa_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
-        {
-            //Arrange
-            var command = CommandFactory.BuildACommandOfType().CreateQuestion;
-            _commandBus.Setup(x => x.Dispatch(command)).Throws<Exception>();
-
-            //Act
-            var result = _controller.Create(command);
-
-            //Assert
-            Assert.IsType<BadRequestObjectResult>(result);
-        }
-
-        [Fact]
-        public void Questions_Should_Call_QuestionQuery_When_Api_Called()
-        {
-            //Act
-            _controller.Questions();
-
-            //Assert
-            _queryBus.Verify(x => x.Dispatch<List<QuestionDto>>());
-        }
-
-        [Fact]
-        public void QuestionDetails_Should_Call_QuestionQuery_When_Api_Called()
-        {
-            //Act
-            _controller.QuestionDetails(5);
-
-            //Assert
-            _queryBus.Verify(x => x.Dispatch<QuestionDetailsDto, long>(5));
-        }
-
-        [Fact]
-        public void AddVote_Should_Call_Command_Bus_When_Api_Called()
+        public void Put_Should_Call_AddVote_On_Facade()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddVote;
 
             //Act
-            _controller.AddVote(command);
+            _questionController.Put(command);
 
             //Assert
-            _commandBus.Verify(x => x.Dispatch(command));
+            _questionFacadeService.Verify(x => x.AddVote(command));
         }
 
         [Fact]
-        public void AddVote_Should_Return_NoContent_Result()
-        {
-            //Arrange
-            var command = CommandFactory.BuildACommandOfType().AddVote;
-
-            //Act
-            var result = _controller.AddVote(command);
-
-            //Assert
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        [Fact]
-        public void ContainsTrueAnswer_Should_Return_NoContent_Result()
+        public void Put_Should_Call_ContainsTrueAnswer_On_Facade()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ContainsTrueAnswer;
 
             //Act
-            var result = _controller.ContainsTrueAnswer(command);
+            _questionController.Put(command);
 
             //Assert
-            Assert.IsType<NoContentResult>(result);
+            _questionFacadeService.Verify(x => x.ContainsTrueAnswer(command));
         }
     }
 }

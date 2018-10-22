@@ -1,95 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Forum.Application.Tests.Utils;
-using Forum.Presentation.Contracts.Query;
+using Forum.Presentation.Contracts;
 using Forum.Presentation.RestApi.Controllers;
-using Framework.Application.Command;
-using Framework.Application.Query;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Forum.Presentation.RestApi.Tests.Unit
+namespace Forum.Presentation.Facade.Tests.Unit
 {
     public class AnswerControllerTests
     {
-        private readonly Mock<ICommandBus> _commandBus;
-        private readonly Mock<IQueryBus> _queryBus;
-        private readonly AnswerController _controller;
+        private readonly Mock<IAnswerFacadeService> _answerFacadeService;
+        private readonly AnswerController _answerController;
 
         public AnswerControllerTests()
         {
-            _commandBus = new Mock<ICommandBus>();
-            _queryBus = new Mock<IQueryBus>();
-            _controller = new AnswerController(_commandBus.Object, _queryBus.Object);
+            _answerFacadeService = new Mock<IAnswerFacadeService>();
+            _answerController = new AnswerController(_answerFacadeService.Object);
         }
 
         [Fact]
-        public void Add_Should_Call_Dispatch_On_Bus_When_Api_Called()
+        public void Post_Should_Call_Add_On_Facade()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddAnswer;
 
             //Act
-            _controller.Add(command);
+            _answerController.Post(command);
 
             //Assert
-            _commandBus.Verify(x => x.Dispatch(command));
+            _answerFacadeService.Verify(x => x.Add(command));
         }
 
         [Fact]
-        public void Add_Should_Call_Dispatch_On_Bus_When_Api_Called_And_Return_NoContent_Result()
-        {
-            //Arrange
-            var command = CommandFactory.BuildACommandOfType().AddAnswer;
-
-            //Act
-            var result = _controller.Add(command);
-
-            //Assert
-            _commandBus.Verify(a=>a.Dispatch(command));
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        [Fact]
-        public void Answers_Should_Call_Dispatch_On_Bus_When_Api_Called()
+        public void Get_Should_Call_Answers_On_Facade()
         {
             //Arrange
             const long questionId = 5;
 
             //Act
-            _controller.Answers(questionId);
+            _answerController.Get(questionId);
 
             //Assert
-            _queryBus.Verify(x => x.Dispatch<List<AnswerDto>, long>(questionId));
+            _answerFacadeService.Verify(x => x.Answers(questionId));
         }
 
         [Fact]
-        public void SetAsChosenAnswer_Should_Call_Dispatch_On_Bus_When_Api_Called_And_Return_NoContent_Result()
+        public void Post_Should_Call_SetAsChosenAnswer_On_Facade()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
 
             //Act
-            var result = _controller.SetAsChosenAnswer(command);
+            _answerController.Post(command);
 
             //Assert
-            _commandBus.Verify(a=>a.Dispatch(command));
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        [Fact]
-        public void SetAsChosenAnswer_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
-        {
-            //Arrange
-            var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
-            _commandBus.Setup(z => z.Dispatch(command)).Throws<Exception>();
-
-            //Act
-            var result = _controller.SetAsChosenAnswer(command);
-
-            //Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            _answerFacadeService.Verify(x => x.SetAsChosenAnswer(command));
         }
     }
 }
