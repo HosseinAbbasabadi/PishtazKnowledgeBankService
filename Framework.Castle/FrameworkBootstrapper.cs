@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Framework.Application.Command;
 using Framework.Application.Query;
@@ -28,6 +29,10 @@ namespace Framework.Castle
                 .LifestyleSingleton());
 
             container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
+
+            var path = AppDomain.CurrentDomain.BaseDirectory + @"bin\";
+            container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(path))
+                .BasedOn<IPermissionExposer>().WithService.FromInterface());
         }
     }
 }
