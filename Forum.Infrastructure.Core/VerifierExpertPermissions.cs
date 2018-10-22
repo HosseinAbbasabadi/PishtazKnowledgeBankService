@@ -3,6 +3,7 @@
     public enum VerifierExpertPermissions
     {
         VerifyQuestion = 2001,
-        ViewUnApprovedQuestions = 2002
+        ViewUnApprovedQuestions = 2002,
+        CreateTag = 2003
     }
 }

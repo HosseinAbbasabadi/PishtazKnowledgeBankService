@@ -1,7 +1,5 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.Windsor;
-using Framework.Application.Command;
-using Framework.Core;
 
 namespace UserManagement.Infrastructure.Config
 {

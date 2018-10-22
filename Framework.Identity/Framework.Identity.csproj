@@ -9,10 +9,4 @@
     <PackageReference Include="microsoft.aspnetcore.http" Version="2.1.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Security.Principal.Windows">
-      <HintPath>C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.7\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

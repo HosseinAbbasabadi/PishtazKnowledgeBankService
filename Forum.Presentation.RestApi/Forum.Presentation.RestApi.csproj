@@ -28,7 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Forum.Infrastructure.Config\Forum.Infrastructure.Config.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
-    <ProjectReference Include="..\Forum.Presentation.Query\Forum.Presentation.Query.csproj" />
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
     <ProjectReference Include="..\Framework.Castle\Framework.Castle.csproj" />
   </ItemGroup>

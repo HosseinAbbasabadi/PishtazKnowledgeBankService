@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;

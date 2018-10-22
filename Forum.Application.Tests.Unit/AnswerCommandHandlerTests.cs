@@ -25,14 +25,13 @@ namespace Forum.Application.Tests.Unit
         public AnswerCommandHandlerTests()
         {
             var eventPublisher = new Mock<IEventPublisher>();
-            var eventListener = new Mock<IEventListener>();
             _userService = new Mock<IUserService>();
             _answerRepository = new Mock<IAnswerRepository>();
             _questionRepository = new Mock<IQuestionRepository>();
             var claimHelper = new Mock<IClaimHelper>();
             _answerCommandHandler =
                 new AnswerCommandHandler(_answerRepository.Object, claimHelper.Object, eventPublisher.Object,
-                    eventListener.Object, _questionRepository.Object, _userService.Object);
+                     _questionRepository.Object, _userService.Object);
         }
 
         [Fact]

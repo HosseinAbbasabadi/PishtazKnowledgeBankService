@@ -20,7 +20,6 @@
     <ProjectReference Include="..\Forum.Domain.Test.Utils\Forum.Domain.Test.Utils.csproj" />
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
-    <ProjectReference Include="..\Framework.Nhibernate\Framework.Nhibernate.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Forum.Domain\Forum.Domain.csproj" />
     <ProjectReference Include="..\Forum.Domin.Contracts\Forum.Domin.Contracts.csproj" />
-    <ProjectReference Include="..\Forum.Infrastructure.ACL.NotificationSystem\Forum.Infrastructure.ACL.NotificationSystem.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
     <ProjectReference Include="..\Framework.Identity\Framework.Identity.csproj" />

@@ -9,8 +9,4 @@
     <PackageReference Include="identityserver4" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
-  </ItemGroup>
-
 </Project>

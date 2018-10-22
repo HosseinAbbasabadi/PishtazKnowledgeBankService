@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Core.Events;
 using Moq;
 using Xunit;
 
@@ -19,7 +19,8 @@ namespace Forum.Presentation.Facade.Tests.Unit
         {
             _commandBus = new Mock<ICommandBus>();
             _queryBus = new Mock<IQueryBus>();
-            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object);
+            var listener = new Mock<IEventListener>();
+            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object, listener.Object);
         }
 
         [Fact]
@@ -72,7 +73,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _answerFacadeService.SetAsChosenAnswer(command);
 
             //Assert
-            _commandBus.Verify(a=>a.Dispatch(command));
+            _commandBus.Verify(a => a.Dispatch(command));
         }
 
         //[Fact]

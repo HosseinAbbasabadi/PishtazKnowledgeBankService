@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Framework.Core;
 using Framework.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 
