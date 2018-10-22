@@ -10,10 +10,11 @@ namespace Forum.Presentation.Facade.Tests.Unit
     {
         private readonly Mock<IQuestionFacadeService> _questionFacadeService;
         private readonly QuestionController _questionController;
+
         public QuestionControllerTests()
         {
             _questionFacadeService = new Mock<IQuestionFacadeService>();
-            this._questionController  = new QuestionController(_questionFacadeService.Object);
+            this._questionController = new QuestionController(_questionFacadeService.Object);
         }
 
         [Fact]
@@ -26,7 +27,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _questionController.Post(command);
 
             //Assert
-            _questionFacadeService.Verify(x=>x.Create(command));
+            _questionFacadeService.Verify(x => x.Create(command));
         }
 
         [Fact]
@@ -76,6 +77,19 @@ namespace Forum.Presentation.Facade.Tests.Unit
 
             //Assert
             _questionFacadeService.Verify(x => x.ContainsTrueAnswer(command));
+        }
+
+        [Fact]
+        public void Post_Should_Call_VerifyQuestion_On_Facade()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
+
+            //Act
+            _questionController.Post(command);
+
+            //Assert
+            _questionFacadeService.Verify(x => x.VerifyQuestion(command));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         }
 
         [Fact]
-        public void Create_Should_Call_CommandBus()
+        public void Create_Should_Call_Dispatch_On_CommandBus()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().CreateQuestion;
@@ -62,7 +62,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         //}
 
         [Fact]
-        public void Questions_Should_Call_QuestionQuery()
+        public void Questions_Should_Call_Dispatch_On_QuestionQuery()
         {
             //Act
             _questionFacadeService.Questions();
@@ -72,7 +72,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         }
 
         [Fact]
-        public void QuestionDetails_Should_Call_QuestionQuery()
+        public void QuestionDetails_Should_Call_Dispatch_On_QuestionQuery()
         {
             //Act
             _questionFacadeService.QuestionDetails(5);
@@ -82,7 +82,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         }
 
         [Fact]
-        public void AddVote_Should_Call_Command_Bus()
+        public void AddVote_Should_Call_Dispatch_On_Command_Bus()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddVote;
@@ -108,7 +108,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         //}
 
         [Fact]
-        public void ContainsTrueAnswer_Should_Call_CommandBus()
+        public void ContainsTrueAnswer_Should_Call_Dispatch_On_CommandBus()
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ContainsTrueAnswer;
@@ -117,6 +117,16 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _questionFacadeService.ContainsTrueAnswer(command);
 
             //Assert
+            _commandBus.Verify(x => x.Dispatch(command));
+        }
+
+        [Fact]
+        public void VerifyQuestion_Should_Call_Dispatch_On_CommandBus()
+        {
+            var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
+
+            _questionFacadeService.VerifyQuestion(command);
+
             _commandBus.Verify(x => x.Dispatch(command));
         }
     }

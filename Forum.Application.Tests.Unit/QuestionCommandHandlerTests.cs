@@ -11,11 +11,13 @@ namespace Forum.Application.Tests.Unit
 {
     public class QuestionCommandHandlerTests
     {
+        private readonly QuestionTestBuilder _builder;
         private readonly Mock<IQuestionRepository> _repository;
         private readonly QuestionCommandHandler _questionCommandHandler;
 
         public QuestionCommandHandlerTests()
         {
+            _builder = new QuestionTestBuilder();
             _repository = new Mock<IQuestionRepository>();
             var claimHelper = new Mock<IClaimHelper>();
             _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object);
@@ -40,14 +42,14 @@ namespace Forum.Application.Tests.Unit
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().AddVote;
-            var question = new QuestionTestBuilder().Build();
+            var question = _builder.Build();
             _repository.Setup(x => x.Get(It.IsAny<QuestionId>())).Returns(question);
 
             //Act
             _questionCommandHandler.Handle(command);
 
             //Assert
-            _repository.Verify(x=>x.Get(question.Id));
+            _repository.Verify(x => x.Get(question.Id));
             _repository.Verify(x => x.Update(question));
         }
 
@@ -56,7 +58,7 @@ namespace Forum.Application.Tests.Unit
         {
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ContainsTrueAnswer;
-            var question = new QuestionTestBuilder().WithId(command.QuestionId).Build();
+            var question = _builder.WithId(command.QuestionId).Build();
             _repository.Setup(x => x.Get(It.IsAny<QuestionId>())).Returns(question);
 
             //Act
@@ -64,6 +66,21 @@ namespace Forum.Application.Tests.Unit
 
             //Assert
             _repository.Verify(x => x.Get(question.Id));
+            _repository.Verify(x => x.Update(question));
+        }
+
+        [Fact]
+        public void Should_Call_Update_On_Repository_When_VerifyQuestion_Command_Passed()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
+            var question = _builder.WithId(command.QuestionId).Build();
+            _repository.Setup(z => z.Get(question.Id)).Returns(question);
+
+            //Act
+            _questionCommandHandler.Handle(command);
+
+            //Assert
             _repository.Verify(x => x.Update(question));
         }
     }

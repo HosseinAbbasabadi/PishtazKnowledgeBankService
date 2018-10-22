@@ -50,5 +50,11 @@ namespace Forum.Presentation.RestApi.Controllers
         {
             _questionFacadeService.ContainsTrueAnswer(command);
         }
+
+        [HttpPost("VerifyQuestion")]
+        public void Post([FromBody] VerifyQuestion command)
+        {
+            _questionFacadeService.VerifyQuestion(command);
+        }
     }
 }

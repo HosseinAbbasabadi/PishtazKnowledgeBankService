@@ -166,5 +166,28 @@ namespace Forum.Domain.Tests.Unit.Questions
             //Assert
             Assert.True(question.HasTrueAnswer);
         }
+
+        [Fact]
+        public void Constructor_Should_Provid_Question_In_Draft_Mode_When_Constructing()
+        {
+            //Act
+            var question = _builder.Build();
+
+            //Assert
+            Assert.False(question.IsVerified);
+        }
+
+        [Fact]
+        public void Verify_Should_Take_Question_To_Verifieded_Mode()
+        {
+            //Arrange
+            var question = _builder.Build();
+
+            //Act
+            question.Verify();
+
+            //Assert
+            Assert.True(question.IsVerified);
+        }
     }
 }

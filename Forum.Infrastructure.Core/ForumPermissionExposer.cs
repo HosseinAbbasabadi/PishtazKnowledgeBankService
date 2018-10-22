@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Framework.Identity;
 
-namespace Forum.Infrastructure.Config
+namespace Forum.Infrastructure.Core
 {
     public class ForumPermissionExposer : IPermissionExposer
     {
@@ -13,7 +13,9 @@ namespace Forum.Infrastructure.Config
                     "VerifierExpert",
                     new List<Permission>
                     {
-                        new Permission(1001, "VerifyQuestion")
+                        new Permission((long) VerifierExpertPermissions.VerifyQuestion, "VerifyQuestion"),
+                        new Permission((long) VerifierExpertPermissions.ViewUnApprovedQuestions,
+                            "ViewUnApprovedQuestions")
                     }
                 }
             };

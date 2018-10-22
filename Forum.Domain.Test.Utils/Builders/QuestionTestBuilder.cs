@@ -16,6 +16,7 @@ namespace Forum.Domain.Test.Utils.Builders
         public UserId Inquirer { get; private set; }
         public DateTime CreationDate { get; private set; }
         public List<long> Tags { get; private set; }
+        public bool IsVerified { get; private set; }
 
         public QuestionTestBuilder()
         {
@@ -25,6 +26,7 @@ namespace Forum.Domain.Test.Utils.Builders
             Body = "the description";
             Tags = new List<long> {1, 2, 3};
             Inquirer = new UserId(2);
+            IsVerified = false;
             CreationDate = clock.PastDateTime();
         }
 

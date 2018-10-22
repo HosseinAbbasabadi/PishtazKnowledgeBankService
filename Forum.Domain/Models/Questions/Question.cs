@@ -20,6 +20,7 @@ namespace Forum.Domain.Models.Questions
         public string Body { get; private set; }
         public UserId Inquirer { get; private set; }
         public bool HasTrueAnswer { get; private set; }
+        public bool IsVerified { get; set; }
         public IReadOnlyCollection<TagId> Tags => new ReadOnlyCollection<TagId>(_tags);
         public IReadOnlyCollection<View> Views => new ReadOnlyCollection<View>(_views);
         public IReadOnlyCollection<Vote> Votes => new ReadOnlyCollection<Vote>(_votes);
@@ -37,6 +38,7 @@ namespace Forum.Domain.Models.Questions
             Inquirer = inquirer;
             CreationDateTime = DateTime.Now;
             HasTrueAnswer = false;
+            IsVerified = false;
             _tags = MapToTagId(tags);
             _views = new List<View>();
             _votes = new List<Vote>();
@@ -81,6 +83,11 @@ namespace Forum.Domain.Models.Questions
         public void ContainsTrueAnswser()
         {
             HasTrueAnswer = true;
+        }
+
+        public void Verify()
+        {
+            IsVerified = true;
         }
     }
 }

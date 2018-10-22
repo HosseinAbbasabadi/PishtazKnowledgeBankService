@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Forum.Application.Tests.Utils;
+﻿using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.RestApi.Controllers;
 using Moq;

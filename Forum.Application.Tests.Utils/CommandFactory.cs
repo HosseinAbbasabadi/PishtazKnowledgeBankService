@@ -11,6 +11,7 @@ namespace Forum.Application.Tests.Utils
         public ChosenAnswer ChosenAnswer { get; set; }
         public ContainsTrueAnswer ContainsTrueAnswer { get; set; }
         public CreateTag CreateTag { get; set; }
+        public VerifyQuestion VerifyQuestion { get; set; }
     }
 
     public static class CommandFactory
@@ -40,13 +41,17 @@ namespace Forum.Application.Tests.Utils
                     AnswerId = 5,
                     QuestionId = 6
                 },
-                ContainsTrueAnswer =  new ContainsTrueAnswer
+                ContainsTrueAnswer = new ContainsTrueAnswer
                 {
                     QuestionId = 6
                 },
                 CreateTag = new CreateTag
                 {
                     Name = "some name"
+                },
+                VerifyQuestion = new VerifyQuestion
+                {
+                    QuestionId = 6
                 }
             };
         }

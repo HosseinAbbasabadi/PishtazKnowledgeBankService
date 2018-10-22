@@ -18,7 +18,7 @@ namespace Forum.Infrastructure.Persistance.Nh.Mappings
             Property(x => x.Body);
             Property(x => x.HasTrueAnswer);
             Property(x => x.CreationDateTime);
-
+            Property(x => x.IsVerified);
 
             IdBag(a => a.Tags, map =>
             {

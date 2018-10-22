@@ -8,7 +8,7 @@ using Framework.Identity;
 namespace Forum.Application.Command
 {
     public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>,
-        ICommandHandler<ContainsTrueAnswer>
+        ICommandHandler<ContainsTrueAnswer>, ICommandHandler<VerifyQuestion>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
@@ -46,6 +46,14 @@ namespace Forum.Application.Command
             var questionId = new QuestionId(command.QuestionId);
             var question = _questionRepository.Get(questionId);
             question.ContainsTrueAnswser();
+            _questionRepository.Update(question);
+        }
+
+        public void Handle(VerifyQuestion command)
+        {
+            var questionId = new QuestionId(command.QuestionId);
+            var question = _questionRepository.Get(questionId);
+            question.Verify();
             _questionRepository.Update(question);
         }
     }

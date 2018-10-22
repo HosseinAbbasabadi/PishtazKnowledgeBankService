@@ -27,7 +27,8 @@ namespace Forum.Presentation.Query
         public List<QuestionDto> Handle()
         {
             var tags = _session.Query<Tag>().ToList();
-            var questions = _session.CreateCriteria<Question>().AddOrder(Order.Desc("CreationDateTime"))
+            var questions = _session.CreateCriteria<Question>().Add(Restrictions.Eq("IsVerified", true))
+                .AddOrder(Order.Desc("CreationDateTime"))
                 .List<Question>();
 
             return (from question in questions
@@ -42,6 +43,7 @@ namespace Forum.Presentation.Query
         {
             var questionId = new QuestionId(id);
             var question = _session.CreateCriteria<Question>().Add(Restrictions.Eq("Id", questionId))
+                .Add(Restrictions.Eq("IsVerified", true))
                 .UniqueResult<Question>();
             var tags = _session.Query<Tag>().ToList();
             return _questionMapper.MapQuestion(question, tags);

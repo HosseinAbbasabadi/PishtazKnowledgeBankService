@@ -41,7 +41,12 @@ namespace Forum.Presentation.Facade
 
         public void ContainsTrueAnswer(ContainsTrueAnswer command)
         {
-           _commandBus.Dispatch(command);
+            _commandBus.Dispatch(command);
+        }
+
+        public void VerifyQuestion(VerifyQuestion command)
+        {
+            _commandBus.Dispatch(command);
         }
     }
 }
