@@ -44,8 +44,8 @@ namespace Forum.Domain.Models.Questions
 
         private static void GaurdAgainsLessThan3Tags(List<long> tags)
         {
-            if (tags.Count < 3)
-                throw new TagsAreLessThan3Exception();
+            if (tags.Count < 1)
+                throw new AtLeastOneTagIsRequiredException();
         }
 
         private static List<TagId> MapToTagId(IEnumerable<long> tags)

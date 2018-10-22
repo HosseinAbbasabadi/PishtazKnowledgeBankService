@@ -45,11 +45,11 @@ namespace Forum.Domain.Tests.Unit.Questions
         public void Constructor_Should_Throw_Exception_When_Tags_Are_Less_Than_3()
         {
             //Arrange
-            var tags = new List<long> {1, 2};
+            var tags = new List<long>();
             _builder.WithTags(tags);
 
             //Assert
-            Assert.Throws<TagsAreLessThan3Exception>(() => { _builder.Build(); });
+            Assert.Throws<AtLeastOneTagIsRequiredException>(() => { _builder.Build(); });
         }
 
         [Fact]

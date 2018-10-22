@@ -25,7 +25,7 @@ namespace UserManagement.Infrastructure.Config
 
         public static IEnumerable<Client> Clients()
         {
-            const string clientUri = "http://localhost:4200";
+            const string clientUri = "http://192.168.249.12:80";
             return new List<Client>
             {
                 new Client
