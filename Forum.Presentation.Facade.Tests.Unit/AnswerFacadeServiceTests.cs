@@ -13,14 +13,15 @@ namespace Forum.Presentation.Facade.Tests.Unit
     {
         private readonly Mock<ICommandBus> _commandBus;
         private readonly Mock<IQueryBus> _queryBus;
+        private readonly Mock<IEventListener> _eventListener;
         private readonly AnswerFacadeService _answerFacadeService;
 
         public AnswerFacadeServiceTests()
         {
             _commandBus = new Mock<ICommandBus>();
             _queryBus = new Mock<IQueryBus>();
-            var listener = new Mock<IEventListener>();
-            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object, listener.Object);
+            _eventListener = new Mock<IEventListener>();
+            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object, _eventListener.Object);
         }
 
         [Fact]
@@ -35,20 +36,6 @@ namespace Forum.Presentation.Facade.Tests.Unit
             //Assert
             _commandBus.Verify(x => x.Dispatch(command));
         }
-
-        //[Fact]
-        //public void Add_Should_Call_Dispatch_On_Bus_When_Api_Called_And_Return_NoContent_Result()
-        //{
-        //    //Arrange
-        //    var command = CommandFactory.BuildACommandOfType().AddAnswer;
-
-        //    //Act
-        //    var result = _answerFacadeService.Add(command);
-
-        //    //Assert
-        //    _commandBus.Verify(a=>a.Dispatch(command));
-        //    Assert.IsType<NoContentResult>(result);
-        //}
 
         [Fact]
         public void Answers_Should_Call_Dispatch_On_Bus_When_Api_Called()
@@ -75,19 +62,5 @@ namespace Forum.Presentation.Facade.Tests.Unit
             //Assert
             _commandBus.Verify(a => a.Dispatch(command));
         }
-
-        //[Fact]
-        //public void SetAsChosenAnswer_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
-        //{
-        //    //Arrange
-        //    var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
-        //    _commandBus.Setup(z => z.Dispatch(command)).Throws<Exception>();
-
-        //    //Act
-        //    var result = _answerFacadeService.SetAsChosenAnswer(command);
-
-        //    //Assert
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //}
     }
 }

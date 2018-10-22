@@ -3,6 +3,7 @@ using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Core.Events;
 using Moq;
 using Xunit;
 
@@ -12,13 +13,15 @@ namespace Forum.Presentation.Facade.Tests.Unit
     {
         private readonly Mock<ICommandBus> _commandBus;
         private readonly Mock<IQueryBus> _queryBus;
+        private readonly Mock<IEventListener> _eventListener;
         private readonly QuestionFacadeService _questionFacadeService;
 
         public QuestionFacadeServiceTests()
         {
             _commandBus = new Mock<ICommandBus>();
             _queryBus = new Mock<IQueryBus>();
-            _questionFacadeService = new QuestionFacadeService(_commandBus.Object, _queryBus.Object);
+            _eventListener = new Mock<IEventListener>();
+            _questionFacadeService = new QuestionFacadeService(_commandBus.Object, _queryBus.Object, _eventListener.Object);
         }
 
         [Fact]

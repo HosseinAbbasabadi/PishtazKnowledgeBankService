@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using Forum.DomainEvents;
+using Forum.Infrastructure.ACL.NotificationSystem;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Core.Events;
 
 namespace Forum.Presentation.Facade
 {
@@ -11,15 +14,18 @@ namespace Forum.Presentation.Facade
     {
         private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;
+        private readonly IEventListener _eventListener;
 
-        public QuestionFacadeService(ICommandBus commandBus, IQueryBus queryBus)
+        public QuestionFacadeService(ICommandBus commandBus, IQueryBus queryBus, IEventListener eventListener)
         {
             _commandBus = commandBus;
             _queryBus = queryBus;
+            _eventListener = eventListener;
         }
 
         public void Create(CreateQuestion command)
         {
+            _eventListener.Listen(new PushNotificationEventHandler<QuestionCreated>());
             _commandBus.Dispatch(command);
         }
 
