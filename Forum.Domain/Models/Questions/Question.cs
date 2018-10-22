@@ -31,7 +31,7 @@ namespace Forum.Domain.Models.Questions
 
         public Question(QuestionId id, string title, string body, List<long> tags, UserId inquirer) : base(id)
         {
-            GaurdAgainsLessThan3Tags(tags);
+            GaurdAgainsLessThanOneTags(tags);
 
             Title = title;
             Body = body;
@@ -44,7 +44,7 @@ namespace Forum.Domain.Models.Questions
             _votes = new List<Vote>();
         }
 
-        private static void GaurdAgainsLessThan3Tags(List<long> tags)
+        private static void GaurdAgainsLessThanOneTags(List<long> tags)
         {
             if (tags.Count < 1)
                 throw new AtLeastOneTagIsRequiredException();

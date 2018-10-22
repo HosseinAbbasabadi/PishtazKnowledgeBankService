@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Forum.Infrastructure.Core\Forum.Infrastructure.Core.csproj" />
     <ProjectReference Include="..\Framework.Application\Framework.Application.csproj" />
     <ProjectReference Include="..\Framework.Identity\Framework.Identity.csproj" />
     <ProjectReference Include="..\Framework.Nhibernate\Framework.Nhibernate.csproj" />

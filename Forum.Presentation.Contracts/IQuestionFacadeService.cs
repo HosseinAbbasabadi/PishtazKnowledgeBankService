@@ -9,7 +9,10 @@ namespace Forum.Presentation.Contracts
     public interface IQuestionFacadeService
     {
         void Create(CreateQuestion command);
+
+        [HasPermission((long) ExpertPermissions.ViewQuestions)]
         List<QuestionDto> Questions();
+
         QuestionDetailsDto QuestionDetails(long id);
         void AddVote(AddVote command);
         void ContainsTrueAnswer(ContainsTrueAnswer command);

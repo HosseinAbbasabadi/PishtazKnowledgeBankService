@@ -17,6 +17,13 @@ namespace Forum.Infrastructure.Core
                         new Permission((long) VerifierExpertPermissions.ViewUnApprovedQuestions,
                             "ViewUnApprovedQuestions")
                     }
+                },
+                {
+                    "Expert",
+                    new List<Permission>
+                    {
+                        new Permission((long) ExpertPermissions.ViewQuestions, "ViewQuestions")
+                    }
                 }
             };
         }

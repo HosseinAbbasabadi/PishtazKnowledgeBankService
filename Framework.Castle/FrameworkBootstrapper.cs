@@ -1,6 +1,7 @@
 ﻿using System;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Forum.Infrastructure.Core;
 using Framework.Application.Command;
 using Framework.Application.Query;
 using Framework.Core;
@@ -32,9 +33,11 @@ namespace Framework.Castle
 
             container.Register(Component.For<IClaimHelper>().ImplementedBy<ClaimHelper>().LifestyleSingleton());
 
-            var path = AppDomain.CurrentDomain.BaseDirectory + @"bin\";
-            container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(path))
-                .BasedOn<IPermissionExposer>().WithService.FromInterface());
+            //var path = AppDomain.CurrentDomain.BaseDirectory + @"bin\";
+            //container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(path))
+            //    .BasedOn<IPermissionExposer>().WithService.FromInterface());
+            container.Register(Component.For<IPermissionExposer>().ImplementedBy<ForumPermissionExposer>()
+                .LifestyleSingleton());
         }
     }
 }
