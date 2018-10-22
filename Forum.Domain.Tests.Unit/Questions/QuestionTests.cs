@@ -4,6 +4,9 @@ using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.Domain.Test.Utils.Constants;
+using Forum.DomainEvents;
+using Framework.Core.Events;
+using Moq;
 using Xunit;
 
 namespace Forum.Domain.Tests.Unit.Questions
@@ -188,6 +191,22 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.True(question.IsVerified);
+        }
+
+        [Fact]
+        public void RaseQuestionCreated_Should_Call_Publish_On_EventPublisher_To_Raise_QuestionCreated_Event()
+        {
+            //Arrange
+            var publisher = new Mock<IEventPublisher>();
+            var answer = new QuestionTestBuilder().WithEventPublisher(publisher.Object).Build();
+            const long relatedUser = 5;
+            const string inquirer = "hossein";
+
+            //Act
+            answer.RaseQuestionCreated(relatedUser, inquirer);
+
+            //Assert
+            publisher.Verify(x => x.Publish(It.IsAny<QuestionCreated>()));
         }
     }
 }

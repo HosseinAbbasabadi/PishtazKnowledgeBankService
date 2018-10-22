@@ -3,6 +3,7 @@ using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Questions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
+using Framework.Core.Events;
 using Framework.Identity;
 using Moq;
 using Xunit;
@@ -14,13 +15,15 @@ namespace Forum.Application.Tests.Unit
         private readonly QuestionTestBuilder _builder;
         private readonly Mock<IQuestionRepository> _repository;
         private readonly QuestionCommandHandler _questionCommandHandler;
+        private readonly Mock<IEventPublisher> _eventPublisher;
 
         public QuestionCommandHandlerTests()
         {
             _builder = new QuestionTestBuilder();
             _repository = new Mock<IQuestionRepository>();
             var claimHelper = new Mock<IClaimHelper>();
-            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object);
+            _eventPublisher = new Mock<IEventPublisher>();
+            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object, _eventPublisher.Object);
         }
 
         [Fact]

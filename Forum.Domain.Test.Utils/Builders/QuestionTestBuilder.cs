@@ -5,6 +5,7 @@ using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Framework.Core;
 using Framework.Core.Clock;
+using Framework.Core.Events;
 
 namespace Forum.Domain.Test.Utils.Builders
 {
@@ -17,6 +18,7 @@ namespace Forum.Domain.Test.Utils.Builders
         public DateTime CreationDate { get; private set; }
         public List<long> Tags { get; private set; }
         public bool IsVerified { get; private set; }
+        public IEventPublisher EventPublisher { get; set; }
 
         public QuestionTestBuilder()
         {
@@ -28,6 +30,7 @@ namespace Forum.Domain.Test.Utils.Builders
             Inquirer = new UserId(2);
             IsVerified = false;
             CreationDate = clock.PastDateTime();
+            EventPublisher = new FakePublisher();
         }
 
         public QuestionTestBuilder WithId(long id)
@@ -65,6 +68,12 @@ namespace Forum.Domain.Test.Utils.Builders
         //    return this;
         //}
 
+        public QuestionTestBuilder WithEventPublisher(IEventPublisher eventPublisher)
+        {
+            EventPublisher = eventPublisher;
+            return this;
+        }
+
         public Question BuildWithVotes(List<Vote> votes)
         {
             var question = Build();
@@ -74,7 +83,7 @@ namespace Forum.Domain.Test.Utils.Builders
 
         public Question Build()
         {
-            return new Question(Id, Title, Body, Tags, Inquirer);
+            return new Question(Id, Title, Body, Tags, Inquirer, EventPublisher);
         }
 
         public List<Question> BuildList(int count)

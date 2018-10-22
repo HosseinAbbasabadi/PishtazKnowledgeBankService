@@ -6,6 +6,8 @@ using Forum.Domain.Models.Questions.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Tags;
 using Forum.Domain.Models.Users;
+using Forum.DomainEvents;
+using Framework.Core.Events;
 using Framework.Domain;
 
 namespace Forum.Domain.Models.Questions
@@ -29,7 +31,8 @@ namespace Forum.Domain.Models.Questions
         {
         }
 
-        public Question(QuestionId id, string title, string body, List<long> tags, UserId inquirer) : base(id)
+        public Question(QuestionId id, string title, string body, List<long> tags, UserId inquirer,
+            IEventPublisher eventpublisher) : base(id, eventpublisher)
         {
             GaurdAgainsLessThanOneTags(tags);
 
@@ -88,6 +91,12 @@ namespace Forum.Domain.Models.Questions
         public void Verify()
         {
             IsVerified = true;
+        }
+
+        public void RaseQuestionCreated(long relatedUser, string inquirer)
+        {
+            var @event = new QuestionCreated(relatedUser, Id.DbId, Title, inquirer);
+            EventPublisher.Publish(@event);
         }
     }
 }

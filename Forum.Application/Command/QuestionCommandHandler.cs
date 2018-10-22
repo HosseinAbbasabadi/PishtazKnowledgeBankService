@@ -3,6 +3,7 @@ using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
 using Forum.Presentation.Contracts.Command;
 using Framework.Application.Command;
+using Framework.Core.Events;
 using Framework.Identity;
 
 namespace Forum.Application.Command
@@ -12,12 +13,14 @@ namespace Forum.Application.Command
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
+        private readonly IEventPublisher _eventPublisher;
         private const string QuestionSequenceName = "QuestionSeq";
 
-        public QuestionCommandHandler(IQuestionRepository questionRepository, IClaimHelper claimHelper)
+        public QuestionCommandHandler(IQuestionRepository questionRepository, IClaimHelper claimHelper, IEventPublisher eventPublisher)
         {
             _questionRepository = questionRepository;
             _claimHelper = claimHelper;
+            _eventPublisher = eventPublisher;
         }
 
         public void Handle(CreateQuestion command)
@@ -26,7 +29,7 @@ namespace Forum.Application.Command
             var questionId = new QuestionId(id);
             var inquirerId = _claimHelper.GetCurrentUserId();
             var inquirer = new UserId(inquirerId);
-            var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer);
+            var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer, _eventPublisher);
             _questionRepository.Create(question);
         }
 
