@@ -15,6 +15,8 @@ namespace Framework.Castle
         {
             ServiceLocator.SetCurrent(new WindsorServiceLocator(container));
 
+            container.Register(Component.For<SecurityInterceptor>().LifestyleSingleton());
+
             container.Register(Component.For(typeof(TransactionalCommandHandlerDecorator<>)).LifestyleScoped());
 
             container.Register(

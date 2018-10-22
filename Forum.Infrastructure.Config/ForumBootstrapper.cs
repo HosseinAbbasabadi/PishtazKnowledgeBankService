@@ -8,9 +8,12 @@ using Forum.Domin.Contracts.Services;
 using Forum.Infrastructure.ACL.UserManagement;
 using Forum.Infrastructure.Persistance.Nh;
 using Forum.Infrastructure.Persistance.Nh.Mappings;
+using Forum.Presentation.Contracts;
+using Forum.Presentation.Facade;
 using Forum.Presentation.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Castle;
 using Framework.Core;
 using Framework.Core.Events;
 using Framework.Nhibernate;
@@ -62,6 +65,13 @@ namespace Forum.Infrastructure.Config
                 .ImplementedBy<EventAggregator>().LifestyleSingleton());
 
             container.Register(Component.For<IUserService>().ImplementedBy<UserService>().LifestyleSingleton());
+
+            container.Register(Component.For<IQuestionFacadeService>().ImplementedBy<QuestionFacadeService>()
+                .Interceptors<SecurityInterceptor>());
+            container.Register(Component.For<IAnswerFacadeService>().ImplementedBy<AnswerFacadeService>()
+                .Interceptors<SecurityInterceptor>());
+            container.Register(Component.For<ITagFacadeService>().ImplementedBy<TagFacadeService>()
+                .Interceptors<SecurityInterceptor>());
         }
     }
 }

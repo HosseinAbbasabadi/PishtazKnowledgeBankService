@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Forum.Domin.Contracts\Forum.Domin.Contracts.csproj" />
     <ProjectReference Include="..\Forum.Infrastructure.ACL.UserManagement\Forum.Infrastructure.ACL.UserManagement.csproj" />
     <ProjectReference Include="..\Forum.Infrastructure.Persistance.Nh\Forum.Infrastructure.Persistance.Nh.csproj" />
+    <ProjectReference Include="..\Forum.Presentation.Facade\Forum.Presentation.Facade.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Query\Forum.Presentation.Query.csproj" />
   </ItemGroup>
 
