@@ -26,8 +26,20 @@ namespace Forum.Presentation.RestApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] CreateQuestion command)
         {
-            _bus.Dispatch(command);
-            return NoContent();
+            try
+            {
+                _bus.Dispatch(command);
+                return NoContent();
+            }
+            catch (Exception exception)
+            {
+                var error = new ErrorDetails
+                {
+                    Message = exception.Message,
+                    StatusCode = exception.HResult
+                };
+                return BadRequest(error);
+            }
         }
 
         [HttpGet]

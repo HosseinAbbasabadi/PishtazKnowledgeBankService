@@ -79,17 +79,17 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         }
 
         [Fact]
-        public void SetAsChosenAnswer_Should_Return_BadRequest_Result_When_Dispatch_Throws_An_Exception()
+        public void SetAsChosenAnswer_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
         {
-            ////Arrange
-            //var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
-            //_commandBus.Setup(z => z.Dispatch(command)).Throws<Exception>();
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
+            _commandBus.Setup(z => z.Dispatch(command)).Throws<Exception>();
 
-            ////Act
-            //var result = _controller.SetAsChosenAnswer(command);
+            //Act
+            var result = _controller.SetAsChosenAnswer(command);
 
-            ////Assert
-            //Assert.IsType<>()
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
         }
     }
 }

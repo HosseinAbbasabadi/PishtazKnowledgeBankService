@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
@@ -51,6 +52,20 @@ namespace Forum.Presentation.RestApi.Tests.Unit
         }
 
         [Fact]
+        public void Createa_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().CreateQuestion;
+            _commandBus.Setup(x => x.Dispatch(command)).Throws<Exception>();
+
+            //Act
+            var result = _controller.Create(command);
+
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
         public void Questions_Should_Call_QuestionQuery_When_Api_Called()
         {
             //Act
@@ -80,7 +95,7 @@ namespace Forum.Presentation.RestApi.Tests.Unit
             _controller.AddVote(command);
 
             //Assert
-            _commandBus.Verify(x=>x.Dispatch(command));
+            _commandBus.Verify(x => x.Dispatch(command));
         }
 
         [Fact]
