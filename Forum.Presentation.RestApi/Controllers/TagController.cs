@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
-using Framework.Application.Command;
-using Framework.Application.Query;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Framework.Core.Exceptions;
 
 namespace Forum.Domain.Models.Answers.Exceptions
 {
-    public class AnswerIsAlreadySetAsChosenException : Exception
+    public class AnswerIsAlreadySetAsChosenException : BusinessException
     {
-        public AnswerIsAlreadySetAsChosenException() : base(ExceptionMessages.Message702)
+        public AnswerIsAlreadySetAsChosenException() : base("702", ExceptionMessages.Message702)
         {
-            HResult = 702;
         }
     }
 }

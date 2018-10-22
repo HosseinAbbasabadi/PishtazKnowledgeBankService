@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
-using Framework.Application.Command;
-using Framework.Application.Query;
 using Framework.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +22,10 @@ namespace Forum.Presentation.RestApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] AddAnswer command)
+        public IActionResult Post([FromBody] AddAnswer command)
         {
             _answerFacadeService.Add(command);
+            return NoContent();
         }
 
         [HttpGet("{id}")]
@@ -36,9 +35,10 @@ namespace Forum.Presentation.RestApi.Controllers
         }
 
         [HttpPost("SetAsChosenAnswer")]
-        public void Post([FromBody] ChosenAnswer command)
+        public IActionResult Post([FromBody] ChosenAnswer command)
         {
             _answerFacadeService.SetAsChosenAnswer(command);
+            return NoContent();
         }
     }
 }

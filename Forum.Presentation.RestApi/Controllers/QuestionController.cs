@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
-using Framework.Application.Command;
-using Framework.Application.Query;
 using Framework.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +14,17 @@ namespace Forum.Presentation.RestApi.Controllers
     public class QuestionController : Controller, IGateway
     {
         private readonly IQuestionFacadeService _questionFacadeService;
+
         public QuestionController(IQuestionFacadeService questionFacadeService)
         {
             _questionFacadeService = questionFacadeService;
         }
 
         [HttpPost]
-        public void Post([FromBody] CreateQuestion command)
+        public IActionResult Post([FromBody] CreateQuestion command)
         {
             _questionFacadeService.Create(command);
+            return NoContent();
         }
 
         [HttpGet]
@@ -40,21 +40,24 @@ namespace Forum.Presentation.RestApi.Controllers
         }
 
         [HttpPut("AddVote")]
-        public void Put([FromBody] AddVote command)
+        public IActionResult Put([FromBody] AddVote command)
         {
             _questionFacadeService.AddVote(command);
+            return NoContent();
         }
 
         [HttpPut("ContainsTrueAnswer")]
-        public void Put([FromBody] ContainsTrueAnswer command)
+        public IActionResult Put([FromBody] ContainsTrueAnswer command)
         {
             _questionFacadeService.ContainsTrueAnswer(command);
+            return NoContent();
         }
 
         [HttpPost("VerifyQuestion")]
-        public void Post([FromBody] VerifyQuestion command)
+        public IActionResult Post([FromBody] VerifyQuestion command)
         {
             _questionFacadeService.VerifyQuestion(command);
+            return NoContent();
         }
     }
 }

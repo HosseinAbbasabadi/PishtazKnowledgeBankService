@@ -1,12 +1,12 @@
 ﻿using System;
+using Framework.Core.Exceptions;
 
 namespace Forum.Domain.Models.Answers.Exceptions
 {
-    public class QuestionInquirerIsNotSameAsTheManInChanrgeException : Exception
+    public class QuestionInquirerIsNotSameAsTheManInChanrgeException : BusinessException
     {
-        public QuestionInquirerIsNotSameAsTheManInChanrgeException() : base(ExceptionMessages.Message701)
+        public QuestionInquirerIsNotSameAsTheManInChanrgeException() : base("701", ExceptionMessages.Message701)
         {
-            HResult = 701;
         }
     }
 }

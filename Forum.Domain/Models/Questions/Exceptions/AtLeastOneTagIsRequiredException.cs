@@ -1,12 +1,12 @@
 ﻿using System;
+using Framework.Core.Exceptions;
 
 namespace Forum.Domain.Models.Questions.Exceptions
 {
-    public class AtLeastOneTagIsRequiredException : Exception
+    public class AtLeastOneTagIsRequiredException : BusinessException
     {
-        public AtLeastOneTagIsRequiredException() : base(ExceptionMessages.Message704)
+        public AtLeastOneTagIsRequiredException() : base("704", ExceptionMessages.Message704)
         {
-            HResult = 704;
         }
     }
 }

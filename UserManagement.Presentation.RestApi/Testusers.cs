@@ -19,7 +19,6 @@ namespace UserManagement.Presentation.RestApi
                     {
                         new Claim(JwtClaimTypes.Id, "1"),
                         new Claim(JwtClaimTypes.Role, "SysAdmin"),
-                        new Claim(JwtClaimTypes.Role, "Expert"),
                         new Claim(JwtClaimTypes.Name, "حسین عباس آبادی")
                     },
                 },
@@ -56,6 +55,7 @@ namespace UserManagement.Presentation.RestApi
                     {
                         new Claim(JwtClaimTypes.Id, "4"),
                         new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Role, "VerifierExpert"),
                         new Claim(JwtClaimTypes.Name, "کسری چوبینه")
                     }
                 },

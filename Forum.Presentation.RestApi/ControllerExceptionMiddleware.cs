@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Framework.Core;
+using Framework.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Forum.Presentation.RestApi
 {
@@ -24,14 +23,15 @@ namespace Forum.Presentation.RestApi
             }
             catch (Exception exception)
             {
-                var error = new ErrorDetails
+                if (exception is BusinessException)
                 {
-                    Message = exception.Message,
-                    StatusCode = exception.HResult
-                };
-                
-                context.Response.StatusCode = 400;
-                await context.Response.WriteJsonAsync(error);
+                    context.Response.StatusCode = 400;
+                    await context.Response.WriteJsonAsync(exception.ToString());
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
     }

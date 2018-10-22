@@ -68,7 +68,7 @@ namespace Forum.Presentation.RestApi
             }
             //else
             //{
-            //    app.UseControllerExceptionHandler();
+            app.UseControllerExceptionHandler();
             //    app.UseExceptionHandler();
             //}
 
