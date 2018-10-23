@@ -25,8 +25,10 @@ namespace Forum.Presentation.Facade
 
         public void Create(CreateQuestion command)
         {
-            _eventListener.Listen(new PushNotificationEventHandler<QuestionCreated>());
+            var eventHandler = new PushNotificationEventHandler<QuestionCreated>();
+            _eventListener.Listen(eventHandler);
             _commandBus.Dispatch(command);
+            _eventListener.Clear(eventHandler);
         }
 
         public List<QuestionDto> Questions()

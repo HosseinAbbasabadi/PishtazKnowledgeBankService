@@ -9,7 +9,7 @@ namespace Forum.DomainEvents
         public string Inquirer { get; set; }
 
         public QuestionCreated(long relatedUser, long questionId, string questionTitle, string inquirer) :
-            base(relatedUser)
+            base(relatedUser, "QuestionCreated")
         {
             QuestionId = questionId;
             QuestionTitle = questionTitle;

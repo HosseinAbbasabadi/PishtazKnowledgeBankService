@@ -1,8 +1,10 @@
 using Forum.Application.Command;
 using Forum.Application.Tests.Utils;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.Services;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Test.Utils.Builders;
+using Forum.Domin.Contracts.Services;
 using Framework.Core.Events;
 using Framework.Identity;
 using Moq;
@@ -16,14 +18,17 @@ namespace Forum.Application.Tests.Unit
         private readonly Mock<IQuestionRepository> _repository;
         private readonly QuestionCommandHandler _questionCommandHandler;
         private readonly Mock<IEventPublisher> _eventPublisher;
-
+        private readonly Mock<IUserService> _userService;
+        private readonly Mock<IQuestionNotificationService> _questionNotificationService;
         public QuestionCommandHandlerTests()
         {
             _builder = new QuestionTestBuilder();
             _repository = new Mock<IQuestionRepository>();
             var claimHelper = new Mock<IClaimHelper>();
             _eventPublisher = new Mock<IEventPublisher>();
-            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object, _eventPublisher.Object);
+            _userService = new Mock<IUserService>();
+            _questionNotificationService = new Mock<IQuestionNotificationService>();
+            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object, _eventPublisher.Object, _userService.Object, _questionNotificationService.Object);
         }
 
         [Fact]

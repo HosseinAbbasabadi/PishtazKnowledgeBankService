@@ -1,6 +1,8 @@
 ﻿using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.Services;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
+using Forum.Domin.Contracts.Services;
 using Forum.Presentation.Contracts.Command;
 using Framework.Application.Command;
 using Framework.Core.Events;
@@ -14,13 +16,19 @@ namespace Forum.Application.Command
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
         private readonly IEventPublisher _eventPublisher;
+        private readonly IUserService _userService;
+        private readonly IQuestionNotificationService _questionNotificationService;
         private const string QuestionSequenceName = "QuestionSeq";
 
-        public QuestionCommandHandler(IQuestionRepository questionRepository, IClaimHelper claimHelper, IEventPublisher eventPublisher)
+        public QuestionCommandHandler(IQuestionRepository questionRepository, IClaimHelper claimHelper,
+            IEventPublisher eventPublisher, IUserService userService,
+            IQuestionNotificationService questionNotificationService)
         {
             _questionRepository = questionRepository;
             _claimHelper = claimHelper;
             _eventPublisher = eventPublisher;
+            _userService = userService;
+            _questionNotificationService = questionNotificationService;
         }
 
         public void Handle(CreateQuestion command)
@@ -29,8 +37,13 @@ namespace Forum.Application.Command
             var questionId = new QuestionId(id);
             var inquirerId = _claimHelper.GetCurrentUserId();
             var inquirer = new UserId(inquirerId);
-            var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer, _eventPublisher);
+            var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer,
+                _eventPublisher);
             _questionRepository.Create(question);
+            var relatedUsers = _userService.GetVerifireExperts();
+            var inquirerName = _userService.GetUserFullName(inquirerId);
+            _questionNotificationService.RaseQuestionCreatedNotificationToAllRelatedUsers(question, relatedUsers,
+                inquirerName);
         }
 
         public void Handle(AddVote command)

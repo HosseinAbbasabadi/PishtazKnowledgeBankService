@@ -27,6 +27,12 @@ namespace Forum.Presentation.RestApi
                     context.Response.StatusCode = 400;
                     await context.Response.WriteJsonAsync(exception.ToString());
                 }
+
+                if (exception is UnauthorizedAccessException)
+                {
+                    context.Response.StatusCode = 403;
+                    await context.Response.WriteJsonAsync(exception.Message);
+                }
                 else
                 {
                     throw;

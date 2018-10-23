@@ -3,6 +3,7 @@ using Castle.Windsor;
 using Forum.Application.Command;
 using Forum.Domain.Models.Answers;
 using Forum.Domain.Models.Questions;
+using Forum.Domain.Models.Questions.Services;
 using Forum.Domain.Models.Tags;
 using Forum.Domin.Contracts.Services;
 using Forum.Infrastructure.ACL.UserManagement;
@@ -72,6 +73,10 @@ namespace Forum.Infrastructure.Config
                 .Interceptors<SecurityInterceptor>());
             container.Register(Component.For<ITagFacadeService>().ImplementedBy<TagFacadeService>()
                 .Interceptors<SecurityInterceptor>());
+
+            container.Register(Component.For<IQuestionNotificationService>().ImplementedBy<QuestionNotificationService>()
+                .Interceptors<SecurityInterceptor>().LifestyleScoped());
+
         }
     }
 }

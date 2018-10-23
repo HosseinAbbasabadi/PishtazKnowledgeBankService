@@ -9,7 +9,7 @@ namespace Forum.DomainEvents
         public string ResponderName { get; set; }
 
         public AnswerAdded(long relatedUser, long questionId, string questionTitle, string responderName)
-            : base(relatedUser)
+            : base(relatedUser, "AnswerAdded")
         {
             QuestionId = questionId;
             QuestionTitle = questionTitle;

@@ -25,8 +25,10 @@ namespace Forum.Presentation.Facade
 
         public void Add(AddAnswer command)
         {
-            _eventListener.Listen(new PushNotificationEventHandler<AnswerAdded>());
+            var eventHandler = new PushNotificationEventHandler<AnswerAdded>();
+            _eventListener.Listen(eventHandler);
             _commandBus.Dispatch(command);
+            _eventListener.Clear(eventHandler);
         }
 
         public List<AnswerDto> Answers(long questionId)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
@@ -35,8 +36,10 @@ namespace Framework.Castle
             {
                 invocation.Proceed();
                 return;
-            };
+            }
+
             if (UserHasPermissionToProcessThisMethod(currentUserRoles, methodPermissions)) invocation.Proceed();
+            else throw new UnauthorizedAccessException();
         }
 
         //private static bool UserHasPermissionToProcessThisMethod(List<string> currentUserRoles,
