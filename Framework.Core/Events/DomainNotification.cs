@@ -8,7 +8,6 @@ namespace Framework.Core.Events
         public string Name { get; }
         public string Type { get; set; }
         public long RelatedUser { get; set; }
-        public DateTime CreationDate { get; set; }
 
         public DomainNotification(long relatedUser, string name)
         {
@@ -16,7 +15,6 @@ namespace Framework.Core.Events
             RelatedUser = relatedUser;
             Name = name;
             Type = GetType().Name;
-            CreationDate = DateTime.Now;
         }
     }
 }
