@@ -16,6 +16,7 @@ namespace Framework.Domain
         void Create(T aggregate);
         void Update(T aggregate);
         void Delete(T aggregate);
+        void Evict(T aggregate);
         long GetNextId(string sequenceName);
     }
 }

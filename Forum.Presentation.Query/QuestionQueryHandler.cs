@@ -43,7 +43,8 @@ namespace Forum.Presentation.Query
         {
             var questionId = new QuestionId(id);
             var question = _session.CreateCriteria<Question>().Add(Restrictions.Eq("Id", questionId))
-                .Add(Restrictions.Eq("IsVerified", true))
+                //TODO: Fix this bug
+                //.Add(Restrictions.Eq("IsVerified", true))
                 .UniqueResult<Question>();
             var tags = _session.Query<Tag>().ToList();
             return _questionMapper.MapQuestion(question, tags);

@@ -93,9 +93,9 @@ namespace Forum.Domain.Models.Questions
             IsVerified = true;
         }
 
-        public void RaseQuestionCreated(long relatedUser, string inquirer)
+        public void RaseQuestionCreated(Guid eventId, long relatedUser, string inquirer)
         {
-            var @event = new QuestionCreated(relatedUser, Id.DbId, Title, inquirer);
+            var @event = new QuestionCreated(eventId, relatedUser, Id.DbId, Title, inquirer);
             EventPublisher.Publish(@event);
         }
     }

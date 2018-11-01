@@ -31,6 +31,11 @@ namespace Framework.Nhibernate
             Session.Delete(aggregate);
         }
 
+        public void Evict(T aggregate)
+        {
+            Session.Evict(aggregate);
+        }
+
         public T Get(TKey id)
         {
             return Session.Get<T>(id);

@@ -9,9 +9,9 @@ namespace Framework.Core.Events
         public string Type { get; set; }
         public long RelatedUser { get; set; }
 
-        public DomainNotification(long relatedUser, string name)
+        public DomainNotification(Guid eventId, long relatedUser, string name)
         {
-            EventId = Guid.NewGuid();
+            EventId = eventId;
             RelatedUser = relatedUser;
             Name = name;
             Type = GetType().Name;

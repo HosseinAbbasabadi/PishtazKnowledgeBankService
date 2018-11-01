@@ -33,7 +33,7 @@ namespace Forum.Domain.Models.Answers
 
         public void RaseAnswerAdded(long relatedUser, string questionTitle, string responderName)
         {
-            var @event = new AnswerAdded(relatedUser, Question.DbId, questionTitle, responderName);
+            var @event = new AnswerAdded(Guid.NewGuid(),relatedUser, Question.DbId, questionTitle, responderName);
             EventPublisher.Publish(@event);
         }
 

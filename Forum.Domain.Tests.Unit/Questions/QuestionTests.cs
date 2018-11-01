@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Forum.Domain.Models.Questions.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
@@ -199,11 +200,12 @@ namespace Forum.Domain.Tests.Unit.Questions
             //Arrange
             var publisher = new Mock<IEventPublisher>();
             var answer = new QuestionTestBuilder().WithEventPublisher(publisher.Object).Build();
+            var eventId = Guid.NewGuid();
             const long relatedUser = 5;
             const string inquirer = "hossein";
 
             //Act
-            answer.RaseQuestionCreated(relatedUser, inquirer);
+            answer.RaseQuestionCreated(eventId, relatedUser, inquirer);
 
             //Assert
             publisher.Verify(x => x.Publish(It.IsAny<QuestionCreated>()));

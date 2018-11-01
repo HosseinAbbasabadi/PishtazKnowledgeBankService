@@ -1,4 +1,5 @@
-﻿using Framework.Core.Events;
+﻿using System;
+using Framework.Core.Events;
 
 namespace Forum.DomainEvents
 {
@@ -8,8 +9,8 @@ namespace Forum.DomainEvents
         public string QuestionTitle { get; set; }
         public string ResponderName { get; set; }
 
-        public AnswerAdded(long relatedUser, long questionId, string questionTitle, string responderName)
-            : base(relatedUser, "AnswerAdded")
+        public AnswerAdded(Guid eventId, long relatedUser, long questionId, string questionTitle, string responderName)
+            : base(eventId, relatedUser, "AnswerAdded")
         {
             QuestionId = questionId;
             QuestionTitle = questionTitle;
