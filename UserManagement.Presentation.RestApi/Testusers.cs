@@ -14,7 +14,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "1",
                     Username = "Hossein",
-                    Password = "Hossein",
+                    Password = "Hossein1",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "1"),
@@ -28,7 +28,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "2",
                     Username = "Rohollah",
-                    Password = "Rohollah",
+                    Password = "Rohollah2",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "2"),
@@ -40,7 +40,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "3",
                     Username = "Sepehr",
-                    Password = "Sepehr",
+                    Password = "Sepehr3",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "3"),
@@ -51,8 +51,8 @@ namespace UserManagement.Presentation.RestApi
                 new IdentityServer4.Test.TestUser
                 {
                     SubjectId = "4",
-                    Username = "kasra",
-                    Password = "kasra",
+                    Username = "Choobineh",
+                    Password = "Choobineh4",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "4"),
@@ -65,7 +65,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "5",
                     Username = "Mohammadi",
-                    Password = "Mohammadi",
+                    Password = "Mohammadi5",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "5"),
@@ -76,7 +76,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "6",
                     Username = "Mortazavi",
-                    Password = "Mortazavi",
+                    Password = "Mortazavi6",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "6"),
@@ -87,7 +87,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "7",
                     Username = "Rozbeh",
-                    Password = "Rozbeh",
+                    Password = "Rozbeh7",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "7"),
@@ -98,7 +98,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "8",
                     Username = "Farid",
-                    Password = "Farid",
+                    Password = "Farid8",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "8"),
@@ -109,7 +109,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "9",
                     Username = "Foad",
-                    Password = "Foad",
+                    Password = "Foad9",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "9"),
@@ -120,7 +120,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "10",
                     Username = "Mahabadi",
-                    Password = "Mahabadi",
+                    Password = "Mahabadi10",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "10"),
@@ -131,7 +131,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "11",
                     Username = "Rezaali",
-                    Password = "Rezaali",
+                    Password = "Rezaali11",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "11"),
@@ -142,7 +142,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "12",
                     Username = "Taherkhani",
-                    Password = "Taherkhani",
+                    Password = "Taherkhani12",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "12"),
@@ -153,7 +153,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "13",
                     Username = "Safari",
-                    Password = "Safari",
+                    Password = "Safari13",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "13"),
@@ -164,7 +164,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "14",
                     Username = "Sedaghati",
-                    Password = "Sedaghati",
+                    Password = "Sedaghati14",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "14"),
@@ -175,7 +175,7 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "15",
                     Username = "Modanlo",
-                    Password = "Modanlo",
+                    Password = "Modanlo15",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "15"),
@@ -186,14 +186,25 @@ namespace UserManagement.Presentation.RestApi
                 {
                     SubjectId = "16",
                     Username = "Kahaki",
-                    Password = "Kahaki",
+                    Password = "Kahaki16",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "16"),
                         new Claim(JwtClaimTypes.Role, "Expert"),
                         new Claim(JwtClaimTypes.Name, "فرشته کهکی")
                     }
-                },
+                },new IdentityServer4.Test.TestUser
+                {
+                    SubjectId = "17",
+                    Username = "Mahdavi",
+                    Password = "Mahdavi17",
+                    Claims = new List<Claim>
+                    {
+                        new Claim(JwtClaimTypes.Id, "17"),
+                        new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Name, "رضا مهدوی")
+                    }
+                }
             };
         }
     }

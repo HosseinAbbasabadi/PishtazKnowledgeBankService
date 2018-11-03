@@ -20,6 +20,7 @@ namespace Forum.Application.Tests.Unit
         private readonly Mock<IEventPublisher> _eventPublisher;
         private readonly Mock<IUserService> _userService;
         private readonly Mock<IQuestionNotificationService> _questionNotificationService;
+
         public QuestionCommandHandlerTests()
         {
             _builder = new QuestionTestBuilder();
@@ -28,7 +29,8 @@ namespace Forum.Application.Tests.Unit
             _eventPublisher = new Mock<IEventPublisher>();
             _userService = new Mock<IUserService>();
             _questionNotificationService = new Mock<IQuestionNotificationService>();
-            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object, _eventPublisher.Object, _userService.Object, _questionNotificationService.Object);
+            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object,
+                _eventPublisher.Object, _userService.Object, _questionNotificationService.Object);
         }
 
         [Fact]
@@ -90,6 +92,36 @@ namespace Forum.Application.Tests.Unit
 
             //Assert
             _repository.Verify(x => x.Update(question));
+        }
+
+        [Fact]
+        public void Handle_Should_Call_Update_On_Repository_When_EditQuestion_Command_Passed()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ModifyQuestion;
+            var question = _builder.WithId(command.Id).Build();
+            _repository.Setup(x => x.Get(question.Id)).Returns(question);
+
+            //Act
+            _questionCommandHandler.Handle(command);
+
+            //Assert
+            _repository.Verify(x => x.Update(question));
+        }
+
+        [Fact]
+        public void Handle_Should_Call_Update_On_Repository_When_AddView_Command_Passed()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().AddView;
+            var question = _builder.WithId(command.QuestionId).Build();
+            _repository.Setup(x => x.Get(question.Id)).Returns(question);
+
+            //Act
+            _questionCommandHandler.Handle(command);
+
+            //Assert
+            _repository.Verify(x=>x.Update(question));
         }
     }
 }

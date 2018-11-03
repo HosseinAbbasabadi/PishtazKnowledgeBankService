@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using IdentityServer4.Models;
 using static IdentityModel.JwtClaimTypes;
 
@@ -6,7 +7,14 @@ namespace UserManagement.Infrastructure.Config
 {
     public class IdentityServerConfiguration
     {
-        public static IEnumerable<ApiResource> ApiResources()
+        public string ClientUrl { get; }
+
+        public IdentityServerConfiguration(string clientUrl)
+        {
+            ClientUrl = clientUrl;
+        }
+        
+        public IEnumerable<ApiResource> ApiResources()
         {
             return new List<ApiResource>
             {
@@ -23,9 +31,9 @@ namespace UserManagement.Infrastructure.Config
             };
         }
 
-        public static IEnumerable<Client> Clients()
+        public IEnumerable<Client> Clients()
         {
-            const string clientUri = "http://localhost:4200";
+            var clientUri = ClientUrl;
             return new List<Client>
             {
                 new Client
@@ -52,7 +60,7 @@ namespace UserManagement.Infrastructure.Config
             };
         }
 
-        public static List<IdentityResource> IdentityResources()
+        public List<IdentityResource> IdentityResources()
         {
             return new List<IdentityResource>
             {

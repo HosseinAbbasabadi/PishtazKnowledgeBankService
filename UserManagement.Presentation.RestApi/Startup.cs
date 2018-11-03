@@ -44,11 +44,14 @@ namespace UserManagement.Presentation.RestApi
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            var knowladgeBankUi = Configuration["EndPoints:KnowladgeBankUi"];
+            var identityServerConfiguration = new IdentityServerConfiguration(knowladgeBankUi);
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources())
-                .AddInMemoryClients(IdentityServerConfiguration.Clients())
-                .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources())
+                .AddInMemoryApiResources(identityServerConfiguration.ApiResources())
+                .AddInMemoryClients(identityServerConfiguration.Clients())
+                .AddInMemoryIdentityResources(identityServerConfiguration.IdentityResources())
                 .AddTestUsers(TestUsers.GetUsers());
 
             //End Identity Configuration
@@ -69,6 +72,7 @@ namespace UserManagement.Presentation.RestApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseStaticFiles();
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();

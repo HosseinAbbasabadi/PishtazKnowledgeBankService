@@ -4,6 +4,7 @@ using Castle.Windsor;
 using Forum.Infrastructure.Core;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Configuration;
 using Framework.Core;
 using Framework.Identity;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,10 @@ namespace Framework.Castle
             //    .BasedOn<IPermissionExposer>().WithService.FromInterface());
             container.Register(Component.For<IPermissionExposer>().ImplementedBy<ForumPermissionExposer>()
                 .LifestyleSingleton());
+
+            container.Register(Component.For<IFrameworkConfiguration>().ImplementedBy<FrameworkConfiguration>()
+                .LifestyleSingleton());
+
         }
     }
 }

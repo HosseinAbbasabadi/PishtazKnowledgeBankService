@@ -8,6 +8,7 @@
     <ProjectReference Include="..\Forum.DomainEvents\Forum.DomainEvents.csproj" />
     <ProjectReference Include="..\Forum.Infrastructure.ACL.NotificationSystem\Forum.Infrastructure.ACL.NotificationSystem.csproj" />
     <ProjectReference Include="..\Forum.Presentation.Contracts\Forum.Presentation.Contracts.csproj" />
+    <ProjectReference Include="..\Framework.Configuration\Framework.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

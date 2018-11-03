@@ -81,6 +81,13 @@ namespace Forum.Domain.Test.Utils.Builders
             return question;
         }
 
+        public Question BuildWithViews(List<View> views)
+        {
+            var question = Build();
+            views.ForEach(view => question.Visit(view));
+            return question;
+        }
+
         public Question Build()
         {
             return new Question(Id, Title, Body, Tags, Inquirer, EventPublisher);

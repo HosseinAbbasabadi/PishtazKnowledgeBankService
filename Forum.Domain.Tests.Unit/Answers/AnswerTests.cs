@@ -56,8 +56,7 @@ namespace Forum.Domain.Tests.Unit.Answers
             var answer = _builder.Build();
 
             //Act
-            answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
-                _answersOfSpecificQuestion);
+            answer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion);
 
             //Assert
             Assert.True(answer.IsChosen);
@@ -71,21 +70,7 @@ namespace Forum.Domain.Tests.Unit.Answers
 
             //Assert
             Assert.Throws<AnswerIsAlreadySetAsChosenException>(() =>
-                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
-                    _answersOfSpecificQuestion));
-        }
-
-        [Fact]
-        public void
-            SetAsChosenAnswer_Should_Throw_Exception_When_Question_Inquirer_Is_Not_The_Same_Person_Who_Is_Setting_The_Answer_As_Chosen()
-        {
-            //Arrange
-            var answer = _builder.WithDifferentQuestionInquirerAndPersonWhoIsSettingTheAnswerAsChosen().Build();
-
-            //Assert
-            Assert.Throws<QuestionInquirerIsNotSameAsTheManInChanrgeException>(() =>
-                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _builder.PersonWhoIsSettingTheAnswerAsChosen,
-                    _answersOfSpecificQuestion));
+                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
         }
 
         [Fact]
@@ -98,10 +83,8 @@ namespace Forum.Domain.Tests.Unit.Answers
             _answersOfSpecificQuestion.Add(chosingAnswer);
 
             //Assert
-            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() => chosingAnswer.SetAsChosenAnswer(
-                _builder.QuestionInquirer,
-                _builder.PersonWhoIsSettingTheAnswerAsChosen,
-                _answersOfSpecificQuestion));
+            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() =>
+                chosingAnswer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
         }
 
         [Fact]

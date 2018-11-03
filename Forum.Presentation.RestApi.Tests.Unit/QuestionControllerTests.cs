@@ -91,5 +91,32 @@ namespace Forum.Presentation.Facade.Tests.Unit
             //Assert
             _questionFacadeService.Verify(x => x.VerifyQuestion(command));
         }
+
+        [Fact]
+        public void Post_Should_Call_ModifyQuestion_On_Facade()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ModifyQuestion;
+
+            //Act
+            _questionController.Post(command);
+
+            //Assert
+            _questionFacadeService.Verify(x => x.ModifyQuestion(command));
+        }
+
+
+        [Fact]
+        public void Put_Should_Call_AddView_On_Facade()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().AddView;
+
+            //Act
+            _questionController.Put(command);
+
+            //Assert
+            _questionFacadeService.Verify(x => x.AddView(command));
+        }
     }
 }

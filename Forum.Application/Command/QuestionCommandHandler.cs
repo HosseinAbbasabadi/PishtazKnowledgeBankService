@@ -11,7 +11,8 @@ using Framework.Identity;
 namespace Forum.Application.Command
 {
     public class QuestionCommandHandler : ICommandHandler<CreateQuestion>, ICommandHandler<AddVote>,
-        ICommandHandler<ContainsTrueAnswer>, ICommandHandler<VerifyQuestion>
+        ICommandHandler<ContainsTrueAnswer>, ICommandHandler<VerifyQuestion>, ICommandHandler<ModifyQuestion>,
+        ICommandHandler<AddView>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IClaimHelper _claimHelper;
@@ -70,6 +71,25 @@ namespace Forum.Application.Command
             var questionId = new QuestionId(command.QuestionId);
             var question = _questionRepository.Get(questionId);
             question.Verify();
+            _questionRepository.Update(question);
+        }
+
+        public void Handle(ModifyQuestion command)
+        {
+            var questionId = new QuestionId(command.Id);
+            var question = _questionRepository.Get(questionId);
+            question.Modify(command.Title, command.Body, command.Tags);
+            _questionRepository.Update(question);
+        }
+
+        public void Handle(AddView command)
+        {
+            var questionId = new QuestionId(command.QuestionId);
+            var question = _questionRepository.Get(questionId);
+            var currentUserId = _claimHelper.GetCurrentUserId();
+            var viewerId = new UserId(currentUserId);
+            var view = new View(viewerId);
+            question.Visit(view);
             _questionRepository.Update(question);
         }
     }

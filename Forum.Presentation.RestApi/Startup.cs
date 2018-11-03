@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using Forum.Infrastructure.Config;
 using Framework.Castle;
+using Framework.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,8 @@ namespace Forum.Presentation.RestApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.Configure<EndPoints>(Configuration.GetSection("EndPoints"));
+
             services.AddCors(options => options.AddPolicy("policy",
                 builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
@@ -37,16 +40,17 @@ namespace Forum.Presentation.RestApi
                 //options.Filters.Add(new CorsAuthorizationFilterFactory("policy"));
             });
 
-            //Begin Identity Configuration
+            //Begin Identity FrameworkConfiguration
 
+            var authority = Configuration["EndPoints:Authority"];
             services.AddAuthentication("Bearer").AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "http://localhost:5000";
+                options.Authority = authority;
                 options.RequireHttpsMetadata = false;
                 options.ApiName = "Forum_Api";
             });
 
-            //End Identity Configuration
+            //End Identity FrameworkConfiguration
 
             var container = new WindsorContainer();
             FrameworkBootstrapper.WireUp(container);

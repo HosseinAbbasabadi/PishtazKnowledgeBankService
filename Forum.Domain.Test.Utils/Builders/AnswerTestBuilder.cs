@@ -49,7 +49,7 @@ namespace Forum.Domain.Test.Utils.Builders
         {
             var answer = Build();
             var answersOfSpecificQuestion = BuildList(3);
-            answer.SetAsChosenAnswer(QuestionInquirer, PersonWhoIsSettingTheAnswerAsChosen, answersOfSpecificQuestion);
+            answer.SetAsChosenAnswer(QuestionInquirer, answersOfSpecificQuestion);
             return answer;
         }
 

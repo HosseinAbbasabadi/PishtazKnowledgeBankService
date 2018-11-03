@@ -33,18 +33,16 @@ namespace Forum.Domain.Models.Answers
 
         public void RaseAnswerAdded(long relatedUser, string questionTitle, string responderName)
         {
-            var @event = new AnswerAdded(Guid.NewGuid(),relatedUser, Question.DbId, questionTitle, responderName);
+            var @event = new AnswerAdded(Guid.NewGuid(), relatedUser, Question.DbId, questionTitle, responderName);
             EventPublisher.Publish(@event);
         }
 
-        public void SetAsChosenAnswer(long questionInquirer, long manInCharge, List<Answer> questionAnswers)
+        public void SetAsChosenAnswer(long questionInquirer, List<Answer> questionAnswers)
         {
             if (QuestionHasAlreadyAChosenAnswer(questionAnswers))
                 throw new QuestionAlreadyHasAChosenAnswerException();
             if (IsChosen)
                 throw new AnswerIsAlreadySetAsChosenException();
-            if (!questionInquirer.Equals(manInCharge))
-                throw new QuestionInquirerIsNotSameAsTheManInChanrgeException();
             IsChosen = true;
         }
 

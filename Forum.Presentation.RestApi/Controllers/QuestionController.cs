@@ -59,5 +59,19 @@ namespace Forum.Presentation.RestApi.Controllers
             _questionFacadeService.VerifyQuestion(command);
             return NoContent();
         }
+
+        [HttpPost("ModifyQuestion")]
+        public IActionResult Post([FromBody] ModifyQuestion command)
+        {
+            _questionFacadeService.ModifyQuestion(command);
+            return NoContent();
+        }
+
+        [HttpPut("AddView")]
+        public IActionResult Put([FromBody] AddView command)
+        {
+            _questionFacadeService.AddView(command);
+            return NoContent();
+        }
     }
 }

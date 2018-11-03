@@ -14,7 +14,7 @@ namespace Forum.Domain.Models.Questions
 {
     public class Question : AggregateRootBase<QuestionId>
     {
-        private readonly IList<TagId> _tags;
+        private IList<TagId> _tags;
         private readonly IList<View> _views;
         private readonly IList<Vote> _votes;
 
@@ -63,6 +63,13 @@ namespace Forum.Domain.Models.Questions
             return new TagId(tag);
         }
 
+        public void Modify(string title, string body, List<long> tags)
+        {
+            Title = title;
+            Body = body;
+            _tags = MapToTagId(tags);
+        }
+
         public void Vote(Vote vote)
         {
             GuardAgainstDuplicateVote(vote);
@@ -97,6 +104,17 @@ namespace Forum.Domain.Models.Questions
         {
             var @event = new QuestionCreated(eventId, relatedUser, Id.DbId, Title, inquirer);
             EventPublisher.Publish(@event);
+        }
+
+        public void Visit(View view)
+        {
+            if(ViewerAlreadyVisitedQuestion(view))
+            _views.Add(view);
+        }
+
+        private bool ViewerAlreadyVisitedQuestion(View view)
+        {
+            return !Views.Contains(view);
         }
     }
 }

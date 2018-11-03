@@ -12,6 +12,8 @@ namespace Forum.Application.Tests.Utils
         public ContainsTrueAnswer ContainsTrueAnswer { get; set; }
         public CreateTag CreateTag { get; set; }
         public VerifyQuestion VerifyQuestion { get; set; }
+        public ModifyQuestion ModifyQuestion { get; set; }
+        public AddView AddView { get; set; }
     }
 
     public static class CommandFactory
@@ -52,6 +54,17 @@ namespace Forum.Application.Tests.Utils
                 VerifyQuestion = new VerifyQuestion
                 {
                     QuestionId = 6
+                },
+                ModifyQuestion = new ModifyQuestion
+                {
+                    Id = 4,
+                    Title = "some question titlte",
+                    Body = "some question body",
+                    Tags = new List<long> { 1, 2, 3 }
+                },
+                AddView = new AddView
+                {
+                    QuestionId = 5
                 }
             };
         }

@@ -16,7 +16,8 @@ namespace Forum.Infrastructure.Core
                         new Permission((long) VerifierExpertPermissions.VerifyQuestion, "VerifyQuestion"),
                         new Permission((long) VerifierExpertPermissions.ViewUnApprovedQuestions,
                             "ViewUnApprovedQuestions"),
-                        new Permission((long) VerifierExpertPermissions.CreateTag, "CreateTag")
+                        new Permission((long) VerifierExpertPermissions.CreateTag, "CreateTag"),
+                        new Permission((long) VerifierExpertPermissions.ChooseTrueAnswer, "ChooseTrueAnswer")
                     }
                 },
                 {

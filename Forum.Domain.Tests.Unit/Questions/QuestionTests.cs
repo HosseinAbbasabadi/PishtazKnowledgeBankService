@@ -210,5 +210,62 @@ namespace Forum.Domain.Tests.Unit.Questions
             //Assert
             publisher.Verify(x => x.Publish(It.IsAny<QuestionCreated>()));
         }
+
+        [Fact]
+        public void Modify_Should_Edit_Question_Properties_When_New_Properties_Passed()
+        {
+            //Arrange
+            var question = _builder.Build();
+            const string title = "new title";
+            const string body = "new body";
+            var tags = new List<long>
+            {
+                1,
+                4,
+                8
+            };
+
+            //Act
+            question.Modify(title, body, tags);
+
+            //Assert
+            Assert.Equal(title, question.Title);
+            Assert.Equal(body, question.Body);
+            Assert.Equal(tags.Count, question.Tags.Count);
+        }
+
+        [Fact]
+        public void Visit_Should_Add_A_View_To_Views_Of_Question_When_View_Passed()
+        {
+            //Arrange
+            var harry = Names.Harry;
+            var view = new View(harry);
+            var question = _builder.Build();
+
+            //Act
+            question.Visit(view);
+
+            //Assert
+            Assert.Equal(1, question.Views.Count);
+        }
+
+        [Fact]
+        public void Visit_Should_Do_Nothing_When_Viewer_Already_Visited_Question()
+        {
+            //Arrange
+            var harry = Names.Harry;
+            var views = new List<View>()
+            {
+                new View(harry)
+            };
+            var view = new View(harry);
+            var question = _builder.BuildWithViews(views);
+
+            //Act
+            question.Visit(view);
+
+            //Assert
+            Assert.Equal(1, question.Views.Count);
+        }
     }
 }

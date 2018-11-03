@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Framework.Application.Command;
+﻿using Framework.Application.Command;
 
 namespace Forum.Presentation.Contracts.Command
 {

@@ -3,6 +3,7 @@ using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Configuration;
 using Framework.Core.Events;
 using Moq;
 using Xunit;
@@ -14,6 +15,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         private readonly Mock<ICommandBus> _commandBus;
         private readonly Mock<IQueryBus> _queryBus;
         private readonly Mock<IEventListener> _eventListener;
+        private readonly Mock<IFrameworkConfiguration> _frameworkConfiguration;
         private readonly QuestionFacadeService _questionFacadeService;
 
         public QuestionFacadeServiceTests()
@@ -21,7 +23,9 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _commandBus = new Mock<ICommandBus>();
             _queryBus = new Mock<IQueryBus>();
             _eventListener = new Mock<IEventListener>();
-            _questionFacadeService = new QuestionFacadeService(_commandBus.Object, _queryBus.Object, _eventListener.Object);
+            _frameworkConfiguration = new Mock<IFrameworkConfiguration>();
+            _questionFacadeService = new QuestionFacadeService(_commandBus.Object, _queryBus.Object,
+                _eventListener.Object, _frameworkConfiguration.Object);
         }
 
         [Fact]
@@ -36,33 +40,6 @@ namespace Forum.Presentation.Facade.Tests.Unit
             //Assert
             _commandBus.Verify(x => x.Dispatch(command));
         }
-
-        //[Fact]
-        //public void Create_Should_Return_NoContent_Result()
-        //{
-        //    //Arrange
-        //    var command = CommandFactory.BuildACommandOfType().CreateQuestion;
-
-        //    //Act
-        //    var result = _controller.Create(command);
-
-        //    //Assert
-        //    Assert.IsType<NoContentResult>(result);
-        //}
-
-        //[Fact]
-        //public void Createa_Should_Return_BadRequest_Result_When_Dispatch_Throws_Exception()
-        //{
-        //    //Arrange
-        //    var command = CommandFactory.BuildACommandOfType().CreateQuestion;
-        //    _commandBus.Setup(x => x.Dispatch(command)).Throws<Exception>();
-
-        //    //Act
-        //    var result = _controller.Create(command);
-
-        //    //Assert
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //}
 
         [Fact]
         public void Questions_Should_Call_Dispatch_On_QuestionQuery()
@@ -97,19 +74,6 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _commandBus.Verify(x => x.Dispatch(command));
         }
 
-        //[Fact]
-        //public void AddVote_Should_Return_NoContent_Result()
-        //{
-        //    //Arrange
-        //    var command = CommandFactory.BuildACommandOfType().AddVote;
-
-        //    //Act
-        //    var result = _questionFacadeService.AddVote(command);
-
-        //    //Assert
-        //    Assert.IsType<NoContentResult>(result);
-        //}
-
         [Fact]
         public void ContainsTrueAnswer_Should_Call_Dispatch_On_CommandBus()
         {
@@ -126,10 +90,39 @@ namespace Forum.Presentation.Facade.Tests.Unit
         [Fact]
         public void VerifyQuestion_Should_Call_Dispatch_On_CommandBus()
         {
+            //Arrange
             var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
 
+            //Act
             _questionFacadeService.VerifyQuestion(command);
 
+            //Assert
+            _commandBus.Verify(x => x.Dispatch(command));
+        }
+
+        [Fact]
+        public void ModifyQuestion_Should_Call_Dispatch_On_CommandBus()
+        {
+            //Arrage
+            var command = CommandFactory.BuildACommandOfType().ModifyQuestion;
+
+            //Act
+            _questionFacadeService.ModifyQuestion(command);
+
+            //Assert
+            _commandBus.Verify(x => x.Dispatch(command));
+        }
+
+        [Fact]
+        public void AddView_Should_Call_Dispatch_On_CommandBus()
+        {
+            //Arrage
+            var command = CommandFactory.BuildACommandOfType().AddView;
+
+            //Act
+            _questionFacadeService.AddView(command);
+
+            //Assert
             _commandBus.Verify(x => x.Dispatch(command));
         }
     }

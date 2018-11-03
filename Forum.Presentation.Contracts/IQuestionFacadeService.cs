@@ -19,5 +19,8 @@ namespace Forum.Presentation.Contracts
 
         [HasPermission((long) VerifierExpertPermissions.VerifyQuestion)]
         void VerifyQuestion(VerifyQuestion command);
+
+        void ModifyQuestion(ModifyQuestion command);
+        void AddView(AddView command);
     }
 }
