@@ -13,7 +13,7 @@ namespace UserManagement.Infrastructure.Config
         {
             ClientUrl = clientUrl;
         }
-        
+
         public IEnumerable<ApiResource> ApiResources()
         {
             return new List<ApiResource>
@@ -43,7 +43,7 @@ namespace UserManagement.Infrastructure.Config
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
                     IdentityTokenLifetime = 28800,
-                    RedirectUris = {clientUri},
+                    RedirectUris = {clientUri + "/callback"},
                     PostLogoutRedirectUris = {clientUri},
                     AllowedCorsOrigins = {clientUri},
                     AllowedScopes =
