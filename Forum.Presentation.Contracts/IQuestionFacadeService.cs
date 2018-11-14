@@ -16,10 +16,7 @@ namespace Forum.Presentation.Contracts
         QuestionDetailsDto QuestionDetails(long id);
         void AddVote(AddVote command);
         void ContainsTrueAnswer(ContainsTrueAnswer command);
-
-        [HasPermission((long) VerifierExpertPermissions.VerifyQuestion)]
         void VerifyQuestion(VerifyQuestion command);
-
         void ModifyQuestion(ModifyQuestion command);
         void AddView(AddView command);
     }
