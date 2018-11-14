@@ -41,10 +41,10 @@ namespace Forum.Application.Command
             var question = new Question(questionId, command.Title, command.Body, command.Tags, inquirer,
                 _eventPublisher);
             _questionRepository.Create(question);
-            var relatedUsers = _userService.GetVerifireExperts();
-            var inquirerName = _userService.GetUserFullName(inquirerId);
-            _questionNotificationService.RaseQuestionCreatedNotificationToAllRelatedUsers(question, relatedUsers,
-                inquirerName);
+            //var relatedUsers = _userService.GetVerifireExperts();
+            //var inquirerName = _userService.GetUserFullName(inquirerId);
+            //_questionNotificationService.RaseQuestionCreatedNotificationToAllRelatedUsers(question, relatedUsers,
+            //    inquirerName);
         }
 
         public void Handle(AddVote command)

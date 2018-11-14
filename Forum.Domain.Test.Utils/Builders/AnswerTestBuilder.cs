@@ -32,6 +32,11 @@ namespace Forum.Domain.Test.Utils.Builders
             return this;
         }
 
+        public AnswerTestBuilder WithBody(string body)
+        {
+            Body = body;
+            return this;
+        }
         public AnswerTestBuilder WithEventPublisher(IEventPublisher eventPublisher)
         {
             EventPublisher = eventPublisher;

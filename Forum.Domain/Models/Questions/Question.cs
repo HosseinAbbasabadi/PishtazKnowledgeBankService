@@ -34,6 +34,9 @@ namespace Forum.Domain.Models.Questions
         public Question(QuestionId id, string title, string body, List<long> tags, UserId inquirer,
             IEventPublisher eventpublisher) : base(id, eventpublisher)
         {
+            Guard.AgainsNullOrEmptyString(title);
+            Guard.AgainsNullOrEmptyString(body);
+
             GaurdAgainsLessThanOneTags(tags);
 
             Title = title;
@@ -41,7 +44,7 @@ namespace Forum.Domain.Models.Questions
             Inquirer = inquirer;
             CreationDateTime = DateTime.Now;
             HasTrueAnswer = false;
-            IsVerified = false;
+            IsVerified = true;
             _tags = MapToTagId(tags);
             _views = new List<View>();
             _votes = new List<Vote>();
@@ -74,12 +77,23 @@ namespace Forum.Domain.Models.Questions
         {
             GuardAgainstDuplicateVote(vote);
 
-            _votes.Add(vote);
+            if (Votes.Any(a => Equals(a.Voter, vote.Voter)))
+            {
+                if (Votes.Any(a => !Equals(a.Opinion, vote.Opinion)))
+                {
+                    var voteToRemove = _votes.First(x => Equals(x.Voter, vote.Voter));
+                    _votes.Remove(voteToRemove);
+                    return;
+                }
+            }
+
+            if (!Votes.Contains(vote))
+                _votes.Add(vote);
         }
 
         private void GuardAgainstDuplicateVote(Vote vote)
         {
-            if (Votes.Any(a => Equals(a.Voter, vote.Voter)))
+            if (Votes.Contains(vote))
                 throw new DuplicateVoteException();
         }
 
@@ -108,8 +122,8 @@ namespace Forum.Domain.Models.Questions
 
         public void Visit(View view)
         {
-            if(ViewerAlreadyVisitedQuestion(view))
-            _views.Add(view);
+            if (ViewerAlreadyVisitedQuestion(view))
+                _views.Add(view);
         }
 
         private bool ViewerAlreadyVisitedQuestion(View view)

@@ -3,6 +3,7 @@ using Forum.Application.Tests.Utils;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Configuration;
 using Framework.Core.Events;
 using Moq;
 using Xunit;
@@ -14,6 +15,7 @@ namespace Forum.Presentation.Facade.Tests.Unit
         private readonly Mock<ICommandBus> _commandBus;
         private readonly Mock<IQueryBus> _queryBus;
         private readonly Mock<IEventListener> _eventListener;
+        private readonly Mock<IFrameworkConfiguration> _frameworkConfiguration;
         private readonly AnswerFacadeService _answerFacadeService;
 
         public AnswerFacadeServiceTests()
@@ -21,7 +23,8 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _commandBus = new Mock<ICommandBus>();
             _queryBus = new Mock<IQueryBus>();
             _eventListener = new Mock<IEventListener>();
-            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object, _eventListener.Object);
+            _frameworkConfiguration = new Mock<IFrameworkConfiguration>();
+            _answerFacadeService = new AnswerFacadeService(_commandBus.Object, _queryBus.Object, _eventListener.Object, _frameworkConfiguration.Object);
         }
 
         [Fact]

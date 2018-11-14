@@ -79,18 +79,18 @@ namespace Forum.Presentation.Facade.Tests.Unit
             _questionFacadeService.Verify(x => x.ContainsTrueAnswer(command));
         }
 
-        [Fact]
-        public void Post_Should_Call_VerifyQuestion_On_Facade()
-        {
-            //Arrange
-            var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
+        //[Fact]
+        //public void Post_Should_Call_VerifyQuestion_On_Facade()
+        //{
+        //    //Arrange
+        //    var command = CommandFactory.BuildACommandOfType().VerifyQuestion;
 
-            //Act
-            _questionController.Post(command);
+        //    //Act
+        //    _questionController.Post(command);
 
-            //Assert
-            _questionFacadeService.Verify(x => x.VerifyQuestion(command));
-        }
+        //    //Assert
+        //    _questionFacadeService.Verify(x => x.VerifyQuestion(command));
+        //}
 
         [Fact]
         public void Post_Should_Call_ModifyQuestion_On_Facade()

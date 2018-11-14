@@ -29,6 +29,7 @@ namespace Forum.Presentation.Query.Mppers
                 Body = answer.Body,
                 IsChosen = answer.IsChosen,
                 Responder = _userService.GetUserFullName(answer.Responder.DbId),
+                ResponderId = answer.Responder.DbId,
                 CreationDateTime = DatetimeConvertor.ConvertToPersianDate(answer.CreationDateTime)
             };
         }

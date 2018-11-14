@@ -27,8 +27,8 @@ namespace UserManagement.Presentation.RestApi
                 new IdentityServer4.Test.TestUser
                 {
                     SubjectId = "2",
-                    Username = "Rohollah",
-                    Password = "Rohollah2",
+                    Username = "Khoshdel",
+                    Password = "Khoshdel2",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "2"),
@@ -39,8 +39,8 @@ namespace UserManagement.Presentation.RestApi
                 new IdentityServer4.Test.TestUser
                 {
                     SubjectId = "3",
-                    Username = "Sepehr",
-                    Password = "Sepehr3",
+                    Username = "Pakpoor",
+                    Password = "Pakpoor3",
                     Claims = new List<Claim>
                     {
                         new Claim(JwtClaimTypes.Id, "3"),
@@ -70,7 +70,7 @@ namespace UserManagement.Presentation.RestApi
                     {
                         new Claim(JwtClaimTypes.Id, "5"),
                         new Claim(JwtClaimTypes.Role, "Expert"),
-                        new Claim(JwtClaimTypes.Name, "آقای اصغر محمدی")
+                        new Claim(JwtClaimTypes.Name, "اصغر محمدی")
                     }
                 },new IdentityServer4.Test.TestUser
                 {

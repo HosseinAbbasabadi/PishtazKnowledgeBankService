@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
+using Forum.DomainEvents;
+using Forum.Infrastructure.ACL.NotificationSystem;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
@@ -40,6 +42,20 @@ namespace Forum.Presentation.Facade.Tests.Unit
             //Assert
             _commandBus.Verify(x => x.Dispatch(command));
         }
+
+        //[Fact]
+        //public void Create_Should_Call_SetNotificationUrl_And_Listen_To_QuestionCreated_Event()
+        //{
+        //    //Arrange
+        //    var eventHandler = new PushNotificationEventHandler<QuestionCreated>();
+        //    var command = CommandFactory.BuildACommandOfType().CreateQuestion;
+
+        //    //Act
+        //    _questionFacadeService.Create(command);
+
+        //    //Assert
+        //    _eventListener.Verify(x => x.Listen(eventHandler));
+        //}
 
         [Fact]
         public void Questions_Should_Call_Dispatch_On_QuestionQuery()

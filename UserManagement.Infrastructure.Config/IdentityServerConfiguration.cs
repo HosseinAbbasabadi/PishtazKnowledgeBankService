@@ -42,8 +42,10 @@ namespace UserManagement.Infrastructure.Config
                     ClientName = "Knowladge Bank User Interface Application",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    IdentityTokenLifetime = 28800,
-                    RedirectUris = {clientUri + "/callback"},
+                    IdentityTokenLifetime = 14400,
+                    AuthorizationCodeLifetime = 14400,
+                    AccessTokenLifetime = 14400,
+                    RedirectUris = {clientUri},
                     PostLogoutRedirectUris = {clientUri},
                     AllowedCorsOrigins = {clientUri},
                     AllowedScopes =

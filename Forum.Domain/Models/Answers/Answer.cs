@@ -24,6 +24,8 @@ namespace Forum.Domain.Models.Answers
         public Answer(AnswerId id, string body, long question, long responder, IEventPublisher eventPublisher) : base(
             id, eventPublisher)
         {
+            Guard.AgainsNullOrEmptyString(body);
+
             Body = body;
             Question = new QuestionId(question);
             Responder = new UserId(responder);
@@ -39,8 +41,6 @@ namespace Forum.Domain.Models.Answers
 
         public void SetAsChosenAnswer(long questionInquirer, List<Answer> questionAnswers)
         {
-            if (QuestionHasAlreadyAChosenAnswer(questionAnswers))
-                throw new QuestionAlreadyHasAChosenAnswerException();
             if (IsChosen)
                 throw new AnswerIsAlreadySetAsChosenException();
             IsChosen = true;

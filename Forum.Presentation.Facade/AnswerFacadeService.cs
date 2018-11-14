@@ -6,6 +6,7 @@ using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
+using Framework.Configuration;
 using Framework.Core.Events;
 
 namespace Forum.Presentation.Facade
@@ -15,20 +16,32 @@ namespace Forum.Presentation.Facade
         private readonly ICommandBus _commandBus;
         private readonly IQueryBus _queryBus;
         private readonly IEventListener _eventListener;
-
-        public AnswerFacadeService(ICommandBus commandBus, IQueryBus queryBus, IEventListener eventListener)
+        private readonly IFrameworkConfiguration _frameworkConfiguration;
+        private readonly AnswerFacadeService _answerFacadeService;
+        
+        public AnswerFacadeService(ICommandBus commandBus, IQueryBus queryBus, IEventListener eventListener,
+            IFrameworkConfiguration frameworkConfiguration)
         {
             _commandBus = commandBus;
             _queryBus = queryBus;
             _eventListener = eventListener;
+            _frameworkConfiguration = frameworkConfiguration;
         }
 
         public void Add(AddAnswer command)
         {
             var eventHandler = new PushNotificationEventHandler<AnswerAdded>();
-            _eventListener.Listen(eventHandler);
-            _commandBus.Dispatch(command);
-            _eventListener.Clear(eventHandler);
+            eventHandler.SetNotificationUrl(_frameworkConfiguration.GetNotificationUrl());
+            try
+            {
+                _eventListener.Listen(eventHandler);
+                _commandBus.Dispatch(command);
+            }
+            finally
+            {
+                _eventListener.Clear(eventHandler);
+            }
+
         }
 
         public List<AnswerDto> Answers(long questionId)

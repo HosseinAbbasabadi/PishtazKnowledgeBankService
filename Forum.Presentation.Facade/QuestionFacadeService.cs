@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Forum.DomainEvents;
-using Forum.Infrastructure.ACL.NotificationSystem;
+﻿using System.Collections.Generic;
 using Forum.Presentation.Contracts;
 using Forum.Presentation.Contracts.Command;
 using Forum.Presentation.Contracts.Query;
@@ -30,18 +27,18 @@ namespace Forum.Presentation.Facade
 
         public void Create(CreateQuestion command)
         {
-            var eventHandler = new PushNotificationEventHandler<QuestionCreated>();
-            eventHandler.SetNotificationUrl(_frameworkConfiguration.GetNotificationUrl());
+            //var notificationUrl = _frameworkConfiguration.GetNotificationUrl();
+            //var eventHandler = new PushNotificationEventHandler<QuestionCreated>().SetNotificationUrl(notificationUrl);
 
-            try
-            {
-                _eventListener.Listen(eventHandler);
-                _commandBus.Dispatch(command);
-            }
-            finally
-            {
-                _eventListener.Clear(eventHandler);
-            }
+            //try
+            //{
+            //_eventListener.Listen(eventHandler);
+            _commandBus.Dispatch(command);
+            //}
+            //finally
+            //{
+            //_eventListener.Clear(eventHandler);
+            //}
         }
 
         public List<QuestionDto> Questions()

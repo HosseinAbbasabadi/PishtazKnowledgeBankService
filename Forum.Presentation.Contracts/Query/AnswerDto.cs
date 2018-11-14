@@ -9,6 +9,7 @@ namespace Forum.Presentation.Contracts.Query
         public long Id { get; set; }
         public string Body { get; set; }
         public string Responder { get; set; }
+        public long ResponderId { get; set; }
         public bool IsChosen { get; set; }
         public DateTime CreationDateTime { get; set; }
     }

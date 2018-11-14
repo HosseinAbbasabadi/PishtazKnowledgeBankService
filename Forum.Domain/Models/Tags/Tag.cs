@@ -13,6 +13,8 @@ namespace Forum.Domain.Models.Tags
 
         public Tag(TagId id, string name) : base(id)
         {
+            Guard.AgainsNullOrEmptyString(name);
+
             Name = name;
             CreationDateTime = DateTime.Now;
         }

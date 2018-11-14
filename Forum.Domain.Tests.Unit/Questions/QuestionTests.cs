@@ -7,6 +7,7 @@ using Forum.Domain.Test.Utils.Builders;
 using Forum.Domain.Test.Utils.Constants;
 using Forum.DomainEvents;
 using Framework.Core.Events;
+using Framework.Core.Exceptions;
 using Moq;
 using Xunit;
 
@@ -54,6 +55,28 @@ namespace Forum.Domain.Tests.Unit.Questions
 
             //Assert
             Assert.Throws<AtLeastOneTagIsRequiredException>(() => { _builder.Build(); });
+        }
+
+        [Fact]
+        public void Constructor_Should_Throw_Exception_When_Title_Or_Body_Is_Null()
+        {
+            //Arrange
+            _builder.WithTitle(null);
+            _builder.WithBody(null);
+
+            //Assert
+            Assert.Throws<RequiredDataIsNullOrEmptyException>(() => _builder.Build());
+        }
+
+        [Fact]
+        public void Constructor_Should_Throw_Exception_When_Title_Or_Body_Is_EmptyString()
+        {
+            //Arrange
+            _builder.WithTitle("");
+            _builder.WithBody("");
+
+            //Assert
+            Assert.Throws<RequiredDataIsNullOrEmptyException>(() => _builder.Build());
         }
 
         [Fact]
@@ -105,13 +128,30 @@ namespace Forum.Domain.Tests.Unit.Questions
         }
 
         [Fact]
-        public void Vote_Should_Throw_Exception_When_The_Voter_Is_Duplicated()
+        public void Vote_Should_Remove_Vote_From_Question_Votes_When_User_Already_Voted_And_Now_Has_Diffrente_Opinion()
         {
             //Arrange
-            var votes = VoteFactory(3);
+            var votes = VoteFactory(1);
+            var question = _builder.BuildWithVotes(votes);
+            const bool differentOpinion = true;
+            var sameVoter = new UserId(1);
+            var vote = new Vote(sameVoter, differentOpinion);
+
+            //Act
+            question.Vote(vote);
+
+            //Assert
+            Assert.Equal(0, question.Votes.Count);
+        }
+
+        [Fact]
+        public void Vote_Should_Throw_Exception_When_The_Vote_Is_Duplicated()
+        {
+            //Arrange
+            var votes = VoteFactory(1);
+            var question = _builder.BuildWithVotes(votes);
             var duplicateVoter = new UserId(1);
             var duplicateVote = new Vote(duplicateVoter, false);
-            var question = _builder.BuildWithVotes(votes);
 
             //Assert
             Assert.Throws<DuplicateVoteException>(() => question.Vote(duplicateVote));
@@ -136,9 +176,9 @@ namespace Forum.Domain.Tests.Unit.Questions
             var votes = new List<Vote>();
             for (var i = 1; i <= count; i++)
             {
-                var like = i % 2 == 0;
+                var opinion = i % 2 == 0;
                 var voter = new UserId(i);
-                var vote = new Vote(voter, like);
+                var vote = new Vote(voter, opinion);
                 votes.Add(vote);
             }
 
@@ -171,15 +211,15 @@ namespace Forum.Domain.Tests.Unit.Questions
             Assert.True(question.HasTrueAnswer);
         }
 
-        [Fact]
-        public void Constructor_Should_Provid_Question_In_Draft_Mode_When_Constructing()
-        {
-            //Act
-            var question = _builder.Build();
+        //[Fact]
+        //public void Constructor_Should_Provid_Question_In_Draft_Mode_When_Constructing()
+        //{
+        //    //Act
+        //    var question = _builder.Build();
 
-            //Assert
-            Assert.False(question.IsVerified);
-        }
+        //    //Assert
+        //    Assert.False(question.IsVerified);
+        //}
 
         [Fact]
         public void Verify_Should_Take_Question_To_Verifieded_Mode()

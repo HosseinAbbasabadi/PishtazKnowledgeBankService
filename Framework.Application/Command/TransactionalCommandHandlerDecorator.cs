@@ -7,7 +7,6 @@ namespace Framework.Application.Command
     {
         private readonly ICommandHandler<T> _commandHandler;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IEventListener _eventListener;
 
         public TransactionalCommandHandlerDecorator(ICommandHandler<T> commandHandler, IUnitOfWork unitOfWork)
         {

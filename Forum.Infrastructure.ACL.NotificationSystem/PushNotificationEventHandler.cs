@@ -8,13 +8,16 @@ namespace Forum.Infrastructure.ACL.NotificationSystem
     {
         private string _notificationUrl;
 
-        public void SetNotificationUrl(string url)
+        public PushNotificationEventHandler<T> SetNotificationUrl(string url)
         {
             _notificationUrl = url;
+            return this;
         }
 
         public void Handle(T @event)
         {
+            //if(string.IsNullOrEmpty(_notificationUrl))
+            //    throw new NullReferenceException();
             try
             {
                 var baseUri = new Uri(_notificationUrl);

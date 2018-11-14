@@ -19,9 +19,10 @@ namespace Forum.Presentation.RestApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] CreateTag command)
+        public IActionResult Post([FromBody] CreateTag command)
         {
             _tagFacadeService.Create(command);
+            return NoContent();
         }
 
         [HttpGet]

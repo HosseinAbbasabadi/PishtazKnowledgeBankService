@@ -38,17 +38,18 @@ namespace Forum.Domain.Test.Utils.Builders
             Id = new QuestionId(id);
             return this;
         }
-        //public QuestionTestBuilder WithTitle(string title)
-        //{
-        //    Title = title;
-        //    return this;
-        //}
 
-        //public QuestionTestBuilder WithBody(string body)
-        //{
-        //    Body = body;
-        //    return this;
-        //}
+        public QuestionTestBuilder WithTitle(string title)
+        {
+            Title = title;
+            return this;
+        }
+
+        public QuestionTestBuilder WithBody(string body)
+        {
+            Body = body;
+            return this;
+        }
 
         public QuestionTestBuilder WithTags(List<long> tags)
         {

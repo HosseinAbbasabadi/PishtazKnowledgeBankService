@@ -4,6 +4,7 @@ using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.DomainEvents;
 using Framework.Core.Events;
+using Framework.Core.Exceptions;
 using Moq;
 using Xunit;
 
@@ -34,6 +35,16 @@ namespace Forum.Domain.Tests.Unit.Answers
             Assert.Equal(builder.Body, answer.Body);
             Assert.Equal(builder.Question, answer.Question.DbId);
             Assert.Equal(builder.Responder, answer.Responder.DbId);
+        }
+
+        [Fact]
+        public void Consatructor_Should_Throw_Exception_When_Body_Is_Null_Or_EmptyString()
+        {
+            //Arrange
+            _builder.WithBody(null);
+
+            //Assert
+            Assert.Throws<RequiredDataIsNullOrEmptyException>(() => _builder.Build());
         }
 
         [Fact]
@@ -73,19 +84,19 @@ namespace Forum.Domain.Tests.Unit.Answers
                 answer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
         }
 
-        [Fact]
-        public void SetAsChosenAnswer_Should_Throw_Exception_When_Question_Already_Has_Chosen_Answer()
-        {
-            //Arrange
-            var chosingAnswer = _builder.Build();
-            var chosenAnswer = _builder.BuildChosenAnswer();
-            _answersOfSpecificQuestion.Add(chosenAnswer);
-            _answersOfSpecificQuestion.Add(chosingAnswer);
+        //[Fact]
+        //public void SetAsChosenAnswer_Should_Throw_Exception_When_Question_Already_Has_Chosen_Answer()
+        //{
+        //    //Arrange
+        //    var chosingAnswer = _builder.Build();
+        //    var chosenAnswer = _builder.BuildChosenAnswer();
+        //    _answersOfSpecificQuestion.Add(chosenAnswer);
+        //    _answersOfSpecificQuestion.Add(chosingAnswer);
 
-            //Assert
-            Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() =>
-                chosingAnswer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
-        }
+        //    //Assert
+        //    Assert.Throws<QuestionAlreadyHasAChosenAnswerException>(() =>
+        //        chosingAnswer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
+        //}
 
         [Fact]
         public void RaseAnswerAdded_Should_Call_Publish_On_EventPublisher_To_Raise_AnswerAdded_Event()
