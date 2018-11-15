@@ -33,6 +33,7 @@ namespace UserManagement.Presentation.RestApi
                     {
                         new Claim(JwtClaimTypes.Id, "2"),
                         new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Role, "VerifierExpert"),
                         new Claim(JwtClaimTypes.Name, "روح الله خوشدل")
                     }
                 },
@@ -81,6 +82,7 @@ namespace UserManagement.Presentation.RestApi
                     {
                         new Claim(JwtClaimTypes.Id, "6"),
                         new Claim(JwtClaimTypes.Role, "Expert"),
+                        new Claim(JwtClaimTypes.Role, "VerifierExpert"),
                         new Claim(JwtClaimTypes.Name, "فاطمه مرتضوی")
                     }
                 },new IdentityServer4.Test.TestUser

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Models.Questions.ValueObjects;
 using Forum.Domain.Models.Users;
@@ -39,16 +40,18 @@ namespace Forum.Domain.Models.Answers
             EventPublisher.Publish(@event);
         }
 
-        public void SetAsChosenAnswer(long questionInquirer, List<Answer> questionAnswers)
+        public void SetAsChosenAnswer()
         {
             if (IsChosen)
                 throw new AnswerIsAlreadySetAsChosenException();
             IsChosen = true;
+            var @event = new AnswerChoosed(Guid.NewGuid(), Responder.DbId, Question.DbId);
+            EventPublisher.Publish(@event);
         }
 
-        private static bool QuestionHasAlreadyAChosenAnswer(IEnumerable<Answer> questionAnswers)
-        {
-            return questionAnswers.Any(z => z.IsChosen);
-        }
+        //private static bool QuestionHasAlreadyAChosenAnswer(IEnumerable<Answer> questionAnswers)
+        //{
+        //    return questionAnswers.Any(z => z.IsChosen);
+        //}
     }
 }

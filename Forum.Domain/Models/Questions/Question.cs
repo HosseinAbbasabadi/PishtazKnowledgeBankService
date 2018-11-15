@@ -66,11 +66,21 @@ namespace Forum.Domain.Models.Questions
             return new TagId(tag);
         }
 
-        public void Modify(string title, string body, List<long> tags)
+        public void Modify(string title, string body, List<long> tags, long modifire)
         {
+            Guard.AgainsNullOrEmptyString(title);
+            Guard.AgainsNullOrEmptyString(body);
+            GuardAgainsDifferentModifireAndInquirer(modifire);
+
             Title = title;
             Body = body;
             _tags = MapToTagId(tags);
+        }
+
+        private void GuardAgainsDifferentModifireAndInquirer(long modifire)
+        {
+            if (modifire != Inquirer.DbId)
+                throw new Exception();
         }
 
         public void Vote(Vote vote)

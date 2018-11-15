@@ -16,20 +16,21 @@ namespace Forum.Application.Tests.Unit
     {
         private readonly QuestionTestBuilder _builder;
         private readonly Mock<IQuestionRepository> _repository;
-        private readonly QuestionCommandHandler _questionCommandHandler;
         private readonly Mock<IEventPublisher> _eventPublisher;
         private readonly Mock<IUserService> _userService;
         private readonly Mock<IQuestionNotificationService> _questionNotificationService;
+        private readonly Mock<IClaimHelper> _claimHelper;
+        private readonly QuestionCommandHandler _questionCommandHandler;
 
         public QuestionCommandHandlerTests()
         {
             _builder = new QuestionTestBuilder();
             _repository = new Mock<IQuestionRepository>();
-            var claimHelper = new Mock<IClaimHelper>();
+            _claimHelper = new Mock<IClaimHelper>();
             _eventPublisher = new Mock<IEventPublisher>();
             _userService = new Mock<IUserService>();
             _questionNotificationService = new Mock<IQuestionNotificationService>();
-            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, claimHelper.Object,
+            _questionCommandHandler = new QuestionCommandHandler(_repository.Object, _claimHelper.Object,
                 _eventPublisher.Object, _userService.Object, _questionNotificationService.Object);
         }
 
@@ -101,6 +102,7 @@ namespace Forum.Application.Tests.Unit
             var command = CommandFactory.BuildACommandOfType().ModifyQuestion;
             var question = _builder.WithId(command.Id).Build();
             _repository.Setup(x => x.Get(question.Id)).Returns(question);
+            _claimHelper.Setup(x => x.GetCurrentUserId()).Returns(question.Inquirer.DbId);
 
             //Act
             _questionCommandHandler.Handle(command);
@@ -121,7 +123,7 @@ namespace Forum.Application.Tests.Unit
             _questionCommandHandler.Handle(command);
 
             //Assert
-            _repository.Verify(x=>x.Update(question));
+            _repository.Verify(x => x.Update(question));
         }
     }
 }

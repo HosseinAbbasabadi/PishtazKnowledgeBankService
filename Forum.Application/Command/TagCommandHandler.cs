@@ -8,6 +8,7 @@ namespace Forum.Application.Command
     {
         private readonly ITagRepository _tagRepository;
         private const string TagSequenceName = "TagSeq";
+
         public TagCommandHandler(ITagRepository tagRepository)
         {
             _tagRepository = tagRepository;

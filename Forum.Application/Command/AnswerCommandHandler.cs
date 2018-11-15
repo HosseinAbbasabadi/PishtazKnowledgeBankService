@@ -45,10 +45,8 @@ namespace Forum.Application.Command
         {
             var answerId = new AnswerId(command.AnswerId);
             var answer = _answerRepository.Get(answerId);
-            var questionId = new QuestionId(command.QuestionId);
-            var questionAnswers = _answerRepository.GetByQuestionId(questionId);
-            //var userId = _claimHelper.GetCurrentUserId();
-            answer.SetAsChosenAnswer(command.QuestionInquirerId, questionAnswers);
+            answer.SetEventPublisher(_eventPublisher);
+            answer.SetAsChosenAnswer();
             _answerRepository.Update(answer);
         }
     }

@@ -25,6 +25,7 @@ namespace Forum.Presentation.Query
         {
             var questionId = new QuestionId(id);
             var answers = _session.CreateCriteria<Answer>().Add(Restrictions.Eq("Question", questionId))
+                .AddOrder(Order.Asc("CreationDateTime"))
                 .List<Answer>();
             var answerMapper = new AnswerMapper(_userService);
             return answerMapper.MapAnswers(answers);

@@ -264,14 +264,34 @@ namespace Forum.Domain.Tests.Unit.Questions
                 4,
                 8
             };
+            var modifire = question.Inquirer.DbId;
 
             //Act
-            question.Modify(title, body, tags);
+            question.Modify(title, body, tags, modifire);
 
             //Assert
             Assert.Equal(title, question.Title);
             Assert.Equal(body, question.Body);
             Assert.Equal(tags.Count, question.Tags.Count);
+        }
+
+        [Fact]
+        public void Modify_Should_Throw_Exception_When_The_Modifire_IsNot_The_Question_Inquirer()
+        {
+            //Arrange
+            var question = _builder.Build();
+            const string title = "new title";
+            const string body = "new body";
+            var tags = new List<long>
+            {
+                1,
+                4,
+                8
+            };
+            const long modifire = 45;
+
+            //Assert
+            Assert.Throws<Exception>(() => question.Modify(title, body, tags, modifire));
         }
 
         [Fact]

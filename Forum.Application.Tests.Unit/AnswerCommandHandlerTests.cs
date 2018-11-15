@@ -57,11 +57,7 @@ namespace Forum.Application.Tests.Unit
             //Arrange
             var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
             var answer = CreateAnswer(command);
-            var answersOfSpecificQuestion = CreateAnswers(3);
-            answersOfSpecificQuestion.Add(answer);
             _answerRepository.Setup(a => a.Get(answer.Id)).Returns(answer);
-            var questionId = new QuestionId(command.QuestionId);
-            _answerRepository.Setup(a => a.GetByQuestionId(questionId)).Returns(answersOfSpecificQuestion);
 
             //Act
             _answerCommandHandler.Handle(command);
@@ -78,6 +74,18 @@ namespace Forum.Application.Tests.Unit
         private static List<Answer> CreateAnswers(int count)
         {
             return new AnswerTestBuilder().BuildList(count);
+        }
+
+        [Fact]
+        public void Should_Call_Delete_On_Repository_When_Command_Passed()
+        {
+            //Arrange
+
+            //Act
+
+
+            //Assert
+
         }
     }
 }

@@ -78,7 +78,8 @@ namespace Forum.Application.Command
         {
             var questionId = new QuestionId(command.Id);
             var question = _questionRepository.Get(questionId);
-            question.Modify(command.Title, command.Body, command.Tags);
+            var modifire = _claimHelper.GetCurrentUserId();
+            question.Modify(command.Title, command.Body, command.Tags, modifire);
             _questionRepository.Update(question);
         }
 

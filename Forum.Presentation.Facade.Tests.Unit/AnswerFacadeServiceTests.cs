@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Forum.Application.Tests.Utils;
+using Forum.DomainEvents;
+using Forum.Infrastructure.ACL.NotificationSystem;
 using Forum.Presentation.Contracts.Query;
 using Framework.Application.Command;
 using Framework.Application.Query;
@@ -64,6 +66,19 @@ namespace Forum.Presentation.Facade.Tests.Unit
 
             //Assert
             _commandBus.Verify(a => a.Dispatch(command));
+        }
+
+        [Fact]
+        public void SetAsChosenAnswer_Should_Listen_To_PushNotificationEventHandler_With_AnswerChoosed_Event()
+        {
+            //Arrange
+            var command = CommandFactory.BuildACommandOfType().ChosenAnswer;
+
+            //Act
+            _answerFacadeService.SetAsChosenAnswer(command);
+
+            //Assert
+            _eventListener.Verify(x=>x.Listen(It.IsAny<PushNotificationEventHandler<AnswerChoosed>>()));
         }
     }
 }

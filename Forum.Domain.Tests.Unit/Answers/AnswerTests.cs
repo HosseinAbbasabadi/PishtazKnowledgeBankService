@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Forum.Domain.Models.Answers;
-using Forum.Domain.Models.Answers.Exceptions;
+﻿using Forum.Domain.Models.Answers.Exceptions;
 using Forum.Domain.Test.Utils.Builders;
 using Forum.DomainEvents;
 using Framework.Core.Events;
@@ -13,12 +11,12 @@ namespace Forum.Domain.Tests.Unit.Answers
     public class AnswerTests
     {
         private readonly AnswerTestBuilder _builder;
-        private readonly List<Answer> _answersOfSpecificQuestion;
+        private readonly Mock<IEventPublisher> _eventPublisher;
 
         public AnswerTests()
         {
             _builder = new AnswerTestBuilder();
-            _answersOfSpecificQuestion = _builder.BuildList(3);
+            _eventPublisher = new Mock<IEventPublisher>();
         }
 
         [Fact]
@@ -67,7 +65,7 @@ namespace Forum.Domain.Tests.Unit.Answers
             var answer = _builder.Build();
 
             //Act
-            answer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion);
+            answer.SetAsChosenAnswer();
 
             //Assert
             Assert.True(answer.IsChosen);
@@ -81,7 +79,20 @@ namespace Forum.Domain.Tests.Unit.Answers
 
             //Assert
             Assert.Throws<AnswerIsAlreadySetAsChosenException>(() =>
-                answer.SetAsChosenAnswer(_builder.QuestionInquirer, _answersOfSpecificQuestion));
+                answer.SetAsChosenAnswer());
+        }
+
+        [Fact]
+        public void SetAsChosenAnswer_Should_Rase_AnswerChoosed_Event()
+        {
+            //Arrange
+            var answer = _builder.WithEventPublisher(_eventPublisher.Object).Build();
+
+            //Act
+            answer.SetAsChosenAnswer();
+
+            //Assert
+            _eventPublisher.Verify(x => x.Publish(It.IsAny<AnswerChoosed>()));
         }
 
         //[Fact]
@@ -102,8 +113,7 @@ namespace Forum.Domain.Tests.Unit.Answers
         public void RaseAnswerAdded_Should_Call_Publish_On_EventPublisher_To_Raise_AnswerAdded_Event()
         {
             //Arrange
-            var publisher = new Mock<IEventPublisher>();
-            var answer = new AnswerTestBuilder().WithEventPublisher(publisher.Object).Build();
+            var answer = new AnswerTestBuilder().WithEventPublisher(_eventPublisher.Object).Build();
             const long relatedUser = 5;
             const string questionTitle = "some question title";
             const string responderName = "some responder name";
@@ -112,7 +122,7 @@ namespace Forum.Domain.Tests.Unit.Answers
             answer.RaseAnswerAdded(relatedUser, questionTitle, responderName);
 
             //Assert
-            publisher.Verify(x => x.Publish(It.IsAny<AnswerAdded>()));
+            _eventPublisher.Verify(x => x.Publish(It.IsAny<AnswerAdded>()));
         }
     }
 }

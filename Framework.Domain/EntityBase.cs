@@ -13,6 +13,7 @@ namespace Framework.Domain
         {
             
         }
+
         protected EntityBase(T id)
         {
             Id = id;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Framework.Core.Events;
 
 namespace Framework.Domain
@@ -34,6 +32,11 @@ namespace Framework.Domain
         public List<DomainEvent> GetPublishedEvents()
         {
             return _publishedEvents;
+        }
+
+        public void SetEventPublisher(IEventPublisher eventPublisher)
+        {
+            EventPublisher = eventPublisher;
         }
 
         public void ClearEvents()
